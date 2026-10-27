@@ -336,10 +336,10 @@ enum TVReviewPlanError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .unknownPackage: "That package is not part of this review plan."
-        case .invalidPlan: "The saved review plan failed its integrity check."
-        case .invalidSnapshot: "The TV safety snapshot is incomplete or invalid."
-        case .storage(let detail): "Could not save the review plan: \(detail)"
+        case .unknownPackage: String(localized: "That package is not part of this review plan.")
+        case .invalidPlan: String(localized: "The saved review plan failed its integrity check.")
+        case .invalidSnapshot: String(localized: "The TV safety snapshot is incomplete or invalid.")
+        case .storage(let detail): String(localized: "Could not save the review plan: \(detail)")
         }
     }
 }

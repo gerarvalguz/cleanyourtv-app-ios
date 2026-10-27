@@ -171,9 +171,9 @@ enum TVProfileCatalogError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .catalogMissing: "The bundled TV profile catalog is missing."
-        case .catalogSize: "The bundled TV profile catalog has an invalid size."
-        case .catalogInvalid: "The bundled TV profile catalog is invalid."
+        case .catalogMissing: String(localized: "The bundled TV profile catalog is missing.")
+        case .catalogSize: String(localized: "The bundled TV profile catalog has an invalid size.")
+        case .catalogInvalid: String(localized: "The bundled TV profile catalog is invalid.")
         }
     }
 }

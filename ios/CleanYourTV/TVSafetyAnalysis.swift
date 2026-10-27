@@ -9,10 +9,10 @@ enum TVAnalysisStatus: String, Codable, Equatable {
 
     var title: String {
         switch self {
-        case .alreadyDisabled: "Already off"
-        case .protected: "Kept safe"
-        case .optional: "Optional · kept by default"
-        case .reviewCandidate: "Review candidate"
+        case .alreadyDisabled: String(localized: "Already off")
+        case .protected: String(localized: "Kept safe")
+        case .optional: String(localized: "Optional · kept by default")
+        case .reviewCandidate: String(localized: "Review candidate")
         }
     }
 }

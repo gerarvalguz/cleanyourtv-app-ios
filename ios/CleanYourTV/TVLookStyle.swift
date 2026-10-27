@@ -11,21 +11,21 @@ enum TVLookStyle: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .classic: "Classic"
-        case .glass: "Glass"
-        case .spotlight: "Spotlight"
-        case .allapps: "All apps"
-        case .calm: "Calm"
+        case .classic: String(localized: "Classic")
+        case .glass: String(localized: "Glass")
+        case .spotlight: String(localized: "Spotlight")
+        case .allapps: String(localized: "All apps")
+        case .calm: String(localized: "Calm")
         }
     }
 
     var summary: String {
         switch self {
-        case .classic: "A dark dock, a big name and a soft glow."
-        case .glass: "A frosted dock and light in each app's colour."
-        case .spotlight: "A big banner of the app you are on, like newer smart TVs."
-        case .allapps: "Every app in one grid, with no dock band."
-        case .calm: "No glow and no big name. Just apps and your picture."
+        case .classic: String(localized: "A dark dock, a big name and a soft glow.")
+        case .glass: String(localized: "A frosted dock and light in each app's colour.")
+        case .spotlight: String(localized: "A big banner of the app you are on, like newer smart TVs.")
+        case .allapps: String(localized: "Every app in one grid, with no dock band.")
+        case .calm: String(localized: "No glow and no big name. Just apps and your picture.")
         }
     }
 

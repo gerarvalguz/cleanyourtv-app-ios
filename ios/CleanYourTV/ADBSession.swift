@@ -550,16 +550,16 @@ enum ADBSessionError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .keychain(let status): "Could not read the ADB key from iOS Keychain (status \(status))."
-        case .keyGeneration(let reason): "Could not create an ADB key: \(reason)"
-        case .network(let reason): "ADB connection failed: \(reason)"
-        case .timeout: "The TV did not respond in time."
-        case .protocolViolation(let reason): "The TV sent an invalid ADB response: \(reason)"
-        case .authenticationDenied: "The TV rejected this ADB key. Check the TV's debugging authorization."
-        case .tlsPairingRequired: "This TV requires Android Wireless Debugging pairing, which is not supported yet."
-        case .shellV2Unavailable: "This TV does not support the shell protocol required by Clean Your TV."
-        case .invalidIdentity: "The TV did not provide the serial number, device name and Android API needed to identify it."
-        case .shellFailed(let code): "A read-only command failed on the TV (exit \(code))."
+        case .keychain(let status): String(localized: "Could not read the ADB key from iOS Keychain (status \(status)).")
+        case .keyGeneration(let reason): String(localized: "Could not create an ADB key: \(reason)")
+        case .network(let reason): String(localized: "ADB connection failed: \(reason)")
+        case .timeout: String(localized: "The TV did not respond in time.")
+        case .protocolViolation(let reason): String(localized: "The TV sent an invalid ADB response: \(reason)")
+        case .authenticationDenied: String(localized: "The TV rejected this ADB key. Check the TV's debugging authorization.")
+        case .tlsPairingRequired: String(localized: "This TV requires Android Wireless Debugging pairing, which is not supported yet.")
+        case .shellV2Unavailable: String(localized: "This TV does not support the shell protocol required by Clean Your TV.")
+        case .invalidIdentity: String(localized: "The TV did not provide the serial number, device name and Android API needed to identify it.")
+        case .shellFailed(let code): String(localized: "A read-only command failed on the TV (exit \(code)).")
         }
     }
 }
@@ -1113,6 +1113,10 @@ final class ADBTVConnection {
                 throw ADBSessionError.protocolViolation("the TV refused the \(description) request")
             case "CLSE" where closedStreamIDs.contains(frame.arg1):
                 continue
+            // The TV may still send data or an acknowledgement for an earlier stream (the last install's, which
+            // we already closed or left); streams run one at a time, so nothing reads it and it is dropped.
+            case "WRTE" where frame.arg1 < streamID, "OKAY" where frame.arg1 < streamID:
+                continue
             default:
                 throw ADBSessionError.protocolViolation(
                     "unexpected \(frame.command) while opening \(description) (arg0 \(frame.arg0), arg1 \(frame.arg1), stream \(streamID))"
@@ -1143,6 +1147,8 @@ final class ADBTVConnection {
                 try consumeShellPackets(&packets, output: &output, exitCode: &exitCode, cap: outputLimit)
                 return false
             case "CLSE" where closedStreamIDs.contains(frame.arg1):
+                return false
+            case "WRTE" where frame.arg1 < streamID, "OKAY" where frame.arg1 < streamID:
                 return false
             case "CLSE" where frame.arg0 == remoteStreamID && frame.arg1 == streamID:
                 throw ADBSessionError.protocolViolation("the TV closed the \(description) shell before its exit packet")

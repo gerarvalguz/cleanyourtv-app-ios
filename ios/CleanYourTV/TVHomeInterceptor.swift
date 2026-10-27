@@ -31,8 +31,8 @@ enum TVHomeInterceptor {
 
         var errorDescription: String? {
             switch self {
-            case .missing(let name): "The bundled \(name) file is missing from the app."
-            case .digestMismatch(let name): "The bundled \(name) file does not match its pinned digest."
+            case .missing(let name): String(localized: "The bundled \(name) file is missing from the app.")
+            case .digestMismatch(let name): String(localized: "The bundled \(name) file does not match its pinned digest.")
             }
         }
     }

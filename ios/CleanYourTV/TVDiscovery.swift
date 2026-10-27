@@ -50,8 +50,8 @@ final class TVDiscoveryModel: ObservableObject {
     @Published private(set) var authFingerprint: String?
     @Published private(set) var connectionMessage: String?
     @Published private(set) var planMessage: String?
-    @Published private(set) var statusTitle = "Ready to scan"
-    @Published private(set) var statusDetail = "Looking for Android TV ADB services."
+    @Published private(set) var statusTitle = String(localized: "Ready to scan")
+    @Published private(set) var statusDetail = String(localized: "Looking for Android TV ADB services.")
 
     private var browser: NWBrowser?
     private var connectionTask: Task<Void, Never>?
@@ -70,8 +70,8 @@ final class TVDiscoveryModel: ObservableObject {
         guard browser == nil else { return }
         services = []
         isSearching = true
-        statusTitle = "Searching your network"
-        statusDetail = "Your iPhone and TV need to be on the same Wi-Fi."
+        statusTitle = String(localized: "Searching your network")
+        statusDetail = String(localized: "Your iPhone and TV need to be on the same Wi-Fi.")
 
         let browser = NWBrowser(
             for: .bonjour(type: "_adb._tcp.", domain: "local."),
@@ -83,10 +83,10 @@ final class TVDiscoveryModel: ObservableObject {
                 switch state {
                 case .ready:
                     self.isSearching = true
-                    self.statusTitle = "Scanning for TVs"
+                    self.statusTitle = String(localized: "Scanning for TVs")
                 case .failed(let error):
                     self.isSearching = false
-                    self.statusTitle = "Network scan unavailable"
+                    self.statusTitle = String(localized: "Network scan unavailable")
                     self.statusDetail = error.localizedDescription
                     self.browser?.cancel()
                     self.browser = nil
@@ -109,10 +109,11 @@ final class TVDiscoveryModel: ObservableObject {
             Task { @MainActor in
                 guard let self else { return }
                 self.services = found.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
-                self.statusTitle = found.isEmpty ? "Scanning for TVs" : "\(found.count) ADB service\(found.count == 1 ? "" : "s") found"
+                self.statusTitle = found.isEmpty ? String(localized: "Scanning for TVs")
+                    : found.count == 1 ? String(localized: "1 ADB service found") : String(localized: "\(found.count) ADB services found")
                 self.statusDetail = found.isEmpty
-                    ? "Keep the TV on and network debugging enabled."
-                    : "Found on your local network. Authorization is still required."
+                    ? String(localized: "Keep the TV on and network debugging enabled.")
+                    : String(localized: "Found on your local network. Authorization is still required.")
             }
         }
         self.browser = browser
@@ -175,7 +176,7 @@ final class TVDiscoveryModel: ObservableObject {
             do {
                 let (connection, identity) = try await ADBTVConnection.open(endpoint: endpoint) { fingerprint in
                     self?.authFingerprint = fingerprint
-                    self?.connectionMessage = "Approve the debugging prompt on your TV. The key fingerprint is shown below."
+                    self?.connectionMessage = String(localized: "Approve the debugging prompt on your TV. The key fingerprint is shown below.")
                 }
                 guard !Task.isCancelled else {
                     connection.close()
@@ -194,7 +195,7 @@ final class TVDiscoveryModel: ObservableObject {
                     }
                 }
                 self?.authFingerprint = nil
-                self?.connectionMessage = "TV identified. Review the safety report before applying package changes."
+                self?.connectionMessage = String(localized: "TV identified. Review the safety report before applying package changes.")
                 self?.isConnecting = false
             } catch is CancellationError {
                 self?.isConnecting = false
@@ -247,7 +248,7 @@ final class TVDiscoveryModel: ObservableObject {
                     resolution: resolution,
                     snapshot: snapshot
                 )
-                self.connectionMessage = "Read TV safety details and prepared a read-only review. No changes were made."
+                self.connectionMessage = String(localized: "Read TV safety details and prepared a read-only review. No changes were made.")
                 self.isReadingPackages = false
             } catch is CancellationError {
                 self?.isReadingPackages = false
@@ -260,11 +261,11 @@ final class TVDiscoveryModel: ObservableObject {
 
     func createReviewPlan() {
         guard let identity, let profileResolution, let safetyReport, let currentSnapshotDigest else {
-            planMessage = "Analyze the TV before creating a review plan."
+            planMessage = String(localized: "Analyze the TV before creating a review plan.")
             return
         }
         guard safetyReport.incompleteReasons.isEmpty else {
-            planMessage = "A review plan is unavailable until all required safety checks pass."
+            planMessage = String(localized: "A review plan is unavailable until all required safety checks pass.")
             return
         }
         let plan = TVReviewPlan(
@@ -275,13 +276,13 @@ final class TVDiscoveryModel: ObservableObject {
             report: safetyReport
         )
         guard !plan.items.isEmpty else {
-            planMessage = "This profile has no installed packages available for a review plan."
+            planMessage = String(localized: "This profile has no installed packages available for a review plan.")
             return
         }
         do {
             try reviewPlanStore.save(plan)
             reviewPlan = plan
-            planMessage = "Review plan saved privately on this iPhone."
+            planMessage = String(localized: "Review plan saved privately on this iPhone.")
         } catch {
             planMessage = error.localizedDescription
         }
@@ -290,39 +291,39 @@ final class TVDiscoveryModel: ObservableObject {
     func setReviewPlanChoice(package: String, selected: Bool) {
         guard var plan = reviewPlan else { return }
         guard !reviewPlanIsStale else {
-            planMessage = "This draft is based on an older TV snapshot. Analyze the TV and create a new draft."
+            planMessage = String(localized: "This draft is based on an older TV snapshot. Analyze the TV and create a new draft.")
             return
         }
         do {
             try plan.setSelected(selected, for: package)
             try reviewPlanStore.save(plan)
             reviewPlan = plan
-            planMessage = "Review plan updated."
+            planMessage = String(localized: "Review plan updated.")
         } catch {
             planMessage = error.localizedDescription
         }
     }
 
     var applyReviewPlanBlockReason: String? {
-        guard let reviewPlan else { return "Create a reviewable plan from this analysis first." }
-        guard !reviewPlanIsStale else { return "This plan is out of date. Replace it with the latest analysis." }
-        guard reviewPlan.isDigestValid else { return "This plan failed its integrity check. Create a new plan." }
-        guard !reviewPlan.selectedItems.isEmpty else { return "Select at least one package to apply." }
+        guard let reviewPlan else { return String(localized: "Create a reviewable plan from this analysis first.") }
+        guard !reviewPlanIsStale else { return String(localized: "This plan is out of date. Replace it with the latest analysis.") }
+        guard reviewPlan.isDigestValid else { return String(localized: "This plan failed its integrity check. Create a new plan.") }
+        guard !reviewPlan.selectedItems.isEmpty else { return String(localized: "Select at least one package to apply.") }
         guard reviewPlan.selectedItems.allSatisfy({ $0.status == .reviewCandidate }) else {
-            return "Deselect optional packages. Only review candidates can be applied."
+            return String(localized: "Deselect optional packages. Only review candidates can be applied.")
         }
-        guard let safetyReport else { return "Analyze the TV before applying this plan." }
+        guard let safetyReport else { return String(localized: "Analyze the TV before applying this plan.") }
         guard safetyReport.incompleteReasons.isEmpty else {
-            return "Safety checks are incomplete: \(safetyReport.incompleteReasons.joined(separator: " "))"
+            return String(localized: "Safety checks are incomplete: \(safetyReport.incompleteReasons.joined(separator: " "))")
         }
         if restorePoint?.isRestored == false {
-            return "Restore the original package states before applying another plan."
+            return String(localized: "Restore the original package states before applying another plan.")
         }
         guard tvConnection != nil, identity != nil, profileResolution != nil, currentSnapshotDigest != nil else {
-            return "Reconnect to the TV and analyze it before applying this plan."
+            return String(localized: "Reconnect to the TV and analyze it before applying this plan.")
         }
-        if isApplyingPlan { return "Applying the selected package changes." }
-        if isRestoringPlan { return "Wait for package restoration to finish." }
+        if isApplyingPlan { return String(localized: "Applying the selected package changes.") }
+        if isRestoringPlan { return String(localized: "Wait for package restoration to finish.") }
         return nil
     }
 
@@ -335,11 +336,11 @@ final class TVDiscoveryModel: ObservableObject {
               let profileResolution,
               let plan = reviewPlan,
               let expectedDigest = currentSnapshotDigest else {
-            planMessage = "Re-scan the TV and resolve any active restore point before applying this plan."
+            planMessage = String(localized: "Re-scan the TV and resolve any active restore point before applying this plan.")
             return
         }
         isApplyingPlan = true
-        planMessage = "Rechecking safety and saving a restore point before making changes."
+        planMessage = String(localized: "Rechecking safety and saving a restore point before making changes.")
         connectionTask?.cancel()
         connectionTask = Task { [weak self] in
             guard let self else { return }
@@ -383,11 +384,11 @@ final class TVDiscoveryModel: ObservableObject {
                 }
                 self.currentSnapshotDigest = nil
                 self.isApplyingPlan = false
-                self.planMessage = "Selected packages were disabled. A restore point is saved on this iPhone."
+                self.planMessage = String(localized: "Selected packages were disabled. A restore point is saved on this iPhone.")
             } catch {
                 self.isApplyingPlan = false
                 self.currentSnapshotDigest = nil
-                self.planMessage = "Application stopped. The restore point was kept so you can restore the original package states. \(error.localizedDescription)"
+                self.planMessage = String(localized: "Application stopped. The restore point was kept so you can restore the original package states. \(error.localizedDescription)")
             }
         }
     }
@@ -400,11 +401,11 @@ final class TVDiscoveryModel: ObservableObject {
               point.tvID == identity.tvID,
               point.isDigestValid,
               !point.isRestored else {
-            planMessage = "No active, valid restore point is available for this TV."
+            planMessage = String(localized: "No active, valid restore point is available for this TV.")
             return
         }
         isRestoringPlan = true
-        planMessage = "Restoring the saved package states."
+        planMessage = String(localized: "Restoring the saved package states.")
         connectionTask?.cancel()
         connectionTask = Task { [weak self] in
             guard let self else { return }
@@ -428,21 +429,21 @@ final class TVDiscoveryModel: ObservableObject {
                 self.restorePoint = point
                 self.currentSnapshotDigest = nil
                 self.isRestoringPlan = false
-                self.planMessage = "Original package states restored and verified."
+                self.planMessage = String(localized: "Original package states restored and verified.")
             } catch {
                 self.isRestoringPlan = false
-                self.planMessage = "Restore is incomplete. The saved restore point remains available; reconnect and retry. \(error.localizedDescription)"
+                self.planMessage = String(localized: "Restore is incomplete. The saved restore point remains available; reconnect and retry. \(error.localizedDescription)")
             }
         }
     }
 
     var homeSwitchBlockReason: String? {
-        guard let identity, let profileResolution, tvConnection != nil else { return "Connect to the TV and analyze it first." }
+        guard let identity, let profileResolution, tvConnection != nil else { return String(localized: "Connect to the TV and analyze it first.") }
         guard TVHomeInterceptor.isFireTV(identity, platform: profileResolution.platform) else {
-            return "This applies to Fire TV only; other TVs can take a launcher as their home screen directly."
+            return String(localized: "This applies to Fire TV only; other TVs can take a launcher as their home screen directly.")
         }
-        if isChangingHome { return "Working on the TV." }
-        if isApplyingPlan || isRestoringPlan || isReadingPackages { return "Wait for the current operation to finish." }
+        if isChangingHome { return String(localized: "Working on the TV.") }
+        if isApplyingPlan || isRestoringPlan || isReadingPackages { return String(localized: "Wait for the current operation to finish.") }
         return nil
     }
 
@@ -452,7 +453,7 @@ final class TVDiscoveryModel: ObservableObject {
     func installHomeInterceptor() {
         guard canChangeHome, let tvConnection else { return }
         isChangingHome = true
-        homeSwitchMessage = "Installing the launcher and the Home button service."
+        homeSwitchMessage = String(localized: "Installing the launcher and the Home button service.")
         connectionTask?.cancel()
         connectionTask = Task { [weak self] in
             guard let self else { return }
@@ -472,10 +473,10 @@ final class TVDiscoveryModel: ObservableObject {
                     throw ADBSessionError.protocolViolation("the TV did not keep the Home button service switched on")
                 }
                 self.finishHomeChange(installed: installed, services: after,
-                                      message: "Done. Press Home on the TV remote: it now opens the Clean Your TV launcher. Back from Amazon's Settings still works.")
+                                      message: String(localized: "Done. Press Home on the TV remote: it now opens the Clean Your TV launcher. Back from Amazon's Settings still works."))
             } catch {
                 self.isChangingHome = false
-                self.homeSwitchMessage = "Stopped. \(error.localizedDescription) Nothing else was changed; you can try again or remove it."
+                self.homeSwitchMessage = String(localized: "Stopped. \(error.localizedDescription) Nothing else was changed; you can try again or remove it.")
             }
         }
     }
@@ -484,7 +485,7 @@ final class TVDiscoveryModel: ObservableObject {
     func removeHomeInterceptor() {
         guard canChangeHome, let tvConnection else { return }
         isChangingHome = true
-        homeSwitchMessage = "Giving Home back to Amazon."
+        homeSwitchMessage = String(localized: "Giving Home back to Amazon.")
         connectionTask?.cancel()
         connectionTask = Task { [weak self] in
             guard let self else { return }
@@ -501,19 +502,19 @@ final class TVDiscoveryModel: ObservableObject {
                     throw ADBSessionError.protocolViolation("the TV still has part of the home screen setup")
                 }
                 self.finishHomeChange(installed: remaining, services: after,
-                                      message: "Amazon's home screen is back. The launcher and the Home button service were removed.")
+                                      message: String(localized: "Amazon's home screen is back. The launcher and the Home button service were removed."))
             } catch {
                 self.isChangingHome = false
-                self.homeSwitchMessage = "Removal is incomplete. \(error.localizedDescription) Reconnect and try again."
+                self.homeSwitchMessage = String(localized: "Removal is incomplete. \(error.localizedDescription) Reconnect and try again.")
             }
         }
     }
 
     var layoutBlockReason: String? {
-        guard tvConnection != nil, identity != nil else { return "Connect to the TV first." }
-        guard homeSwitchStatus?.launcherInstalled == true else { return "Install the Clean Your TV launcher first." }
-        if isChangingLayout || isChangingHome { return "Working on the TV." }
-        if isApplyingPlan || isRestoringPlan || isReadingPackages { return "Wait for the current operation to finish." }
+        guard tvConnection != nil, identity != nil else { return String(localized: "Connect to the TV first.") }
+        guard homeSwitchStatus?.launcherInstalled == true else { return String(localized: "Install the Clean Your TV launcher first.") }
+        if isChangingLayout || isChangingHome { return String(localized: "Working on the TV.") }
+        if isApplyingPlan || isRestoringPlan || isReadingPackages { return String(localized: "Wait for the current operation to finish.") }
         return nil
     }
 
@@ -534,7 +535,7 @@ final class TVDiscoveryModel: ObservableObject {
         guard layoutBlockReason == nil, let tvConnection else { return }
         let name = TVLauncherConfig.cleanName(greetingName)
         isChangingLayout = true
-        greetingMessage = "Sending the name to the TV."
+        greetingMessage = String(localized: "Sending the name to the TV.")
         connectionTask?.cancel()
         connectionTask = Task { [weak self] in
             guard let self else { return }
@@ -547,9 +548,9 @@ final class TVDiscoveryModel: ObservableObject {
                 }
                 self.greetingName = name
                 self.greetingNameOnTV = name
-                self.greetingMessage = name.isEmpty ? "Done. The greeting has no name now." : "Done. The launcher greets you by name."
+                self.greetingMessage = name.isEmpty ? String(localized: "Done. The greeting has no name now.") : String(localized: "Done. The launcher greets you by name.")
             } catch {
-                self.greetingMessage = "Stopped. \(error.localizedDescription)"
+                self.greetingMessage = String(localized: "Stopped. \(error.localizedDescription)")
             }
             self.isChangingLayout = false
         }
@@ -574,7 +575,7 @@ final class TVDiscoveryModel: ObservableObject {
     func applyLauncherLook() {
         guard layoutBlockReason == nil, let tvConnection, let identity, let look = launcherLook, let style = look.style else { return }
         isChangingLayout = true
-        lookMessage = "Sending the look to the TV."
+        lookMessage = String(localized: "Sending the look to the TV.")
         connectionTask?.cancel()
         connectionTask = Task { [weak self] in
             guard let self else { return }
@@ -591,10 +592,10 @@ final class TVDiscoveryModel: ObservableObject {
                 self.launcherLook = LauncherLookState(style: style, columns: look.columns, onTV: style, columnsOnTV: look.columns,
                                                       hasPicture: written.hasPicture, hasBackup: true)
                 self.launcherLayout = nil
-                self.lookMessage = look.photo == nil ? "Done. The launcher restarted with the \(style.title) look."
-                    : "Done. The launcher restarted with the \(style.title) look and your picture."
+                self.lookMessage = look.photo == nil ? String(localized: "Done. The launcher restarted with the \(style.title) look.")
+                    : String(localized: "Done. The launcher restarted with the \(style.title) look and your picture.")
             } catch {
-                self.lookMessage = "Stopped. \(error.localizedDescription) The previous settings are saved on this iPhone."
+                self.lookMessage = String(localized: "Stopped. \(error.localizedDescription) The previous settings are saved on this iPhone.")
             }
             self.isChangingLayout = false
         }
@@ -603,11 +604,11 @@ final class TVDiscoveryModel: ObservableObject {
     func restoreLauncherLook() {
         guard layoutBlockReason == nil, let tvConnection, let identity else { return }
         guard let backup = try? layoutBackupStore.load(tvID: identity.tvID) else {
-            lookMessage = "No saved settings for this TV."
+            lookMessage = String(localized: "No saved settings for this TV.")
             return
         }
         isChangingLayout = true
-        lookMessage = "Putting the previous settings back."
+        lookMessage = String(localized: "Putting the previous settings back.")
         connectionTask?.cancel()
         connectionTask = Task { [weak self] in
             guard let self else { return }
@@ -620,10 +621,10 @@ final class TVDiscoveryModel: ObservableObject {
                 try? self.layoutBackupStore.remove(tvID: identity.tvID)
                 self.launcherLook = nil
                 self.launcherLayout = nil
-                self.lookMessage = "The previous settings are back."
+                self.lookMessage = String(localized: "The previous settings are back.")
                 self.loadLauncherLook()
             } catch {
-                self.lookMessage = "Restore is incomplete. \(error.localizedDescription) The saved copy is kept; try again."
+                self.lookMessage = String(localized: "Restore is incomplete. \(error.localizedDescription) The saved copy is kept; try again.")
             }
             self.isChangingLayout = false
         }
@@ -633,7 +634,7 @@ final class TVDiscoveryModel: ObservableObject {
     func loadLauncherLayout() {
         guard layoutBlockReason == nil, let tvConnection, let identity else { return }
         isChangingLayout = true
-        layoutMessage = "Reading the apps on the TV."
+        layoutMessage = String(localized: "Reading the apps on the TV.")
         connectionTask?.cancel()
         connectionTask = Task { [weak self] in
             guard let self else { return }
@@ -651,7 +652,7 @@ final class TVDiscoveryModel: ObservableObject {
                 )
                 self.layoutMessage = nil
             } catch {
-                self.layoutMessage = "Could not read the layout. \(error.localizedDescription)"
+                self.layoutMessage = String(localized: "Could not read the layout. \(error.localizedDescription)")
             }
             self.isChangingLayout = false
         }
@@ -681,7 +682,7 @@ final class TVDiscoveryModel: ObservableObject {
     func applyLauncherLayout() {
         guard layoutBlockReason == nil, let tvConnection, let identity, let layout = launcherLayout else { return }
         isChangingLayout = true
-        layoutMessage = "Sending the app order to the TV."
+        layoutMessage = String(localized: "Sending the app order to the TV.")
         connectionTask?.cancel()
         connectionTask = Task { [weak self] in
             guard let self else { return }
@@ -695,9 +696,9 @@ final class TVDiscoveryModel: ObservableObject {
                     throw ADBSessionError.protocolViolation("the TV did not keep the new app order")
                 }
                 self.launcherLayout?.hasBackup = true
-                self.layoutMessage = "Done. The launcher restarted with your order. Anything you set in the launcher's own settings applies until you choose Follow theme."
+                self.layoutMessage = String(localized: "Done. The launcher restarted with your order. Anything you set in the launcher's own settings applies until you choose Follow theme.")
             } catch {
-                self.layoutMessage = "Stopped. \(error.localizedDescription) The previous order is saved on this iPhone."
+                self.layoutMessage = String(localized: "Stopped. \(error.localizedDescription) The previous order is saved on this iPhone.")
             }
             self.isChangingLayout = false
         }
@@ -706,11 +707,11 @@ final class TVDiscoveryModel: ObservableObject {
     func restoreLauncherLayout() {
         guard layoutBlockReason == nil, let tvConnection, let identity else { return }
         guard let backup = try? layoutBackupStore.load(tvID: identity.tvID) else {
-            layoutMessage = "No saved order for this TV."
+            layoutMessage = String(localized: "No saved order for this TV.")
             return
         }
         isChangingLayout = true
-        layoutMessage = "Putting the previous order back."
+        layoutMessage = String(localized: "Putting the previous order back.")
         connectionTask?.cancel()
         connectionTask = Task { [weak self] in
             guard let self else { return }
@@ -728,9 +729,9 @@ final class TVDiscoveryModel: ObservableObject {
                     columns: config.columns,
                     hasBackup: false
                 )
-                self.layoutMessage = "The previous order is back."
+                self.layoutMessage = String(localized: "The previous order is back.")
             } catch {
-                self.layoutMessage = "Restore is incomplete. \(error.localizedDescription) The saved copy is kept; try again."
+                self.layoutMessage = String(localized: "Restore is incomplete. \(error.localizedDescription) The saved copy is kept; try again.")
             }
             self.isChangingLayout = false
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1000000000000000000B06A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000B06A /* Localizable.xcstrings */; };
 		A10000000000000000000001 /* CleanYourTVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* CleanYourTVApp.swift */; };
 		A10000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* ContentView.swift */; };
 		A10000000000000000000003 /* TVDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* TVDiscovery.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B1000000000000000000B06A /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B10000000000000000000001 /* CleanYourTVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanYourTVApp.swift; sourceTree = "<group>"; };
 		B10000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B10000000000000000000003 /* TVDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDiscovery.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				B10000000000000000000006 /* ADBSession.swift */,
 				B10000000000000000000007 /* ProfileCatalog.swift */,
 				B100000000000000000000AA /* Assets.xcassets */,
+				B1000000000000000000B06A /* Localizable.xcstrings */,
 				B10000000000000000000008 /* profiles.json */,
 				B10000000000000000000009 /* TVSafetyAnalysis.swift */,
 				B1000000000000000000000A /* TVReviewPlan.swift */,
@@ -196,6 +199,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"es-419",
 				Base,
 			);
 			mainGroup = G10000000000000000000001;
@@ -215,6 +219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A100000000000000000000AA /* Assets.xcassets in Resources */,
+				A1000000000000000000B06A /* Localizable.xcstrings in Resources */,
 				A10000000000000000000008 /* profiles.json in Resources */,
 				A1000000000000000000000C /* home-launcher.apk in Resources */,
 				A1000000000000000000000D /* home-interceptor.apk in Resources */,

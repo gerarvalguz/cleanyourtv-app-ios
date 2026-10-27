@@ -124,8 +124,8 @@ struct WelcomeView: View {
 
 private struct FeatureRow: View {
     let icon: String
-    let title: String
-    let detail: String
+    let title: LocalizedStringKey
+    let detail: LocalizedStringKey
 
     var body: some View {
         HStack(alignment: .top, spacing: 14) {
@@ -307,7 +307,7 @@ private struct ConnectView: View {
                             } label: {
                                 HStack {
                                     if discovery.isReadingPackages { ProgressView().tint(.black) }
-                                    Text(discovery.isReadingPackages ? "Checking TV safety details…" : "Analyze TV safely · read-only")
+                                    Text(discovery.isReadingPackages ? String(localized: "Checking TV safety details…") : String(localized: "Analyze TV safely · read-only"))
                                 }
                                 .font(.system(size: 14, weight: .semibold))
                                 .frame(maxWidth: .infinity)
@@ -353,8 +353,8 @@ private struct ConnectView: View {
                                 } label: {
                                     Label(
                                         discovery.reviewPlan == nil || discovery.reviewPlanIsStale
-                                            ? "Create reviewable plan"
-                                            : "Replace saved plan with this scan",
+                                            ? String(localized: "Create reviewable plan")
+                                            : String(localized: "Replace saved plan with this scan"),
                                         systemImage: "list.clipboard"
                                     )
                                     .font(.system(size: 14, weight: .semibold))
@@ -395,7 +395,7 @@ private struct ConnectView: View {
                                         Text("Current HOME app")
                                             .font(.system(size: 11, weight: .medium))
                                             .foregroundStyle(Palette.muted)
-                                        Text(configuration.homeComponent ?? "No HOME app resolved")
+                                        Text(configuration.homeComponent ?? String(localized: "No HOME app resolved"))
                                             .font(.system(size: 12, design: .monospaced))
                                             .foregroundStyle(Palette.amber)
                                             .textSelection(.enabled)
@@ -404,7 +404,7 @@ private struct ConnectView: View {
                                         Text("HOME claimants")
                                             .font(.system(size: 11, weight: .medium))
                                             .foregroundStyle(Palette.muted)
-                                        Text(configuration.homeClaimants.joined(separator: ", ").isEmpty ? "None reported" : configuration.homeClaimants.joined(separator: ", "))
+                                        Text(configuration.homeClaimants.joined(separator: ", ").isEmpty ? String(localized: "None reported") : configuration.homeClaimants.joined(separator: ", "))
                                             .font(.system(size: 11, design: .monospaced))
                                             .foregroundStyle(.white)
                                             .textSelection(.enabled)
@@ -413,7 +413,7 @@ private struct ConnectView: View {
                                         Text("TV input services")
                                             .font(.system(size: 11, weight: .medium))
                                             .foregroundStyle(Palette.muted)
-                                        Text(configuration.inputServiceAvailable ? "\(configuration.inputPackages.count) service packages detected" : "Could not be verified")
+                                        Text(configuration.inputServiceAvailable ? String(localized: "\(configuration.inputPackages.count) service packages detected") : String(localized: "Could not be verified"))
                                             .font(.system(size: 12))
                                             .foregroundStyle(configuration.inputServiceAvailable ? .white : Palette.amber)
                                     }
@@ -421,7 +421,7 @@ private struct ConnectView: View {
                                         Text("Active keyboard")
                                             .font(.system(size: 11, weight: .medium))
                                             .foregroundStyle(Palette.muted)
-                                        Text(configuration.inputMethod ?? "Not set")
+                                        Text(configuration.inputMethod ?? String(localized: "Not set"))
                                             .font(.system(size: 11, design: .monospaced))
                                             .foregroundStyle(.white)
                                             .textSelection(.enabled)
@@ -431,7 +431,7 @@ private struct ConnectView: View {
                                             Text(setting.setting.title)
                                                 .font(.system(size: 11, weight: .medium))
                                                 .foregroundStyle(Palette.muted)
-                                            Text(setting.value ?? "Not set")
+                                            Text(setting.value ?? String(localized: "Not set"))
                                                 .font(.system(size: 12, design: .monospaced))
                                                 .foregroundStyle(.white)
                                                 .textSelection(.enabled)
@@ -670,7 +670,7 @@ private struct SafetyReviewCard: View {
                         } label: {
                             HStack {
                                 if isRestoring { ProgressView().tint(.black) }
-                                Text(isRestoring ? "Restoring original states…" : "Restore original package states")
+                                Text(isRestoring ? String(localized: "Restoring original states…") : String(localized: "Restore original package states"))
                             }
                             .font(.system(size: 14, weight: .semibold))
                             .frame(maxWidth: .infinity)
@@ -686,7 +686,7 @@ private struct SafetyReviewCard: View {
                         } label: {
                             HStack {
                                 if isApplying { ProgressView().tint(.black) }
-                                Text(isApplying ? "Applying selected packages…" : "Apply selected changes")
+                                Text(isApplying ? String(localized: "Applying selected packages…") : String(localized: "Apply selected changes"))
                             }
                             .font(.system(size: 14, weight: .semibold))
                             .frame(maxWidth: .infinity)
@@ -769,7 +769,7 @@ private struct SafetyReviewCard: View {
 
         private struct SafetyCount: View {
             let value: Int
-            let title: String
+            let title: LocalizedStringKey
 
             var body: some View {
                 VStack(spacing: 3) {
@@ -830,7 +830,7 @@ private struct HomeSwitchCard: View {
             Button {
                 confirmsInstall = true
             } label: {
-                Label(status.isActive ? "Reinstall" : "Install and switch on", systemImage: "arrow.down.app")
+                Label(status.isActive ? String(localized: "Reinstall") : String(localized: "Install and switch on"), systemImage: String(localized: "arrow.down.app"))
                     .font(.system(size: 14, weight: .semibold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 13)
@@ -868,7 +868,7 @@ private struct HomeSwitchCard: View {
         }
     }
 
-    private func statusRow(_ title: String, _ done: Bool) -> some View {
+    private func statusRow(_ title: LocalizedStringKey, _ done: Bool) -> some View {
         Label(title, systemImage: done ? "checkmark.circle.fill" : "circle")
             .font(.system(size: 12))
             .foregroundStyle(done ? Palette.amber : Palette.muted)
@@ -985,7 +985,7 @@ private struct LauncherLookCard: View {
                 Text("BACKGROUND PICTURE").font(.system(size: 11, weight: .semibold)).foregroundStyle(Palette.amber)
                 HStack(spacing: 10) {
                     PhotosPicker(selection: $pickedItem, matching: .images, photoLibrary: .shared()) {
-                        Label(current.photo == nil ? "Choose from your photos" : "Choose another photo", systemImage: "photo")
+                        Label(current.photo == nil ? String(localized: "Choose from your photos") : String(localized: "Choose another photo"), systemImage: String(localized: "photo"))
                             .font(.system(size: 14, weight: .semibold))
                             .frame(maxWidth: .infinity).padding(.vertical, 11)
                     }
@@ -1001,8 +1001,8 @@ private struct LauncherLookCard: View {
                     }
                 }
                 Text(photoMessage ?? (current.hasPicture && current.photo == nil
-                     ? "The TV already has a picture and keeps it. Choose a photo to replace it."
-                     : "The photo is cropped to 16:9 and shrunk on this iPhone; its place and camera details are not sent."))
+                     ? String(localized: "The TV already has a picture and keeps it. Choose a photo to replace it.")
+                     : String(localized: "The photo is cropped to 16:9 and shrunk on this iPhone; its place and camera details are not sent.")))
                     .font(.system(size: 12)).foregroundStyle(Palette.muted)
                     .fixedSize(horizontal: false, vertical: true)
                 Text("APPS IN A ROW").font(.system(size: 11, weight: .semibold)).foregroundStyle(Palette.amber)
@@ -1051,7 +1051,7 @@ private struct LauncherLookCard: View {
         }
         .onChange(of: pickedItem) { _, item in
             guard let item else { return }
-            photoMessage = "Preparing the photo."
+            photoMessage = String(localized: "Preparing the photo.")
             Task {
                 let jpeg = await Task.detached { () -> Data? in
                     guard let data = try? await item.loadTransferable(type: Data.self) else { return nil }
@@ -1060,9 +1060,9 @@ private struct LauncherLookCard: View {
                 if let jpeg, let image = UIImage(data: jpeg) {
                     look?.photo = jpeg
                     photoImage = image
-                    photoMessage = "Photo ready (\(jpeg.count / 1000) KB). It is sent with the look."
+                    photoMessage = String(localized: "Photo ready (\(jpeg.count / 1000) KB). It is sent with the look.")
                 } else {
-                    photoMessage = "That photo could not be used. Try another one."
+                    photoMessage = String(localized: "That photo could not be used. Try another one.")
                 }
             }
         }
@@ -1101,7 +1101,7 @@ private struct LauncherLayoutCard: View {
             if let layout {
                 let rows = TVLauncherRows.rows(layout.order, columns: layout.columns)
                 ForEach(Array(rows.enumerated()), id: \.offset) { rowIndex, row in
-                    Text(rowIndex == 0 ? "Dock" : "Row \(rowIndex + 1)")
+                    Text(rowIndex == 0 ? String(localized: "Dock") : String(localized: "Row \(rowIndex + 1)"))
                         .font(.system(size: 11, weight: .semibold))
                         .foregroundStyle(Palette.amber)
                     ForEach(row, id: \.self) { package in

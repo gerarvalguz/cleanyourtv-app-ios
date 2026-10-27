@@ -66,13 +66,13 @@ struct TVLookPreview: View {
     private func topBar(width w: CGFloat) -> some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 1) {
-                Text(greetingName.isEmpty ? "GOOD NIGHT" : "GOOD NIGHT, \(greetingName.uppercased())")
+                Text(greetingName.isEmpty ? String(localized: "GOOD NIGHT") : String(localized: "GOOD NIGHT, \(greetingName.uppercased())"))
                     .font(.system(size: w * 0.022, weight: .medium)).foregroundStyle(.white.opacity(0.7)).lineLimit(1)
                 Text("1:02").font(.system(size: w * 0.07, weight: .light)).foregroundStyle(.white)
             }
             Spacer()
             HStack(spacing: w * 0.012) {
-                ForEach(["Inputs", "Wi-Fi", "Settings"], id: \.self) { label in
+                ForEach([String(localized: "Inputs"), String(localized: "Wi-Fi"), String(localized: "Settings")], id: \.self) { label in
                     if style.roundButtons {
                         Circle().fill(.white.opacity(0.18)).frame(width: w * 0.05, height: w * 0.05)
                     } else {
