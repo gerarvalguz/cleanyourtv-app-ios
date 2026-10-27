@@ -13,6 +13,7 @@
 		A10000000000000000000004 /* TVAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000005 /* TVAddressTests.swift */; };
 		A10000000000000000000006 /* ADBSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000006 /* ADBSession.swift */; };
 		A10000000000000000000007 /* ProfileCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000007 /* ProfileCatalog.swift */; };
+		A100000000000000000000AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B100000000000000000000AA /* Assets.xcassets */; };
 		A10000000000000000000008 /* profiles.json in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000008 /* profiles.json */; };
 		A10000000000000000000009 /* TVSafetyAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000009 /* TVSafetyAnalysis.swift */; };
 		A1000000000000000000000A /* TVReviewPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000A /* TVReviewPlan.swift */; };
@@ -41,6 +42,7 @@
 		B10000000000000000000005 /* TVAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVAddressTests.swift; sourceTree = "<group>"; };
 		B10000000000000000000006 /* ADBSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBSession.swift; sourceTree = "<group>"; };
 		B10000000000000000000007 /* ProfileCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCatalog.swift; sourceTree = "<group>"; };
+		B100000000000000000000AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B10000000000000000000008 /* profiles.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = profiles.json; sourceTree = "<group>"; };
 		B10000000000000000000009 /* TVSafetyAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSafetyAnalysis.swift; sourceTree = "<group>"; };
 		B1000000000000000000000A /* TVReviewPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVReviewPlan.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				B10000000000000000000003 /* TVDiscovery.swift */,
 				B10000000000000000000006 /* ADBSession.swift */,
 				B10000000000000000000007 /* ProfileCatalog.swift */,
+				B100000000000000000000AA /* Assets.xcassets */,
 				B10000000000000000000008 /* profiles.json */,
 				B10000000000000000000009 /* TVSafetyAnalysis.swift */,
 				B1000000000000000000000A /* TVReviewPlan.swift */,
@@ -199,6 +202,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A100000000000000000000AA /* Assets.xcassets in Resources */,
 				A10000000000000000000008 /* profiles.json in Resources */,
 				A1000000000000000000000C /* home-launcher.apk in Resources */,
 				A1000000000000000000000D /* home-interceptor.apk in Resources */,
