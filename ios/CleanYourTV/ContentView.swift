@@ -460,6 +460,20 @@ private struct ConnectView: View {
                             onRemove: { discovery.removeHomeInterceptor() }
                         )
                     }
+                    if let status = discovery.homeSwitchStatus, status.launcherInstalled {
+                        LauncherLayoutCard(
+                            layout: discovery.launcherLayout,
+                            blockReason: discovery.layoutBlockReason,
+                            isWorking: discovery.isChangingLayout,
+                            message: discovery.layoutMessage,
+                            onLoad: { discovery.loadLauncherLayout() },
+                            onMove: { discovery.moveLauncherApp($0, by: $1) },
+                            onAdd: { discovery.addLauncherApp($0) },
+                            onRemove: { discovery.removeLauncherApp($0) },
+                            onApply: { discovery.applyLauncherLayout() },
+                            onRestore: { discovery.restoreLauncherLayout() }
+                        )
+                    }
                     if let message = discovery.connectionMessage {
                         Label(message, systemImage: discovery.identity == nil ? "info.circle" : "lock.shield")
                             .font(.system(size: 12))
@@ -838,5 +852,120 @@ private struct HomeSwitchCard: View {
         Label(title, systemImage: done ? "checkmark.circle.fill" : "circle")
             .font(.system(size: 12))
             .foregroundStyle(done ? Palette.amber : Palette.muted)
+    }
+}
+
+private struct LauncherLayoutCard: View {
+    let layout: LauncherLayoutState?
+    let blockReason: String?
+    let isWorking: Bool
+    let message: String?
+    let onLoad: () -> Void
+    let onMove: (String, Int) -> Void
+    let onAdd: (String) -> Void
+    let onRemove: (String) -> Void
+    let onApply: () -> Void
+    let onRestore: () -> Void
+    @State private var confirmsApply = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Apps first on the launcher", systemImage: "square.grid.2x2")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white)
+            Text("Pick which apps come first. The first row is the dock; the rest fill the rows under it, up to three rows. Everything else in the launcher's settings is kept.")
+                .font(.system(size: 12))
+                .lineSpacing(3)
+                .foregroundStyle(Palette.muted)
+                .fixedSize(horizontal: false, vertical: true)
+            if let layout {
+                let rows = TVLauncherRows.rows(layout.order, columns: layout.columns)
+                ForEach(Array(rows.enumerated()), id: \.offset) { rowIndex, row in
+                    Text(rowIndex == 0 ? "Dock" : "Row \(rowIndex + 1)")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(Palette.amber)
+                    ForEach(row, id: \.self) { package in
+                        appRow(package, first: package == layout.order.first, last: package == layout.order.last)
+                    }
+                }
+                if layout.order.isEmpty {
+                    Text("No apps chosen: the launcher keeps its own order.")
+                        .font(.system(size: 12)).foregroundStyle(Palette.muted)
+                }
+                if !layout.others.isEmpty {
+                    Text("Other apps")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(Palette.muted)
+                    ForEach(layout.others, id: \.self) { package in
+                        HStack {
+                            Text(TVAppNames.name(for: package)).font(.system(size: 13)).foregroundStyle(.white)
+                            Spacer()
+                            Button { onAdd(package) } label: { Image(systemName: "plus.circle") }
+                                .disabled(isWorking || layout.order.count >= TVLauncherRows.capacity(columns: layout.columns))
+                                .accessibilityLabel("Add \(TVAppNames.name(for: package))")
+                        }
+                    }
+                }
+            }
+            if let message {
+                Label(message, systemImage: "doc.text")
+                    .font(.system(size: 12)).foregroundStyle(Palette.muted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if let blockReason, !isWorking {
+                Text(blockReason).font(.system(size: 12)).foregroundStyle(Palette.muted)
+            }
+            if layout == nil {
+                Button(action: onLoad) {
+                    Label("Choose apps", systemImage: "list.bullet")
+                        .font(.system(size: 14, weight: .semibold))
+                        .frame(maxWidth: .infinity).padding(.vertical, 13)
+                }
+                .buttonStyle(.bordered).tint(Palette.amber)
+                .disabled(blockReason != nil)
+            } else {
+                Button { confirmsApply = true } label: {
+                    Label("Send to the TV", systemImage: "paperplane")
+                        .font(.system(size: 14, weight: .semibold))
+                        .frame(maxWidth: .infinity).padding(.vertical, 13)
+                }
+                .buttonStyle(.borderedProminent).tint(Palette.amber)
+                .disabled(blockReason != nil)
+                if layout?.hasBackup == true {
+                    Button(role: .destructive, action: onRestore) {
+                        Label("Put the previous order back", systemImage: "arrow.uturn.backward")
+                            .font(.system(size: 14, weight: .semibold))
+                            .frame(maxWidth: .infinity).padding(.vertical, 13)
+                    }
+                    .buttonStyle(.bordered)
+                    .disabled(blockReason != nil)
+                }
+            }
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Palette.surface, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .alert("Send this order to the TV?", isPresented: $confirmsApply) {
+            Button("Send", action: onApply)
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("The launcher restarts to show it. The previous order stays saved on this iPhone so you can put it back.")
+        }
+    }
+
+    private func appRow(_ package: String, first: Bool, last: Bool) -> some View {
+        HStack(spacing: 14) {
+            Text(TVAppNames.name(for: package)).font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
+            Spacer()
+            Button { onMove(package, -1) } label: { Image(systemName: "arrow.up") }
+                .disabled(isWorking || first)
+                .accessibilityLabel("Move \(TVAppNames.name(for: package)) earlier")
+            Button { onMove(package, 1) } label: { Image(systemName: "arrow.down") }
+                .disabled(isWorking || last)
+                .accessibilityLabel("Move \(TVAppNames.name(for: package)) later")
+            Button { onRemove(package) } label: { Image(systemName: "minus.circle") }
+                .disabled(isWorking)
+                .accessibilityLabel("Remove \(TVAppNames.name(for: package))")
+        }
     }
 }

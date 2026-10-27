@@ -38,6 +38,9 @@ final class TVDiscoveryModel: ObservableObject {
     @Published private(set) var homeSwitchStatus: TVHomeSwitchStatus?
     @Published private(set) var isChangingHome = false
     @Published private(set) var homeSwitchMessage: String?
+    @Published private(set) var launcherLayout: LauncherLayoutState?
+    @Published private(set) var isChangingLayout = false
+    @Published private(set) var layoutMessage: String?
     @Published private(set) var currentSnapshotDigest: String?
     @Published private(set) var authFingerprint: String?
     @Published private(set) var connectionMessage: String?
@@ -51,6 +54,7 @@ final class TVDiscoveryModel: ObservableObject {
     private var profileCatalog: TVProfileCatalog?
     private let reviewPlanStore = TVReviewPlanStore()
     private let restorePointStore = TVRestorePointStore()
+    private let layoutBackupStore = TVLauncherBackupStore()
 
     var reviewPlanIsStale: Bool {
         guard let reviewPlan else { return false }
@@ -156,6 +160,9 @@ final class TVDiscoveryModel: ObservableObject {
         homeSwitchStatus = nil
         homeSwitchMessage = nil
         isChangingHome = false
+        launcherLayout = nil
+        layoutMessage = nil
+        isChangingLayout = false
         connectionTask = Task { [weak self] in
             do {
                 let (connection, identity) = try await ADBTVConnection.open(endpoint: endpoint) { fingerprint in
@@ -494,6 +501,121 @@ final class TVDiscoveryModel: ObservableObject {
         }
     }
 
+    var layoutBlockReason: String? {
+        guard tvConnection != nil, identity != nil else { return "Connect to the TV first." }
+        guard homeSwitchStatus?.launcherInstalled == true else { return "Install the Clean Your TV launcher first." }
+        if isChangingLayout || isChangingHome { return "Working on the TV." }
+        if isApplyingPlan || isRestoringPlan || isReadingPackages { return "Wait for the current operation to finish." }
+        return nil
+    }
+
+    // Reads the apps the launcher can show and the order its config.json has now.
+    func loadLauncherLayout() {
+        guard layoutBlockReason == nil, let tvConnection, let identity else { return }
+        isChangingLayout = true
+        layoutMessage = "Reading the apps on the TV."
+        connectionTask?.cancel()
+        connectionTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let disabled = Set((self.packages ?? []).filter(\.isDisabled).map(\.name))
+                let apps = try await tvConnection.readLaunchableApps().filter { !disabled.contains($0) }
+                let config = try await tvConnection.readLauncherConfig()
+                let shown = Set(apps)
+                let backup = try self.layoutBackupStore.load(tvID: identity.tvID)
+                self.launcherLayout = LauncherLayoutState(
+                    apps: apps,
+                    order: TVLauncherRows.trim(config.dockApps.filter(shown.contains), columns: config.columns),
+                    columns: config.columns,
+                    hasBackup: backup != nil
+                )
+                self.layoutMessage = nil
+            } catch {
+                self.layoutMessage = "Could not read the layout. \(error.localizedDescription)"
+            }
+            self.isChangingLayout = false
+        }
+    }
+
+    func moveLauncherApp(_ package: String, by offset: Int) {
+        guard var layout = launcherLayout, let index = layout.order.firstIndex(of: package),
+              layout.order.indices.contains(index + offset) else { return }
+        layout.order.swapAt(index, index + offset)
+        launcherLayout = layout
+    }
+
+    func addLauncherApp(_ package: String) {
+        guard var layout = launcherLayout, !layout.order.contains(package),
+              layout.order.count < TVLauncherRows.capacity(columns: layout.columns) else { return }
+        layout.order.append(package)
+        launcherLayout = layout
+    }
+
+    func removeLauncherApp(_ package: String) {
+        guard var layout = launcherLayout else { return }
+        layout.order.removeAll { $0 == package }
+        launcherLayout = layout
+    }
+
+    // Writes the chosen order, keeping every other key of the TV's config.json and a copy of the file as it was.
+    func applyLauncherLayout() {
+        guard layoutBlockReason == nil, let tvConnection, let identity, let layout = launcherLayout else { return }
+        isChangingLayout = true
+        layoutMessage = "Sending the app order to the TV."
+        connectionTask?.cancel()
+        connectionTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let current = try await tvConnection.readLauncherConfig()
+                let next = try current.applying(order: layout.order)
+                try self.layoutBackupStore.save(TVLauncherBackup(config: current.original, savedAt: Date()), tvID: identity.tvID)
+                try await tvConnection.writeLauncherConfig(next)
+                let written = try await tvConnection.readLauncherConfig()
+                guard written.dockApps == TVLauncherRows.trim(layout.order, columns: current.columns) else {
+                    throw ADBSessionError.protocolViolation("the TV did not keep the new app order")
+                }
+                self.launcherLayout?.hasBackup = true
+                self.layoutMessage = "Done. The launcher restarted with your order. Anything you set in the launcher's own settings applies until you choose Follow theme."
+            } catch {
+                self.layoutMessage = "Stopped. \(error.localizedDescription) The previous order is saved on this iPhone."
+            }
+            self.isChangingLayout = false
+        }
+    }
+
+    func restoreLauncherLayout() {
+        guard layoutBlockReason == nil, let tvConnection, let identity else { return }
+        guard let backup = try? layoutBackupStore.load(tvID: identity.tvID) else {
+            layoutMessage = "No saved order for this TV."
+            return
+        }
+        isChangingLayout = true
+        layoutMessage = "Putting the previous order back."
+        connectionTask?.cancel()
+        connectionTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await tvConnection.writeLauncherConfig(backup.config)
+                let config = try await tvConnection.readLauncherConfig()
+                guard config.original == backup.config || (backup.config == nil && config.object.isEmpty) else {
+                    throw ADBSessionError.protocolViolation("the TV did not keep the previous order")
+                }
+                try? self.layoutBackupStore.remove(tvID: identity.tvID)
+                let shown = Set(self.launcherLayout?.apps ?? [])
+                self.launcherLayout = LauncherLayoutState(
+                    apps: self.launcherLayout?.apps ?? [],
+                    order: TVLauncherRows.trim(config.dockApps.filter(shown.contains), columns: config.columns),
+                    columns: config.columns,
+                    hasBackup: false
+                )
+                self.layoutMessage = "The previous order is back."
+            } catch {
+                self.layoutMessage = "Restore is incomplete. \(error.localizedDescription) The saved copy is kept; try again."
+            }
+            self.isChangingLayout = false
+        }
+    }
+
     // The scan no longer matches the TV (a new HOME app appeared or left), so the plan must be re-made.
     private func finishHomeChange(installed: Set<String>, services: String?, message: String) {
         homeSwitchStatus = TVHomeSwitchStatus(packages: installed, services: services)
@@ -521,4 +643,13 @@ final class TVDiscoveryModel: ObservableObject {
         let digest = TVSafetyAnalyzer.snapshotDigest(identity: identity, resolution: resolution, snapshot: snapshot)
         return (snapshot, report, digest)
     }
+}
+
+struct LauncherLayoutState {
+    let apps: [String]
+    var order: [String]
+    let columns: Int
+    var hasBackup: Bool
+
+    var others: [String] { apps.filter { !order.contains($0) } }
 }

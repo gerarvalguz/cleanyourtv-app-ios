@@ -456,6 +456,8 @@ private enum ADBReadCommand {
     case packageFlags
     case packagePermission(String)
     case setting(TVSetting)
+    case launchableApps
+    case launcherConfig
 
     var shellService: String {
         switch self {
@@ -469,6 +471,9 @@ private enum ADBReadCommand {
         case .packageFlags: "dumpsys package packages | grep -E '^(Packages:|Hidden system packages:)|^ +(Package \\[|codePath=|versionCode=|pkgFlags=|User 0: )'"
         case .packagePermission(let package): "dumpsys package \(package)"
         case .setting(let setting): "settings get \(setting.namespace) \(setting.key)"
+        case .launchableApps: "cmd package query-activities --brief -a android.intent.action.MAIN -c android.intent.category.LEANBACK_LAUNCHER"
+        // `content read` prints a FileNotFoundException instead of failing when there is no config.json yet.
+        case .launcherConfig: "content read --uri \(TVHomeInterceptor.themeURI)/config.json 2>&1; true"
         }
     }
 
@@ -483,6 +488,8 @@ private enum ADBReadCommand {
         case .packageFlags: 4 * 1024 * 1024
         case .packagePermission: 256 * 1024
         case .setting: 32 * 1024
+        case .launchableApps: 1024 * 1024
+        case .launcherConfig: 128 * 1024
         }
     }
 
@@ -498,6 +505,8 @@ private enum ADBReadCommand {
         case .packageFlags: "package safety flags"
         case .packagePermission: "package permission safety check"
         case .setting(let setting): "\(setting.key) setting"
+        case .launchableApps: "launchable apps"
+        case .launcherConfig: "launcher layout"
         }
     }
 }
@@ -1038,6 +1047,35 @@ final class ADBTVConnection {
     func readSetting(_ setting: TVSetting) async throws -> String? {
         let data = try await runReadOnly(.setting(setting))
         return try TVConfigurationParser.settingValue(from: String(decoding: data, as: UTF8.self), setting: setting)
+    }
+
+    func readLaunchableApps() async throws -> [String] {
+        try TVLaunchableApps.parse(String(decoding: try await runReadOnly(.launchableApps), as: UTF8.self))
+    }
+
+    func readLauncherConfig() async throws -> TVLauncherConfig {
+        try TVLauncherConfig.fromReadOutput(String(decoding: try await runReadOnly(.launcherConfig), as: UTF8.self))
+    }
+
+    // Writes (or, for nil, removes) the launcher's config.json through its ThemeProvider, marks a new
+    // theme revision so the launcher drops its on-TV choices, and restarts the launcher to read it.
+    func writeLauncherConfig(_ data: Data?) async throws {
+        let uri = TVHomeInterceptor.themeURI
+        if let data {
+            guard data.count <= TVLauncherConfig.maxBytes else {
+                throw ADBSessionError.protocolViolation("the launcher config is too large")
+            }
+            _ = try await runShell(service: "content write --uri \(uri)/config.json", description: "launcher layout write", outputLimit: 32 * 1024, input: data)
+        } else {
+            _ = try await runShell(service: "content delete --uri \(uri)/config.json", description: "launcher layout removal", outputLimit: 32 * 1024)
+        }
+        let revision = Data(UUID().uuidString.replacingOccurrences(of: "-", with: "").lowercased().utf8)
+        _ = try await runShell(service: "content write --uri \(uri)/theme_revision", description: "launcher revision write", outputLimit: 32 * 1024, input: revision)
+        _ = try await runShell(
+            service: "am force-stop \(TVHomeInterceptor.launcherPackage); am start -n \(TVHomeInterceptor.launcherPackage)/.MainActivity >/dev/null",
+            description: "launcher restart",
+            outputLimit: 32 * 1024
+        )
     }
 
     private func runReadOnly(_ command: ADBReadCommand) async throws -> Data {

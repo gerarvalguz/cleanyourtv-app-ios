@@ -20,6 +20,8 @@
 		A1000000000000000000000C /* home-launcher.apk in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000C /* home-launcher.apk */; };
 		A1000000000000000000000D /* home-interceptor.apk in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000D /* home-interceptor.apk */; };
 		A1000000000000000000000E /* TVHomeInterceptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000E /* TVHomeInterceptorTests.swift */; };
+		A1000000000000000000000F /* TVLauncherLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000F /* TVLauncherLayout.swift */; };
+		A10000000000000000000010 /* TVLauncherLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000010 /* TVLauncherLayoutTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		B1000000000000000000000C /* home-launcher.apk */ = {isa = PBXFileReference; lastKnownFileType = file; path = "home-launcher.apk"; sourceTree = "<group>"; };
 		B1000000000000000000000D /* home-interceptor.apk */ = {isa = PBXFileReference; lastKnownFileType = file; path = "home-interceptor.apk"; sourceTree = "<group>"; };
 		B1000000000000000000000E /* TVHomeInterceptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVHomeInterceptorTests.swift; sourceTree = "<group>"; };
+		B1000000000000000000000F /* TVLauncherLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVLauncherLayout.swift; sourceTree = "<group>"; };
+		B10000000000000000000010 /* TVLauncherLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVLauncherLayoutTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +93,7 @@
 				B10000000000000000000009 /* TVSafetyAnalysis.swift */,
 				B1000000000000000000000A /* TVReviewPlan.swift */,
 				B1000000000000000000000B /* TVHomeInterceptor.swift */,
+				B1000000000000000000000F /* TVLauncherLayout.swift */,
 				B1000000000000000000000C /* home-launcher.apk */,
 				B1000000000000000000000D /* home-interceptor.apk */,
 			);
@@ -100,6 +105,7 @@
 			children = (
 				B10000000000000000000005 /* TVAddressTests.swift */,
 				B1000000000000000000000E /* TVHomeInterceptorTests.swift */,
+				B10000000000000000000010 /* TVLauncherLayoutTests.swift */,
 			);
 			path = CleanYourTVTests;
 			sourceTree = "<group>";
@@ -221,6 +227,7 @@
 				A10000000000000000000009 /* TVSafetyAnalysis.swift in Sources */,
 				A1000000000000000000000A /* TVReviewPlan.swift in Sources */,
 				A1000000000000000000000B /* TVHomeInterceptor.swift in Sources */,
+				A1000000000000000000000F /* TVLauncherLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +237,7 @@
 			files = (
 				A10000000000000000000004 /* TVAddressTests.swift in Sources */,
 				A1000000000000000000000E /* TVHomeInterceptorTests.swift in Sources */,
+				A10000000000000000000010 /* TVLauncherLayoutTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
