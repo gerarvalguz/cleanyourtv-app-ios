@@ -1346,16 +1346,6 @@
         }
       }
     },
-    "Photo ready (%lld KB). It is sent with the look.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Foto lista (%lld KB). Se envía junto con el estilo."
-          }
-        }
-      }
-    },
     "Pick which apps come first. The first row is the dock; the rest fill the rows under it, up to three rows. Everything else in the launcher's settings is kept.": {
       "localizations": {
         "es-419": {
@@ -2475,6 +2465,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "No se pudo cargar esa foto. Si está en iCloud, ábrela primero en Fotos e inténtalo de nuevo."
+          }
+        }
+      }
+    },
+    "Photo ready (%lld KB). Spotlight keeps the apps in one row at the bottom so the photo shows; pick another look if you prefer.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foto lista (%lld KB). Spotlight deja las apps en una sola fila abajo para que se vea la foto; elige otro estilo si prefieres."
           }
         }
       }

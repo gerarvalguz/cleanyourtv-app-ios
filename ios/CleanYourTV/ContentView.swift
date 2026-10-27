@@ -1060,8 +1060,9 @@ private struct LauncherLookCard: View {
                 let jpeg = await Task.detached { TVWallpaper.jpeg(from: data) }.value
                 if let jpeg, let image = UIImage(data: jpeg) {
                     look?.photo = jpeg
+                    look?.style = .spotlight   // apps in one row at the bottom, the rest of the screen shows the photo
                     photoImage = image
-                    photoMessage = String(localized: "Photo ready (\(jpeg.count / 1000) KB). It is sent with the look.")
+                    photoMessage = String(localized: "Photo ready (\(jpeg.count / 1000) KB). Spotlight keeps the apps in one row at the bottom so the photo shows; pick another look if you prefer.")
                 } else {
                     photoMessage = String(localized: "That photo could not be used. Try another one.")
                 }
