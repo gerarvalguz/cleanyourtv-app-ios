@@ -159,8 +159,32 @@ struct TVLauncherConfig {
             // Three rows would push the focused app's name over the third row on a 1080p screen.
             if below == TVLauncherRows.maxRows - 1 { next["dock_title"] = false }
         }
-        let data = try JSONSerialization.data(withJSONObject: next, options: [.sortedKeys, .withoutEscapingSlashes])
-        guard data.count <= Self.maxBytes else {
+        return try Self.encode(next)
+    }
+
+    static let maxNameLength = 40
+
+    // What the person typed as the launcher greets them by: no line breaks or control characters
+    // (the greeting is one line), at most maxNameLength characters; empty means no name.
+    static func cleanName(_ raw: String) -> String {
+        let kept = raw.unicodeScalars.filter { !CharacterSet.controlCharacters.contains($0) && !CharacterSet.newlines.contains($0) }
+        return String(String.UnicodeScalarView(kept)).trimmingCharacters(in: .whitespaces).prefix(maxNameLength)
+            .trimmingCharacters(in: .whitespaces)
+    }
+
+    // The launcher says "<greeting>, <name>" for greeting_name and just the greeting without the key.
+    var greetingName: String { Self.cleanName((object["greeting_name"] as? String) ?? "") }
+
+    func applying(greetingName: String) throws -> Data {
+        var next = object
+        let name = Self.cleanName(greetingName)
+        next["greeting_name"] = name.isEmpty ? nil : name
+        return try Self.encode(next)
+    }
+
+    private static func encode(_ object: [String: Any]) throws -> Data {
+        let data = try JSONSerialization.data(withJSONObject: object, options: [.sortedKeys, .withoutEscapingSlashes])
+        guard data.count <= maxBytes else {
             throw ADBSessionError.protocolViolation("the launcher config would be too large")
         }
         return data

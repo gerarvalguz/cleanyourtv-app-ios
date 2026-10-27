@@ -461,6 +461,15 @@ private struct ConnectView: View {
                         )
                     }
                     if let status = discovery.homeSwitchStatus, status.launcherInstalled {
+                        GreetingNameCard(
+                            name: $discovery.greetingName,
+                            savedName: discovery.greetingNameOnTV,
+                            blockReason: discovery.layoutBlockReason,
+                            isWorking: discovery.isChangingLayout,
+                            message: discovery.greetingMessage,
+                            onLoad: { discovery.loadGreetingName() },
+                            onApply: { discovery.applyGreetingName() }
+                        )
                         LauncherLayoutCard(
                             layout: discovery.launcherLayout,
                             blockReason: discovery.layoutBlockReason,
@@ -852,6 +861,58 @@ private struct HomeSwitchCard: View {
         Label(title, systemImage: done ? "checkmark.circle.fill" : "circle")
             .font(.system(size: 12))
             .foregroundStyle(done ? Palette.amber : Palette.muted)
+    }
+}
+
+private struct GreetingNameCard: View {
+    @Binding var name: String
+    let savedName: String?
+    let blockReason: String?
+    let isWorking: Bool
+    let message: String?
+    let onLoad: () -> Void
+    let onApply: () -> Void
+
+    private var changed: Bool { TVLauncherConfig.cleanName(name) != (savedName ?? "") }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Your name on the launcher", systemImage: "person.text.rectangle")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white)
+            Text("The greeting at the top of the launcher says your name after it. Leave it empty and only the greeting shows.")
+                .font(.system(size: 12))
+                .lineSpacing(3)
+                .foregroundStyle(Palette.muted)
+                .fixedSize(horizontal: false, vertical: true)
+            TextField("Name", text: $name)
+                .textInputAutocapitalization(.words)
+                .autocorrectionDisabled()
+                .submitLabel(.done)
+                .font(.system(size: 15))
+                .padding(12)
+                .background(Palette.background, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .disabled(isWorking)
+            if let message {
+                Label(message, systemImage: "doc.text")
+                    .font(.system(size: 12)).foregroundStyle(Palette.muted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if let blockReason, !isWorking {
+                Text(blockReason).font(.system(size: 12)).foregroundStyle(Palette.muted)
+            }
+            Button(action: onApply) {
+                Label("Send the name to the TV", systemImage: "paperplane")
+                    .font(.system(size: 14, weight: .semibold))
+                    .frame(maxWidth: .infinity).padding(.vertical, 13)
+            }
+            .buttonStyle(.borderedProminent).tint(Palette.amber)
+            .disabled(blockReason != nil || !changed)
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Palette.surface, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .onAppear(perform: onLoad)
     }
 }
 

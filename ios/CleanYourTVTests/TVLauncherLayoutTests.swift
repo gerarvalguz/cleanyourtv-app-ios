@@ -89,4 +89,24 @@ final class TVLauncherLayoutTests: XCTestCase {
         try store.remove(tvID: "tv1")
         XCTAssertNil(try store.load(tvID: "tv1"))
     }
+
+    func testGreetingNameIsSetCleanedAndRemovedKeepingTheOtherKeys() throws {
+        let config = try TVLauncherConfig(data: Data(#"{"columns":5,"theme":"aurora"}"#.utf8))
+        let named = try JSONSerialization.jsonObject(with: config.applying(greetingName: "  Gera\n\u{7}  ")) as? [String: Any]
+        XCTAssertEqual(named?["greeting_name"] as? String, "Gera")
+        XCTAssertEqual(named?["columns"] as? Int, 5)
+        XCTAssertEqual(named?["theme"] as? String, "aurora")
+
+        let again = try TVLauncherConfig(data: JSONSerialization.data(withJSONObject: named as Any))
+        XCTAssertEqual(again.greetingName, "Gera")
+        let cleared = try JSONSerialization.jsonObject(with: again.applying(greetingName: "   ")) as? [String: Any]
+        XCTAssertNil(cleared?["greeting_name"])
+        XCTAssertEqual(cleared?["columns"] as? Int, 5)
+    }
+
+    func testAGreetingNameIsCappedToOneLine() {
+        XCTAssertEqual(TVLauncherConfig.cleanName(String(repeating: "a", count: 90)).count, TVLauncherConfig.maxNameLength)
+        XCTAssertEqual(TVLauncherConfig.cleanName("Ana\nMaría"), "AnaMaría")
+        XCTAssertEqual(TVLauncherConfig.cleanName(""), "")
+    }
 }

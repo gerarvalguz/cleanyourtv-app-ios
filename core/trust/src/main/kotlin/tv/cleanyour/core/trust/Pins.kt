@@ -62,10 +62,10 @@ object PinnedInterceptor {
     const val ASSET_NAME = "cleanyourtv-interceptor.apk"
     const val PACKAGE = "tv.cleanyour.homeinterceptor"
     const val SERVICE = "tv.cleanyour.homeinterceptor/.HomeService"
-    const val VERSION_CODE = 1L
-    const val VERSION_NAME = "0.1"
+    const val VERSION_CODE = 2L
+    const val VERSION_NAME = "0.2"
     const val SIZE = 16_852L
-    const val SHA256 = "45bdd88a7f3b4bab6aff56f7f5fb304e25c797d65b32d7800b4f48ad3139132e"
+    const val SHA256 = "8bf09084bcfa70d60c7dcc21508b96100a53594c17776315b30a2a12ceadbe42"
     // SHA-256 of the signing certificate (DER), "CN=Clean Your TV Home interceptor (gerarvalguz fork)", v2 and v3.
     const val SIGNER_SHA256 = "797cb45c9976b23b69b98afc78fca5c451ea42eba6fe53fc87cf9d85cac3e328"
 }

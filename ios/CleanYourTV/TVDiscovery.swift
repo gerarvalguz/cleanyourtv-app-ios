@@ -39,6 +39,9 @@ final class TVDiscoveryModel: ObservableObject {
     @Published private(set) var isChangingHome = false
     @Published private(set) var homeSwitchMessage: String?
     @Published private(set) var launcherLayout: LauncherLayoutState?
+    @Published var greetingName = ""
+    @Published private(set) var greetingNameOnTV: String?
+    @Published private(set) var greetingMessage: String?
     @Published private(set) var isChangingLayout = false
     @Published private(set) var layoutMessage: String?
     @Published private(set) var currentSnapshotDigest: String?
@@ -161,6 +164,9 @@ final class TVDiscoveryModel: ObservableObject {
         homeSwitchMessage = nil
         isChangingHome = false
         launcherLayout = nil
+        greetingName = ""
+        greetingNameOnTV = nil
+        greetingMessage = nil
         layoutMessage = nil
         isChangingLayout = false
         connectionTask = Task { [weak self] in
@@ -507,6 +513,44 @@ final class TVDiscoveryModel: ObservableObject {
         if isChangingLayout || isChangingHome { return "Working on the TV." }
         if isApplyingPlan || isRestoringPlan || isReadingPackages { return "Wait for the current operation to finish." }
         return nil
+    }
+
+    // The name the launcher greets the person by, as the TV's config.json has it.
+    func loadGreetingName() {
+        guard layoutBlockReason == nil, greetingNameOnTV == nil, let tvConnection else { return }
+        Task { [weak self] in
+            guard let self else { return }
+            if let config = try? await tvConnection.readLauncherConfig() {
+                self.greetingNameOnTV = config.greetingName
+                if self.greetingName.isEmpty { self.greetingName = config.greetingName }
+            }
+        }
+    }
+
+    // Writes the typed name (or removes it when empty), keeping every other key of config.json.
+    func applyGreetingName() {
+        guard layoutBlockReason == nil, let tvConnection else { return }
+        let name = TVLauncherConfig.cleanName(greetingName)
+        isChangingLayout = true
+        greetingMessage = "Sending the name to the TV."
+        connectionTask?.cancel()
+        connectionTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let current = try await tvConnection.readLauncherConfig()
+                try await tvConnection.writeLauncherConfig(try current.applying(greetingName: name))
+                let written = try await tvConnection.readLauncherConfig()
+                guard written.greetingName == name else {
+                    throw ADBSessionError.protocolViolation("the TV did not keep the name")
+                }
+                self.greetingName = name
+                self.greetingNameOnTV = name
+                self.greetingMessage = name.isEmpty ? "Done. The greeting has no name now." : "Done. The launcher greets you by name."
+            } catch {
+                self.greetingMessage = "Stopped. \(error.localizedDescription)"
+            }
+            self.isChangingLayout = false
+        }
     }
 
     // Reads the apps the launcher can show and the order its config.json has now.
