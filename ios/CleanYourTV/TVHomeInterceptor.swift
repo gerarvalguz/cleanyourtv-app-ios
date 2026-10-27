@@ -9,6 +9,7 @@ enum TVHomeInterceptor {
     static let interceptorPackage = "tv.cleanyour.homeinterceptor"
     static let service = "tv.cleanyour.homeinterceptor/.HomeService"
     static let packages: Set<String> = [launcherPackage, interceptorPackage]
+    static let themeURI = "content://\(launcherPackage).theme"
 
     struct Bundled {
         let resource: String
