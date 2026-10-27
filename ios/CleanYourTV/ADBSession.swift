@@ -792,6 +792,11 @@ final class ADBTVConnection {
     private var closedStreamIDs = Set<UInt32>()
     private var features = Set<String>()
     private var maxPayload = 0
+    // The cards of the app load at the same moment on this one socket; two shells reading frames together
+    // split each other's headers ("bad frame magic"), so the shells go one at a time, in order.
+    private let shellLock = NSLock()
+    private var shellBusy = false
+    private var shellWaiters: [CheckedContinuation<Void, Never>] = []
 
     private init(connection: NWConnection) {
         self.connection = connection
@@ -1095,6 +1100,38 @@ final class ADBTVConnection {
     }
 
     private func runShell(service: String, description: String, outputLimit: Int, input: Data? = nil) async throws -> Data {
+        await acquireShell()
+        defer { releaseShell() }
+        return try await runShellExclusively(service: service, description: description, outputLimit: outputLimit, input: input)
+    }
+
+    private func acquireShell() async {
+        await withCheckedContinuation { (waiter: CheckedContinuation<Void, Never>) in
+            shellLock.lock()
+            if shellBusy {
+                shellWaiters.append(waiter)
+                shellLock.unlock()
+            } else {
+                shellBusy = true
+                shellLock.unlock()
+                waiter.resume()
+            }
+        }
+    }
+
+    private func releaseShell() {
+        shellLock.lock()
+        if shellWaiters.isEmpty {
+            shellBusy = false
+            shellLock.unlock()
+        } else {
+            let next = shellWaiters.removeFirst()
+            shellLock.unlock()
+            next.resume()
+        }
+    }
+
+    private func runShellExclusively(service: String, description: String, outputLimit: Int, input: Data?) async throws -> Data {
         guard nextStreamID <= UInt32.max - 2 else {
             throw ADBSessionError.protocolViolation("ADB stream identifiers are exhausted")
         }

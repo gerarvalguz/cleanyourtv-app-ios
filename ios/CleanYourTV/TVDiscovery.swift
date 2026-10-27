@@ -561,12 +561,15 @@ final class TVDiscoveryModel: ObservableObject {
         guard layoutBlockReason == nil, launcherLook == nil, let tvConnection, let identity else { return }
         Task { [weak self] in
             guard let self else { return }
-            if let config = try? await tvConnection.readLauncherConfig() {
+            do {
+                let config = try await tvConnection.readLauncherConfig()
                 let backup = try? self.layoutBackupStore.load(tvID: identity.tvID)
                 self.launcherLook = LauncherLookState(
                     style: config.style, columns: min(max(config.columns, TVLookStyle.offeredColumns.lowerBound), TVLookStyle.offeredColumns.upperBound),
                     onTV: config.style, columnsOnTV: config.columns, hasPicture: config.hasPicture, hasBackup: backup != nil
                 )
+            } catch {
+                self.lookMessage = String(localized: "Could not read the look. \(error.localizedDescription)")
             }
         }
     }

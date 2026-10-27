@@ -2458,7 +2458,17 @@
       }
     },
     "arrow.down.app": {},
-    "photo": {}
+    "photo": {},
+    "Could not read the look. %@": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo leer el estilo. %@"
+          }
+        }
+      }
+    }
   },
   "version": "1.0"
 }
