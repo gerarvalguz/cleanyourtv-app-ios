@@ -27,6 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import tv.cleanyour.core.flows.AppChoice
 import tv.cleanyour.core.flows.Busy
+import tv.cleanyour.core.flows.HomeButton
+import tv.cleanyour.core.flows.HomeButtonPreview
 import tv.cleanyour.core.flows.HomeScreenIntent
 import tv.cleanyour.core.flows.HomeScreenState
 import tv.cleanyour.core.flows.HomeBlock
@@ -72,7 +74,7 @@ import tv.cleanyour.ui.design.component.toTvLook
 @Composable
 fun HomeScreen(state: HomeScreenState, onIntent: (HomeScreenIntent) -> Unit, onBack: () -> Unit, modifier: Modifier = Modifier, photos: PhotoPicker? = null) {
     val notOnTv = state.notOnTv
-    if (notOnTv != null) { NotOnTvScreen(state.tvName, notOnTv, onIntent, onBack, modifier); return }
+    if (notOnTv != null) { NotOnTvScreen(state.tvName, notOnTv, state.homeButton, onIntent, onBack, modifier); HomeButtonSheet(state, onIntent); return }
     var dockOpen by rememberSaveable { mutableStateOf(false) }
     val busy = state.busy
     ScreenScaffold(Glow.Tv, modifier, topBar = { CytTopBar(onBack = onBack) }) {
@@ -120,6 +122,15 @@ fun HomeScreen(state: HomeScreenState, onIntent: (HomeScreenIntent) -> Unit, onB
                     onClick = if (busy == null) ({ onIntent(HomeScreenIntent.PreviewUpdate) }) else null)
             }
         }
+        // RFC-HOME-BUTTON-1: a Fire TV takes no other home screen; the Home button is opened by a small service.
+        state.homeButton?.let { hb ->
+            ListGroup(Modifier.padding(top = 12.dp)) {
+                if (hb == HomeButton.ON) ListRow(stringResource(R.string.home_row_homeback), subtitle = stringResource(R.string.home_row_homeback_note),
+                    onClick = if (busy == null) ({ onIntent(HomeScreenIntent.PreviewGiveHomeBack) }) else null)
+                else ListRow(stringResource(R.string.home_row_homebutton), subtitle = stringResource(R.string.home_row_homebutton_note),
+                    onClick = if (busy == null) ({ onIntent(HomeScreenIntent.PreviewHomeButton) }) else null)
+            }
+        }
         // Issue #275: on TCL Google TV these remote buttons only reach Google TV's own home screen.
         if (state.tclRemoteKeys) Banner(stringResource(R.string.home_tcl_remote_keys), BannerTone.INFO, Modifier.padding(top = 12.dp))
         if (state.stock != null && state.homeScreenOurs) {
@@ -141,6 +152,15 @@ fun HomeScreen(state: HomeScreenState, onIntent: (HomeScreenIntent) -> Unit, onB
     state.updatePreview?.let { plan ->
         CytBottomSheet({ onIntent(HomeScreenIntent.CancelPreview) }) { UpdatePreviewContent(plan, state.updateTo.orEmpty(), onIntent) }
     }
+    HomeButtonSheet(state, onIntent)
+}
+
+// RFC-HOME-BUTTON-1: the plan before it is written, for the Home button and for giving Home back.
+@Composable
+private fun HomeButtonSheet(state: HomeScreenState, onIntent: (HomeScreenIntent) -> Unit) {
+    state.homeButtonPreview?.let { p ->
+        CytBottomSheet({ onIntent(HomeScreenIntent.CancelPreview) }) { HomeButtonPreviewContent(p, onIntent) }
+    }
 }
 
 // 0.3.3 D2 (issue #3): the new home screen isn't on this TV, so no Dock or Look rows (a tap there
@@ -148,8 +168,9 @@ fun HomeScreen(state: HomeScreenState, onIntent: (HomeScreenIntent) -> Unit, onB
 // is one: Setup again (the reason can change) or Help add this TV (a list is what is missing).
 // Both buttons only navigate; nothing here writes to the TV.
 @Composable
-private fun NotOnTvScreen(tvName: String, n: NotOnTv, onIntent: (HomeScreenIntent) -> Unit, onBack: () -> Unit, modifier: Modifier) {
+private fun NotOnTvScreen(tvName: String, n: NotOnTv, homeButton: HomeButton?, onIntent: (HomeScreenIntent) -> Unit, onBack: () -> Unit, modifier: Modifier) {
     val action = when {
+        n.fireTv && homeButton == HomeButton.OFFER -> R.string.home_row_homebutton to HomeScreenIntent.PreviewHomeButton   // RFC-HOME-BUTTON-1
         n.setupAgain -> R.string.home_run_setup_again to HomeScreenIntent.RunSetupAgain
         n.helpAddTv -> R.string.home_help_add_tv to HomeScreenIntent.HelpAddTv
         else -> null
@@ -197,6 +218,20 @@ internal fun ColumnScope.StockPreviewContent(plan: Plan, onIntent: (HomeScreenIn
     }
     ActionColumn(Modifier.padding(top = 20.dp)) {
         PrimaryButton(stringResource(R.string.home_stock_confirm), { onIntent(HomeScreenIntent.UseStock) })
+        TertiaryButton(stringResource(R.string.action_cancel), { onIntent(HomeScreenIntent.CancelPreview) }, quiet = true)
+    }
+}
+
+@Composable
+internal fun ColumnScope.HomeButtonPreviewContent(p: HomeButtonPreview, onIntent: (HomeScreenIntent) -> Unit) {
+    SheetHeader(stringResource(if (p.off) R.string.home_homeback_preview_title else R.string.home_homebutton_preview_title))
+    Body(stringResource(if (p.off) R.string.home_homeback_preview_body else R.string.home_homebutton_preview_body), Modifier.padding(top = 8.dp))
+    Column(Modifier.padding(top = 16.dp, start = 4.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        p.plan.steps.map { it.narration }.filter { it.isNotBlank() }.distinct().forEach { CheckLine(it, state = CheckState.NONE) }
+    }
+    ActionColumn(Modifier.padding(top = 20.dp)) {
+        PrimaryButton(stringResource(if (p.off) R.string.home_homeback_confirm else R.string.home_homebutton_confirm),
+            { onIntent(if (p.off) HomeScreenIntent.GiveHomeBack else HomeScreenIntent.UseHomeButton) })
         TertiaryButton(stringResource(R.string.action_cancel), { onIntent(HomeScreenIntent.CancelPreview) }, quiet = true)
     }
 }

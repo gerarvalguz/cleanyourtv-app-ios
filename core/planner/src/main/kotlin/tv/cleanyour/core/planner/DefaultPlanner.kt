@@ -98,6 +98,8 @@ class DefaultPlanner(
             is PlanRequest.WriteRestorePoint -> { d.writeRestorePoint(request.restorePointJson, request.restoreTxt); PlanKind.WRITE_RESTORE_POINT }
             PlanRequest.Reboot -> { d.reboot(); PlanKind.REBOOT }
             is PlanRequest.UpdateLauncher -> { d.updateLauncher(request.launcher); PlanKind.UPDATE_LAUNCHER }
+            is PlanRequest.UseHomeButton -> { d.useHomeButton(request.launcher, request.interceptor); PlanKind.HOME_BUTTON }
+            is PlanRequest.GiveHomeBack -> { d.giveHomeBack(request.interceptor); PlanKind.HOME_BUTTON_OFF }
         }
         if (d.reasons.isNotEmpty()) return PlanResult.Refused(d.reasons.toList())
         val steps = d.steps.toList()
@@ -755,6 +757,58 @@ class DefaultPlanner(
             }
         }
 
+        // RFC-HOME-BUTTON-1: the Home button on a Fire TV. The launcher and the interceptor go in (an
+        // upgrade is never done here: a build on the TV with another key is left, and said), then the
+        // service joins the accessibility list the TV already has. Switching accessibility on binds every
+        // service in the list, someone else's too, so it is switched on only when the list holds no other.
+        fun useHomeButton(artifact: LauncherArtifact, interceptor: LauncherArtifact) {
+            if (!FireOs.isFireOs(snapshot.facts, snapshot)) { refuse(REASON_NOT_FIRE_TV); return }
+            if (artifact.pkg != launcher.pkg) { refuse("the launcher artifact is ${artifact.pkg.value}, not ${launcher.pkg.value}"); return }
+            if (snapshot.facts.installRefusal) { refuse("this TV refuses app installs"); return }
+            val service = interceptorService(interceptor.pkg)
+            val onTv = state(artifact.pkg)
+            if (onTv != null && onTv.signer != artifact.signer) { refuse("the home screen app on the TV was installed with a different key; set the TV up again to replace it (D36)"); return }
+            val serviceOnTv = state(interceptor.pkg)
+            if (serviceOnTv != null && serviceOnTv.signer != interceptor.signer) { refuse(REASON_INTERCEPTOR_OTHER_KEY); return }
+            val raw = snapshot.settings[SettingKey.ENABLED_ACCESSIBILITY]
+            val services = accessibilityServices(raw)
+            val on = snapshot.settings[SettingKey.ACCESSIBILITY_ENABLED] == "1"
+            val others = services.filter { it != service }
+            if (!on && others.isNotEmpty()) { refuse(REASON_ACCESSIBILITY_OFF_WITH_OTHERS); return }
+            val list = (others + service).joinToString(":")
+            if (!SettingKey.ENABLED_ACCESSIBILITY.valueShape.matches(list)) { refuse("the TV's list of accessibility services cannot be added to safely"); return }
+            if (onTv == null) installApk(artifact.blob, artifact.sha256, artifact.pkg, artifact.versionCode, artifact.signer,
+                present = false, group = GROUP_HOME_BUTTON, narration = "Installing the new home screen")
+            if (serviceOnTv == null) installApk(interceptor.blob, interceptor.sha256, interceptor.pkg, interceptor.versionCode, interceptor.signer,
+                present = false, group = GROUP_HOME_BUTTON, narration = "Installing the Home button service")
+            if (service !in services || !on) {
+                val narration = "Switching on the Home button service"
+                step(Op.SettingsPut(SettingKey.ENABLED_ACCESSIBILITY, list), Prior(settingValue = raw), GROUP_HOME_BUTTON, narration, FailurePolicy.CONTINUE)
+                step(Op.SettingsPut(SettingKey.ACCESSIBILITY_ENABLED, "1"), Prior(settingValue = snapshot.settings[SettingKey.ACCESSIBILITY_ENABLED]),
+                    GROUP_HOME_BUTTON, narration, FailurePolicy.CONTINUE)
+            }
+            homeScreenPossible = true
+        }
+
+        // RFC-HOME-BUTTON-1: the service leaves the list (the others stay) and is uninstalled; the
+        // launcher stays, as an app. Accessibility itself is left as the TV has it.
+        fun giveHomeBack(pkg: PackageName) {
+            val service = interceptorService(pkg)
+            val raw = snapshot.settings[SettingKey.ENABLED_ACCESSIBILITY]
+            val services = accessibilityServices(raw)
+            if (service in services) {
+                val rest = services.filter { it != service }.joinToString(":")
+                val value = rest.takeIf { it.isNotEmpty() && SettingKey.ENABLED_ACCESSIBILITY.valueShape.matches(it) }
+                step(Op.SettingsPut(SettingKey.ENABLED_ACCESSIBILITY, value), Prior(settingValue = raw), GROUP_HOME_BUTTON,
+                    "Switching off the Home button service", FailurePolicy.CONTINUE)
+            }
+            if (installed(pkg)) step(Op.Uninstall(pkg), Prior(present = true), GROUP_HOME_BUTTON, "Removing the Home button service", FailurePolicy.CONTINUE)
+        }
+
+        private fun interceptorService(pkg: PackageName) = pkg.value + "/" + INTERCEPTOR_SERVICE_CLASS
+        // A missing setting reads back as null or as the word "null", and a list is colon separated.
+        private fun accessibilityServices(raw: String?) = raw.orEmpty().split(':').filter { it.isNotEmpty() && it != "null" }
+
         // RFC-W8-5: the D24 restart test as a plan, so the reboot is journaled like any other write.
         fun reboot() {
             step(Op.Reboot, null, GROUP_REBOOT, "Restarting the TV", FailurePolicy.CONTINUE)
@@ -771,6 +825,8 @@ class DefaultPlanner(
         const val APK_NAME_HEX = 40
         const val GROUP_CUSTOM = "custom"
         const val GROUP_LAUNCHER = "launcher"
+        const val GROUP_HOME_BUTTON = "home_button"
+        const val INTERCEPTOR_SERVICE_CLASS = ".HomeService"
         const val GROUP_HOME = "home"
         const val GROUP_PUT_BACK = "put_back"
         const val GROUP_SWITCH_OFF = "switch_off"
@@ -796,6 +852,9 @@ class DefaultPlanner(
         const val REASON_HOME_SCREEN = "it is the TV's own home screen; only the home screen switch changes it"
         // Issue #2: Fire OS and the China-market TCL firmware take no other home screen.
         const val REASON_TV_REFUSES_HOME = "this TV only allows its own home screen, so the new one is not installed and the switch is not possible"
+        const val REASON_NOT_FIRE_TV = "only a Fire TV needs the Home button service; other TVs switch their home screen"
+        const val REASON_INTERCEPTOR_OTHER_KEY = "the Home button service on the TV was installed with a different key; give Home back to Amazon first"
+        const val REASON_ACCESSIBILITY_OFF_WITH_OTHERS = "accessibility is off on this TV and other services are listed, and switching it on would start them too"
         const val REASON_FIRE_OS_HOME = "it is Fire OS's own home screen, which Fire OS never lets anyone switch off"
         const val REASON_WIZARD_SECTION_ONLY = "the first-run setup wizard is only switched off as part of the home screen switch"
         const val NARRATION_WIZARD = "Switch off the first-run setup wizard so the new home screen can take over"

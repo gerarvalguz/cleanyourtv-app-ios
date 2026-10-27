@@ -337,6 +337,8 @@ object SnackText {
         SnackKind.EXPORT_FAILED -> tv.cleanyour.feature.backup.R.string.restore_export_failed to emptyMap()
         SnackKind.FAILED -> tv.cleanyour.feature.setup.R.string.stop_step_failed_title to emptyMap()
         SnackKind.HOME_UPDATED -> tv.cleanyour.feature.launcher.R.string.home_update_done to mapOf("version" to e.name)
+        SnackKind.HOME_BUTTON_ON -> tv.cleanyour.feature.launcher.R.string.home_homebutton_on_snack to emptyMap()
+        SnackKind.HOME_BUTTON_OFF -> tv.cleanyour.feature.launcher.R.string.home_homebutton_off_snack to emptyMap()
         SnackKind.KEPT_TV_INPUT -> tv.cleanyour.feature.setup.R.string.kept_tv_input to mapOf("name" to e.name)
         SnackKind.KEPT_ON -> tv.cleanyour.feature.setup.R.string.done_skipped to mapOf("name" to e.name)
         SnackKind.RUN_BUSY -> tv.cleanyour.feature.manage.R.string.tvsettings_forget_busy to emptyMap()

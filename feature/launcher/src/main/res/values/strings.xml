@@ -33,6 +33,18 @@
     <string name="home_drift_restore">Send mine again</string>
     <string name="home_applying">Updating the home screen on the TV...</string>
     <string name="home_snackbar_done">Done.</string>
+    <string name="home_row_homebutton">Use the Home button</string>
+    <string name="home_row_homebutton_note">Home on the remote opens the new home screen.</string>
+    <string name="home_row_homeback">Give Home back to Amazon</string>
+    <string name="home_row_homeback_note">Home opens Amazon\'s home screen again.</string>
+    <string name="home_homebutton_preview_title">Use the Home button?</string>
+    <string name="home_homebutton_preview_body">Fire TV only allows Amazon\'s home screen, so we\'ll add a small service that opens the new one when Amazon\'s Home appears. It only hears which screen opened, never what is on it. Amazon\'s home stays installed and Settings still open normally.</string>
+    <string name="home_homebutton_confirm">Use the Home button</string>
+    <string name="home_homeback_preview_title">Give Home back to Amazon?</string>
+    <string name="home_homeback_preview_body">We\'ll switch the service off and remove it. The new home screen stays on the TV as an app.</string>
+    <string name="home_homeback_confirm">Give Home back</string>
+    <string name="home_homebutton_on_snack">Home now opens the new home screen.</string>
+    <string name="home_homebutton_off_snack">Home opens Amazon\'s home screen again.</string>
 
     <!-- 0.3.3 D2 (issue #3): the new home screen isn't on this TV, so there is no dock or look to change.
          The lead, then why (the reason Setup recorded), then what can change it, when something can. -->

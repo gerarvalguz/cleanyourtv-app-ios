@@ -44,6 +44,7 @@ import tv.cleanyour.core.store.DocumentStore
 import tv.cleanyour.core.store.SnapshotStore
 import tv.cleanyour.core.store.TvRepository
 import tv.cleanyour.core.trust.ApkInspector
+import tv.cleanyour.core.trust.InterceptorPin
 import tv.cleanyour.core.trust.LauncherPin
 
 // One-shot effects of the Manage family (M1 to M8). Snackbars carry a kind and a name; the screen
@@ -60,6 +61,7 @@ sealed interface ManageEffect {
 }
 
 enum class SnackKind { PUT_BACK, SWITCHED_OFF, HOME_SAVED, MODULE_REMOVED, EXPORT_SAVED, EXPORT_FAILED, FAILED, HOME_UPDATED,
+    HOME_BUTTON_ON, HOME_BUTTON_OFF,   // RFC-HOME-BUTTON-1
     KEPT_TV_INPUT,    // RF-LAUNCHER-250 F1: a switch-off the live check kept because it runs the TV's inputs
     KEPT_ON,          // issue #10: a switch-off the TV kept on (or the live check refused); nothing changed
     RUN_BUSY,         // Forget this TV refused: setup is still working on this TV
@@ -114,6 +116,8 @@ class ManageDeps(
     val homeDecisions: HomeDecisions = HomeDecisions(documents),
     // 0.4.0: the pictures any look can show instead of its own (the app's ThemeSource is one).
     val pictures: PictureSource = themes as? PictureSource ?: PictureSource.NONE,
+    // RFC-HOME-BUTTON-1: the Fire TV Home interceptor; null where a build bundles none (the Home button is not offered).
+    val interceptorPin: InterceptorPin? = null,
 ) {
     fun tv(id: TvId): Tv? = tvs.tvs.value.firstOrNull { it.id == id }
 

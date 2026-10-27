@@ -1,5 +1,25 @@
 # RFCs
 
+## RFC-HOME-BUTTON-1: the Home button on a Fire TV
+
+Fire OS takes no other home screen (`set-home-activity` is ignored), so a Fire TV only got the
+clean-up. Smallest change: the new home screen is opened from the Home button by a small
+accessibility service (`firetv-home-interceptor/`, package `tv.cleanyour.homeinterceptor`) that hears
+only which window Amazon's home opened (`canRetrieveWindowContent` is off) and starts the launcher.
+Frozen signatures grow, nothing is removed: `PlanRequest` gets `UseHomeButton` and `GiveHomeBack`,
+`PlanKind` gets `HOME_BUTTON` and `HOME_BUTTON_OFF`, `:core:trust` gets `PinnedInterceptor` and
+`InterceptorPin` (pinned like the curtain, signed with its own key, so its signer is not the
+launcher's), `ManageDeps` gets `interceptorPin` (null where a build bundles none, and then nothing is
+offered) and `HomeScreenState` gets `homeButton` and `homeButtonPreview`. No op is new: the plan uses
+`InstallStream` and `SettingsPut` on the two accessibility keys, with the probed prior value so undo
+puts back what the TV had. The service joins the TV's own list and never replaces it, and the plan
+refuses to switch accessibility on while other services are listed, since that would start them too
+(the rule `restoreAccessibility` already keeps). An interceptor on the TV with another key is refused,
+not replaced. "Give Home back to Amazon" takes only our service out and uninstalls it; the launcher
+stays as an app. Open: the interceptor is built reproducibly by `firetv-home-interceptor/build.sh`
+but not yet by a forge script, and the pinned signer is this fork's key, so a release build needs its
+own pin.
+
 ## RFC-UP037-1: the config differential test keeps launcher 2.5's reader
 
 The app bundles launcher 2.7 (v2.7.0, 3e34f40). ConfigDifferentialTest compared the codec with the

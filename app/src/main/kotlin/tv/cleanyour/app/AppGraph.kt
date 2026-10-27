@@ -75,6 +75,7 @@ import tv.cleanyour.core.spec.BundledProfileSource
 import tv.cleanyour.core.spec.BundledThemeSource
 import tv.cleanyour.core.store.Clock
 import tv.cleanyour.core.trust.BundledCurtainPin
+import tv.cleanyour.core.trust.BundledInterceptorPin
 import tv.cleanyour.core.trust.BundledLauncherPin
 import tv.cleanyour.core.trust.PinnedCurtain
 import tv.cleanyour.core.trust.PinnedLauncher
@@ -148,6 +149,7 @@ class AppGraph(context: Context, val appVersion: String = versionOf(context), va
     val themes = MaterializedThemeSource(BundledThemeSource(), blobs, onError = { m, t -> CytLog.w(m, t) })
     val inspector = PackageManagerApkInspector(app)
     val launcherPin = BundledLauncherPin(blobs)
+    val interceptorPin = BundledInterceptorPin(blobs)
     val curtainPin = BundledCurtainPin(blobs)   // RFC-CURTAIN-1
     // D41 with this build's hosts: every URL and every redirect hop must be on store.hosts (none in
     // the Play build, so it never sends a request).
@@ -215,6 +217,7 @@ class AppGraph(context: Context, val appVersion: String = versionOf(context), va
         openWrites = openWrites,
         store = store.rules,       // STORES-PLAN 1
         about = about, homeDecisions = homeDecisions,   // 0.3.2 B1, B2
+        interceptorPin = interceptorPin,   // RFC-HOME-BUTTON-1
     )
 
     init {

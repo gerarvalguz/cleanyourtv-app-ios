@@ -22,7 +22,8 @@ data class Choices(val kept: Set<PackageName>, val extraOff: Set<PackageName>, v
 enum class WizardWifi { NOT_OWNER, OWNER, UNKNOWN }
 enum class PlanKind { SETUP, PUT_BACK, SWITCH_OFF, LEFTOVERS, THEME, ADD_MODULE, REMOVE_MODULE, USE_STOCK_HOME,
     UNDO_EVERYTHING, BEFORE_FACTORY_RESET, DEBUG_OFF, WRITE_RESTORE_POINT, REBOOT,   // R0: 11 (was kind: String); REBOOT: RFC-W8-5
-    UPDATE_LAUNCHER }                                                                 // RFC-LAUNCHER-1 (D4)
+    UPDATE_LAUNCHER,                                                                  // RFC-LAUNCHER-1 (D4)
+    HOME_BUTTON, HOME_BUTTON_OFF }                                                    // RFC-HOME-BUTTON-1
 sealed interface PlanRequest {
     data class Setup(val resolution: ProfileResolution, val choices: Choices, val launcher: LauncherArtifact, val level: Level,
         val config: BlobRef? = null, val wallpaper: BlobRef? = null,   // RFC-DOCK-1: config = encode(DockLayers.applyTo(theme doc, dock)) in the BlobStore
@@ -40,7 +41,11 @@ sealed interface PlanRequest {
     data object DebugOff : PlanRequest
     data class WriteRestorePoint(val restorePointJson: BlobRef, val restoreTxt: BlobRef) : PlanRequest   // R0: 11 D44; pushes only, runs after every other plan
     data object Reboot : PlanRequest   // RFC-W8-5: the D24 restart test, journaled like every write, not gated (D17)
-    data class UpdateLauncher(val launcher: LauncherArtifact) : PlanRequest }   // RFC-LAUNCHER-1 (D4): the pin over our older launcher, in place
+    data class UpdateLauncher(val launcher: LauncherArtifact) : PlanRequest   // RFC-LAUNCHER-1 (D4): the pin over our older launcher, in place
+    // RFC-HOME-BUTTON-1: a Fire TV takes no other home screen, so the launcher is put in and a small
+    // accessibility service (the interceptor, from InterceptorPin) opens it when Amazon's Home appears.
+    data class UseHomeButton(val launcher: LauncherArtifact, val interceptor: LauncherArtifact) : PlanRequest
+    data class GiveHomeBack(val interceptor: PackageName) : PlanRequest }   // RFC-HOME-BUTTON-1: the service off and out; the launcher stays
 // R0: 9 the engine runs a section from this data alone: the live check compares homeFocus with expectedHome and rolls back
 // when the focused package is in rollbackIfFocus; rollback is section 3.4 step R, rendered at run time
 data class GuardedSection(val name: String, val from: Int, val to: Int, val token: RunToken, val confirmWindowMs: Long,

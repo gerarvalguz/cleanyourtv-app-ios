@@ -7,6 +7,8 @@ import tv.cleanyour.core.engine.RunStatus
 import tv.cleanyour.core.model.BlobRef
 import tv.cleanyour.core.model.Component
 import tv.cleanyour.core.model.EnabledState
+import tv.cleanyour.core.model.LauncherState
+import tv.cleanyour.core.model.SettingKey
 import tv.cleanyour.core.model.PackageName
 import tv.cleanyour.core.model.TvId
 import tv.cleanyour.core.planner.FireOs
@@ -21,6 +23,11 @@ import tv.cleanyour.core.spec.StyleId
 // with its preview, the drift banner (D15: the overlay digest re-read on every connect; "Restore
 // mine" pushes ours again) and "Update the home screen" with its preview (D4, RFC-LAUNCHER-1).
 data class AppChoice(val pkg: PackageName, val name: String)
+
+// RFC-HOME-BUTTON-1: a Fire TV takes no other home screen, so the new one opens from the Home button
+// through a small accessibility service. OFFER: it can be switched on; ON: it is. null on any other TV.
+enum class HomeButton { OFFER, ON }
+data class HomeButtonPreview(val plan: Plan, val off: Boolean)
 
 // 0.3.3 D2 (issue #3): the new home screen is not on this TV (Setup did not install it, or it was
 // removed since), so there is no dock or look to send: the planner refuses ApplyTheme then, and
@@ -96,6 +103,8 @@ data class HomeScreenState(
     val lookFailed: Boolean = false,
     // look2 W1: a look send runs with the sheet closed; the Look row reads "Sending..." while busy.
     val lookSending: Boolean = false,
+    val homeButton: HomeButton? = null,                 // RFC-HOME-BUTTON-1
+    val homeButtonPreview: HomeButtonPreview? = null,
 ) {
     val waiting: Int get() = waitingApps.size
 }
@@ -122,6 +131,11 @@ sealed interface HomeScreenIntent {
     data object UpdateHomeScreen : HomeScreenIntent    // D4
     data object RunSetupAgain : HomeScreenIntent       // 0.3.3 D2, NotOnTv.setupAgain
     data object HelpAddTv : HomeScreenIntent           // 0.3.3 D2, NotOnTv.helpAddTv
+    // RFC-HOME-BUTTON-1: the preview shows the plan; the second intent of each pair writes it.
+    data object PreviewHomeButton : HomeScreenIntent
+    data object UseHomeButton : HomeScreenIntent
+    data object PreviewGiveHomeBack : HomeScreenIntent
+    data object GiveHomeBack : HomeScreenIntent
 }
 
 class HomeScreenMachine(
@@ -137,9 +151,11 @@ class HomeScreenMachine(
     private data class Preview(val plan: Plan?)
     private data class Drift(val drift: Boolean)
     private data class UpdatePreview(val plan: Plan?)
+    private data class HomeButtonNow(val preview: HomeButtonPreview?)
     private class OwnPictureStaged(val ref: BlobRef, val dim: Int, val jpeg: ByteArray)
     private data class LookResult(val sent: Boolean)
     private var staged: ByteArray? = null   // the bytes of state.newPicture, kept once the TV has them
+    private var homeButtonSet: HomeButton? = null   // what this screen just wrote; the stored snapshot does not know yet
     private var updated = false   // D4: this screen updated the launcher; the stored snapshot does not know yet
     // look2: what the Look sheet works from, as the last load read it: the saved choice (what was
     // last sent), the earlier look, this TV's cards choice and Show launcher names.
@@ -153,7 +169,7 @@ class HomeScreenMachine(
     init { scope.launch { load(); checkDrift() } }
 
     override fun reduce(state: HomeScreenState, event: Any): HomeScreenState = when (event) {
-        is Loaded -> event.s.copy(busy = state.busy, stockPreview = state.stockPreview, drift = state.drift, updatePreview = state.updatePreview,
+        is Loaded -> event.s.copy(busy = state.busy, stockPreview = state.stockPreview, drift = state.drift, updatePreview = state.updatePreview, homeButtonPreview = state.homeButtonPreview,
             newPicture = state.newPicture, newDim = state.newDim, lookFailed = state.lookFailed, lookSending = state.lookSending).let { s ->
             saved = event.saved; earlier = event.earlier; cards = event.cards; keyNames = event.keyNames
             s.copy(look = state.look?.let { drafts.refresh(it, lookContext(s)) })
@@ -185,10 +201,11 @@ class HomeScreenMachine(
             }
         } ?: state
         is UpdatePreview -> state.copy(updatePreview = event.plan)
+        is HomeButtonNow -> state.copy(homeButtonPreview = event.preview)
         is BusyNow -> state.copy(busy = event.busy)
         is Preview -> state.copy(stockPreview = event.plan)
         is Drift -> state.copy(drift = event.drift, look = state.look?.let { if (it.tvChanged == event.drift) it else drafts.refresh(it, lookContext(state.copy(drift = event.drift))) })
-        HomeScreenIntent.CancelPreview -> state.copy(stockPreview = null, updatePreview = null)
+        HomeScreenIntent.CancelPreview -> state.copy(stockPreview = null, updatePreview = null, homeButtonPreview = null)
         else -> state
     }
 
@@ -256,6 +273,10 @@ class HomeScreenMachine(
             HomeScreenIntent.PreviewStock -> after.stock?.let { stock -> scope.launch { send(Preview(writer.preview(tvId, PlanRequest.UseStockHome(stock)))) } }
             HomeScreenIntent.UseStock -> after.stock?.let { stock -> scope.launch { useStock(stock) } }
             HomeScreenIntent.PreviewUpdate -> scope.launch { previewUpdate() }
+            HomeScreenIntent.PreviewHomeButton -> scope.launch { previewHomeButton(off = false) }
+            HomeScreenIntent.PreviewGiveHomeBack -> scope.launch { previewHomeButton(off = true) }
+            HomeScreenIntent.UseHomeButton -> scope.launch { writeHomeButton(off = false) }
+            HomeScreenIntent.GiveHomeBack -> scope.launch { writeHomeButton(off = true) }
             HomeScreenIntent.UpdateHomeScreen -> scope.launch { update() }
             HomeScreenIntent.RunSetupAgain -> if (after.notOnTv?.setupAgain == true) effect(ManageEffect.Navigate("setup/${tvId.value}"))
             HomeScreenIntent.HelpAddTv -> if (after.notOnTv?.helpAddTv == true) effect(ManageEffect.Navigate("report/tv/${tvId.value}"))
@@ -307,7 +328,7 @@ class HomeScreenMachine(
             endedLook = ended, pictureId = pictureId, pictures = pictureOptions(),
             ownPicture = own, ownDim = choice?.dim ?: OwnPicture.DEFAULT_DIM,
             waitingApps = waiting, earlierPicture = earlierLook?.photo?.ref, sent = sentPreview, sentStyle = drafts.styleOf(choice, tvLook),
-            sentPicture = drafts.pictureIdOf(choice, tvLook), launcherVersionCode = versionCode, ramMb = ramMb, hasInputs = hasInputs),
+            sentPicture = drafts.pictureIdOf(choice, tvLook), launcherVersionCode = versionCode, ramMb = ramMb, hasInputs = hasInputs, homeButton = homeButtonOf(snap)),
             choice, earlierLook, cardsNow, keys))
     }
 
@@ -379,6 +400,56 @@ class HomeScreenMachine(
                 updated = true
                 d.tv(tvId)?.let { t -> t.launcher?.let { l -> d.tvs.upsert(t.copy(launcher = l.copy(versionCode = pin.versionCode, signer = pin.signer))) } }
                 effect(ManageEffect.Snackbar(SnackKind.HOME_UPDATED, pin.versionName, false))
+            }
+            r is WriteResult.GateCancelled || r is WriteResult.NoTv || r is WriteResult.Paused -> {}   // Paused: the open-run card (O2)
+            else -> effect(ManageEffect.Snackbar(SnackKind.FAILED, "", false))
+        }
+        load()
+    }
+
+    // RFC-HOME-BUTTON-1: offered on a Fire TV when the build bundles the interceptor. ON when the
+    // snapshot shows it installed and in the accessibility list with accessibility on, or when this
+    // screen just wrote it (the stored snapshot is older than the write).
+    private fun homeButtonOf(snap: tv.cleanyour.core.model.Snapshot?): HomeButton? {
+        val pin = d.interceptorPin?.let { runCatching { it.bundled() }.getOrNull() } ?: return null
+        if (snap == null || !FireOs.isFireOs(snap.facts, snap)) return null
+        homeButtonSet?.let { return it }
+        val service = pin.pkg.value + "/.HomeService"
+        val listed = snap.settings[SettingKey.ENABLED_ACCESSIBILITY].orEmpty().split(':').any { it == service }
+        val on = pin.pkg in snap.packages && listed && snap.settings[SettingKey.ACCESSIBILITY_ENABLED] == "1"
+        return if (on) HomeButton.ON else HomeButton.OFFER
+    }
+
+    private suspend fun homeButtonRequest(off: Boolean): PlanRequest? {
+        val pin = d.interceptorPin?.let { attempt { it.bundled() }.getOrNull() } ?: return null
+        if (off) return PlanRequest.GiveHomeBack(pin.pkg)
+        val launcher = attempt { d.launcherPin.bundled() }.getOrNull() ?: return null
+        return PlanRequest.UseHomeButton(launcher, pin)
+    }
+
+    private suspend fun previewHomeButton(off: Boolean) {
+        val request = homeButtonRequest(off) ?: return effect(ManageEffect.Snackbar(SnackKind.FAILED, "", false))
+        val plan = writer.preview(tvId, request, fresh = true)
+        when {
+            plan == null -> effect(ManageEffect.Snackbar(SnackKind.FAILED, "", false))
+            plan.steps.isEmpty() -> { homeButtonSet = if (off) HomeButton.OFFER else HomeButton.ON; load() }   // nothing to do after all
+            else -> send(HomeButtonNow(HomeButtonPreview(plan, off)))
+        }
+    }
+
+    // "Use the Home button": the launcher and the service on the TV, the service switched on. "Give Home
+    // back to Amazon": the service off and removed; the launcher stays as an app.
+    private suspend fun writeHomeButton(off: Boolean) {
+        send(HomeButtonNow(null))
+        val request = homeButtonRequest(off) ?: return effect(ManageEffect.Snackbar(SnackKind.FAILED, "", false))
+        val r = writer.write(tvId, request, fresh = true) { send(BusyNow(it)) }
+        send(BusyNow(null))
+        when {
+            r is WriteResult.Done && r.finished.status == RunStatus.COMPLETED -> {
+                homeButtonSet = if (off) HomeButton.OFFER else HomeButton.ON
+                val launcher = (request as? PlanRequest.UseHomeButton)?.launcher
+                if (launcher != null) d.tv(tvId)?.let { t -> if (t.launcher == null) d.tvs.upsert(t.copy(launcher = LauncherState(launcher.versionCode, launcher.signer, null, null))) }
+                effect(ManageEffect.Snackbar(if (off) SnackKind.HOME_BUTTON_OFF else SnackKind.HOME_BUTTON_ON, "", false))
             }
             r is WriteResult.GateCancelled || r is WriteResult.NoTv || r is WriteResult.Paused -> {}   // Paused: the open-run card (O2)
             else -> effect(ManageEffect.Snackbar(SnackKind.FAILED, "", false))
