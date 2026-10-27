@@ -1,17 +1,27 @@
+import ImageIO
 import UIKit
 
 // The person's own photo made into the launcher's wallpaper.jpg, as the Android app does (OwnPhoto):
 // the 16:9 middle of the photo, turned by its orientation, as a fresh JPEG without the original's
-// metadata (place, camera, time). 1920 x 1080 at the best quality from 85 down to 60 that fits
-// maxBytes, else 1600 x 900, else 1280 x 720; nil when not even that fits.
+// metadata (place, camera, time). 1920 x 1080 at the best quality from 85 down to 40 that fits
+// maxBytes, else 1600 x 900, else 1280 x 720; nil when not even that fits. The photo is decoded
+// already shrunk (ImageIO), so a 48 MP photo does not need its full size in memory.
 // shortcut: the middle is cropped, with no zoom or pan; add a crop screen if people ask to move it.
 enum TVWallpaper {
     static let maxBytes = 280_000
     static let sizes = [CGSize(width: 1920, height: 1080), CGSize(width: 1600, height: 900), CGSize(width: 1280, height: 720)]
-    static let qualities: [CGFloat] = [0.85, 0.8, 0.75, 0.7, 0.65, 0.6]
+    static let qualities: [CGFloat] = [0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.5, 0.4]
+    private static let workingLongSide = 3200
 
     static func jpeg(from data: Data) -> Data? {
-        guard let photo = UIImage(data: data), photo.size.width > 0, photo.size.height > 0 else { return nil }
+        let options: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: workingLongSide,
+        ]
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+              let decoded = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else { return nil }
+        let photo = UIImage(cgImage: decoded)
         for size in sizes {
             let frame = render(photo, into: size)
             for quality in qualities {

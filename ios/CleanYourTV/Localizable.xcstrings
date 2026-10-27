@@ -2468,6 +2468,16 @@
           }
         }
       }
+    },
+    "Could not load that photo. If it is in iCloud, open it in Photos first and try again.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo cargar esa foto. Si está en iCloud, ábrela primero en Fotos e inténtalo de nuevo."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

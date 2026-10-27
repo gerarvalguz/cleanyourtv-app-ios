@@ -1053,10 +1053,11 @@ private struct LauncherLookCard: View {
             guard let item else { return }
             photoMessage = String(localized: "Preparing the photo.")
             Task {
-                let jpeg = await Task.detached { () -> Data? in
-                    guard let data = try? await item.loadTransferable(type: Data.self) else { return nil }
-                    return TVWallpaper.jpeg(from: data)
-                }.value
+                guard let data = try? await item.loadTransferable(type: Data.self) else {
+                    photoMessage = String(localized: "Could not load that photo. If it is in iCloud, open it in Photos first and try again.")
+                    return
+                }
+                let jpeg = await Task.detached { TVWallpaper.jpeg(from: data) }.value
                 if let jpeg, let image = UIImage(data: jpeg) {
                     look?.photo = jpeg
                     photoImage = image
