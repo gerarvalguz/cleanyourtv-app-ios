@@ -235,18 +235,29 @@ class HomePrefs(private val store: DocumentStore) {
 
 // App settings (M8) that are preferences, not records: haptics and large text. look2: the Look
 // editor's Show launcher names ("lookKeyNames=", Advanced), off unless turned on.
-data class AppPrefsValue(val haptics: Boolean = true, val largeTextFollowsSystem: Boolean = true, val lookKeyNames: Boolean = false)
+// The name the launcher greets the person by ("greetingName=", Look > Advanced), empty for none.
+data class AppPrefsValue(val haptics: Boolean = true, val largeTextFollowsSystem: Boolean = true, val lookKeyNames: Boolean = false,
+    val greetingName: String = "")
+
+object GreetingName {
+    const val MAX_LENGTH = 40
+
+    // One line, no control characters, trimmed, at most MAX_LENGTH: what LauncherConfigCodec.encode accepts.
+    fun clean(raw: String): String = raw.filter { !it.isISOControl() }.trim().take(MAX_LENGTH).trim()
+}
 
 class AppPrefs(private val store: DocumentStore) {
     private val path = "settings.txt"
 
     suspend fun load(): AppPrefsValue = store.read(path) { bytes ->
         val map = bytes.decodeToString().lines().filter { '=' in it }.associate { it.substringBefore('=') to it.substringAfter('=') }
-        AppPrefsValue(haptics = map["haptics"] != "false", largeTextFollowsSystem = map["largeText"] != "false", lookKeyNames = map["lookKeyNames"] == "true")
+        AppPrefsValue(haptics = map["haptics"] != "false", largeTextFollowsSystem = map["largeText"] != "false", lookKeyNames = map["lookKeyNames"] == "true",
+            greetingName = GreetingName.clean(map["greetingName"].orEmpty()))
     } ?: AppPrefsValue()
 
     suspend fun save(v: AppPrefsValue) {
-        store.write(path, ("haptics=${v.haptics}\nlargeText=${v.largeTextFollowsSystem}\n" + if (v.lookKeyNames) "lookKeyNames=true\n" else "").encodeToByteArray())
+        store.write(path, ("haptics=${v.haptics}\nlargeText=${v.largeTextFollowsSystem}\n" + if (v.lookKeyNames) "lookKeyNames=true\n" else "" +
+            GreetingName.clean(v.greetingName).let { if (it.isEmpty()) "" else "greetingName=$it\n" }).encodeToByteArray())
     }
 }
 

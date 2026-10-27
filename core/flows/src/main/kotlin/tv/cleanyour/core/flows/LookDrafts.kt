@@ -32,6 +32,7 @@ internal data class LookContext(
     val tv: LookTv = LookTv(),
     val cards: Boolean = Cards.MANAGE_DEFAULT,
     val keyNames: Boolean = false,
+    val greetingName: String = "",
     val tvChanged: Boolean = false,
     // The dock a send pushes (the saved one, which can still hold an app the TV no longer shows),
     // null for the dock as shown. The bytes, so the preview, the settings file and Copy, come from it.
@@ -159,7 +160,11 @@ internal class LookDrafts(
     fun refresh(draft: LookDraft, ctx: LookContext): LookDraft = fill(partsOf(draft), ctx, draft.note)
 
     fun edit(draft: LookDraft, edit: LookEdit, given: LookContext): LookDraft {
-        val ctx = if (edit is LookEdit.SetKeyNames) given.copy(keyNames = edit.on) else given
+        val ctx = when (edit) {
+            is LookEdit.SetKeyNames -> given.copy(keyNames = edit.on)
+            is LookEdit.SetGreetingName -> given.copy(greetingName = GreetingName.clean(edit.name))
+            else -> given
+        }
         val p = partsOf(draft)
         val pic = pictureOf(p.picture, ctx)
         val rows = LookRules.rows(p, pic, ctx.dock.size, ctx.tv)
@@ -219,8 +224,9 @@ internal class LookDrafts(
                 p
             }
             is LookEdit.SetKeyNames -> p
+            is LookEdit.SetGreetingName -> p
         }
-        if (next == p && note == draft.note && ctx.keyNames == draft.keyNames) return draft
+        if (next == p && note == draft.note && ctx.keyNames == draft.keyNames && ctx.greetingName == draft.greetingName) return draft
         return fill(next, ctx, note)
     }
 
@@ -236,7 +242,7 @@ internal class LookDrafts(
     fun docOf(draft: LookDraft, dock: List<PackageName>, cards: Boolean, ctx: LookContext): Pair<LauncherConfigDoc, BlobRef?> {
         val p = partsOf(draft)
         val pic = pictureOf(p.picture, ctx)
-        return Look.docOf(p.copy(picture = pic.id), pic, dock, cards, ctx.tv)
+        return Look.docOf(p.copy(picture = pic.id), pic, dock, cards, ctx.tv).let { (doc, w) -> doc.named(ctx) to w }
     }
 
     // A style change (the prototype's chooseStyle): the new style's own details; the note names the
@@ -315,7 +321,8 @@ internal class LookDrafts(
         val styles = LookGates.styles(tv.versionCode)
         val rows = LookRules.rows(p, pic, ctx.dock.size, tv)
         val dock = ctx.dock
-        val (doc, wallpaper) = Look.docOf(p, pic, dock, ctx.cards, tv)
+        val (built, wallpaper) = Look.docOf(p, pic, dock, ctx.cards, tv)
+        val doc = built.named(ctx)
         val bytes = encoder.encode(doc)
         val cards = StyleId.entries.map { s ->
             val card = p.copy(style = s, details = LookRules.withoutStyleDetails(p.details))
@@ -340,7 +347,7 @@ internal class LookDrafts(
             legacyThemeId = legacy, styleCards = cards, rows = rows, changed = changed,
             newPhoto = p.picture == LookPicture.NEW_ID || p.picture == LookPicture.EARLIER_ID,
             wayBack = wayBack, note = note, styles = styles, reads27 = LookGates.reads27(tv.versionCode), ramMb = tv.ramMb,
-            keyNames = ctx.keyNames, settingsFile = encoder.encode(doc.copy(dockApps = null, moduleCards = null)).decodeToString(),
+            keyNames = ctx.keyNames, greetingName = ctx.greetingName, settingsFile = encoder.encode(doc.copy(dockApps = null, moduleCards = null)).decodeToString(),
             fullFile = full, apps = ctx.apps.size, waiting = DockLayers.waiting(ctx.apps.size, p.columns),
             tvChanged = ctx.tvChanged,
         )
@@ -413,3 +420,6 @@ internal class LookDrafts(
         private const val SEE_THROUGH = "seeThrough"
     }
 }
+
+// The look's doc with the person's greeting name (a look is built from scratch, so it would otherwise drop it).
+private fun LauncherConfigDoc.named(ctx: LookContext): LauncherConfigDoc = copy(greetingName = ctx.greetingName.takeIf { it.isNotEmpty() })

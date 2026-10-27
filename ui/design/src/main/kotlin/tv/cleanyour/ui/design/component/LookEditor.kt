@@ -122,6 +122,7 @@ data class LookEditorState(
     val note: LookNote? = null,
     val ramMb: Int? = null,
     val keyNames: Boolean = false,
+    val greetingName: String = "",
     val settingsFile: String = "",
     val fullFile: String = "",
     val tvChanged: Boolean = false,

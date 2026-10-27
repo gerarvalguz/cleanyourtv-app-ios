@@ -63,6 +63,11 @@ internal fun ColumnScope.LookAdvancedPage(state: LookEditorState, onEdit: (LookE
             description = stringResource(R.string.cyt_look_key_names_desc), keyName = stringResource(R.string.cyt_look_key_names_phone_only).takeIf { keys },
         )
     }
+    LookSection(stringResource(R.string.cyt_look_greeting_title))
+    CytTextField(
+        state.greetingName, { onEdit(LookEdit.SetGreetingName(it)) }, stringResource(R.string.cyt_look_greeting_label),
+        supporting = stringResource(R.string.cyt_look_greeting_desc), modifier = Modifier.padding(horizontal = 4.dp),
+    )
     LookSection(stringResource(R.string.cyt_look_file_title))
     LookBody(stringResource(R.string.cyt_look_file_desc), Modifier.padding(start = 4.dp, end = 4.dp, bottom = 10.dp))
     val copy = rememberCopy()

@@ -114,6 +114,7 @@ sealed interface LookEdit {
     data class NoteAction(val id: Long) : LookEdit
     data class NoteSeen(val id: Long) : LookEdit
     data class SetKeyNames(val on: Boolean) : LookEdit
+    data class SetGreetingName(val name: String) : LookEdit
 }
 
 // The Look editor's choice while it is open (the Look sheet and Setup's look step). Nothing reaches
@@ -158,6 +159,7 @@ data class LookDraft(
     val reads27: Boolean = true,
     val ramMb: Int? = null,
     val keyNames: Boolean = false,
+    val greetingName: String = "",
     val settingsFile: String = "",
     val fullFile: String = "",
     val apps: Int = 0,

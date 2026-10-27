@@ -304,6 +304,9 @@
     <string name="cyt_look_key_names">Show launcher names</string>
     <string name="cyt_look_key_names_desc">Shows each setting\'s name as the home screen\'s settings file spells it, like dock_glass.</string>
     <string name="cyt_look_key_names_phone_only">(phone only)</string>
+    <string name="cyt_look_greeting_title">Greeting</string>
+    <string name="cyt_look_greeting_label">Name</string>
+    <string name="cyt_look_greeting_desc">The home screen greets you by this name, like \"Good evening, Ana\". Leave it empty for no name.</string>
     <string name="cyt_look_file_title">The settings file</string>
     <string name="cyt_look_file_desc">These are the look settings that go to the TV. The full file also lists your dock apps. Copy gives you the full file.</string>
     <string name="cyt_look_not_here">Not in this app: rows below the dock and hiding apps. Rows below the dock can be set on the TV in Launcher settings, until the next send from this phone.</string>

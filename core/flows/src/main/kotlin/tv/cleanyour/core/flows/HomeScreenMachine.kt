@@ -146,7 +146,7 @@ class HomeScreenMachine(
 
     private val writer = TvWriter(d)
     private val drafts = LookDrafts(d.themes, d.pictures, d.encoder, d.clock)
-    private data class Loaded(val s: HomeScreenState, val saved: HomeChoice?, val earlier: EarlierLook.Saved?, val cards: Boolean, val keyNames: Boolean)
+    private data class Loaded(val s: HomeScreenState, val saved: HomeChoice?, val earlier: EarlierLook.Saved?, val cards: Boolean, val keyNames: Boolean, val greetingName: String = "")
     private data class BusyNow(val busy: Busy?)
     private data class Preview(val plan: Plan?)
     private data class Drift(val drift: Boolean)
@@ -163,6 +163,7 @@ class HomeScreenMachine(
     private var earlier: EarlierLook.Saved? = null
     private var cards: Boolean = Cards.MANAGE_DEFAULT
     private var keyNames = false
+    private var greetingName = ""
     private var kept: LookDraft? = null      // the draft of a send in flight, or of one that failed (OpenLook reopens it)
     private var sending = false              // one send per UseLook
 
@@ -171,7 +172,7 @@ class HomeScreenMachine(
     override fun reduce(state: HomeScreenState, event: Any): HomeScreenState = when (event) {
         is Loaded -> event.s.copy(busy = state.busy, stockPreview = state.stockPreview, drift = state.drift, updatePreview = state.updatePreview, homeButtonPreview = state.homeButtonPreview,
             newPicture = state.newPicture, newDim = state.newDim, lookFailed = state.lookFailed, lookSending = state.lookSending).let { s ->
-            saved = event.saved; earlier = event.earlier; cards = event.cards; keyNames = event.keyNames
+            saved = event.saved; earlier = event.earlier; cards = event.cards; keyNames = event.keyNames; greetingName = event.greetingName
             s.copy(look = state.look?.let { drafts.refresh(it, lookContext(s)) })
         }
         HomeScreenIntent.OpenLook -> when {
@@ -217,7 +218,7 @@ class HomeScreenMachine(
         return LookContext(
             apps = dock, others = state.apps.filter { it.pkg !in inDock },
             mine = state.ownPicture?.let { LookPicture.Of(it, state.ownDim) }, new = state.newPicture?.let { LookPicture.Of(it, state.newDim) },
-            earlier = earlier, sent = saved, tv = lookTv(state), cards = cards, keyNames = keyNames, tvChanged = state.drift,
+            earlier = earlier, sent = saved, tv = lookTv(state), cards = cards, keyNames = keyNames, greetingName = greetingName, tvChanged = state.drift,
             pushDock = saved?.dock,
         )
     }
@@ -259,7 +260,11 @@ class HomeScreenMachine(
             }
             HomeScreenIntent.CloseLook -> staged = null
             is OwnPictureStaged -> if (after.newPicture == event.ref) staged = event.jpeg
-            is HomeScreenIntent.Look -> (event.edit as? LookEdit.SetKeyNames)?.let { e -> keyNames = e.on; scope.launch { saveKeyNames(e.on) } }
+            is HomeScreenIntent.Look -> when (val e = event.edit) {
+                is LookEdit.SetKeyNames -> { keyNames = e.on; scope.launch { saveKeyNames(e.on) } }
+                is LookEdit.SetGreetingName -> GreetingName.clean(e.name).let { n -> greetingName = n; scope.launch { saveGreetingName(n) } }
+                else -> Unit
+            }
             HomeScreenIntent.RestoreMine -> scope.launch {
                 val choice = savedChoice()
                 if (choice?.isNew == true) pushSaved(choice, choice.dock)
@@ -313,7 +318,8 @@ class HomeScreenMachine(
         val own = attempt { OwnPicture.ref(d, tvId) }.getOrNull()
         val cardsNow = attempt { Cards.current(d, tvId, choice, snap?.launcherOverlay) }.getOrNull() ?: Cards.MANAGE_DEFAULT
         val earlierLook = attempt { EarlierLook.load(d.documents, d.blobs, tvId) }.getOrNull()
-        val keys = attempt { d.appPrefs.load() }.getOrNull()?.lookKeyNames ?: false
+        val prefs = attempt { d.appPrefs.load() }.getOrNull()
+        val keys = prefs?.lookKeyNames ?: false
         val inDock = (dock + waiting).map { it.pkg }.toSet()
         val sentPreview = choice?.let { drafts.previewOf(it, dock + waiting, apps.filter { a -> a.pkg !in inDock }, cardsNow, own, tvLook) }
         val pictureId = if (choice?.isNew == true) choice.picture else choice?.picture?.takeUnless { Looks.dated(lookId) }
@@ -329,7 +335,7 @@ class HomeScreenMachine(
             ownPicture = own, ownDim = choice?.dim ?: OwnPicture.DEFAULT_DIM,
             waitingApps = waiting, earlierPicture = earlierLook?.photo?.ref, sent = sentPreview, sentStyle = drafts.styleOf(choice, tvLook),
             sentPicture = drafts.pictureIdOf(choice, tvLook), launcherVersionCode = versionCode, ramMb = ramMb, hasInputs = hasInputs, homeButton = homeButtonOf(snap)),
-            choice, earlierLook, cardsNow, keys))
+            choice, earlierLook, cardsNow, keys, prefs?.greetingName.orEmpty()))
     }
 
     // 0.3.3 D2: null while the new home screen is on the TV: Setup recorded it (tv.launcher), or the
@@ -485,6 +491,10 @@ class HomeScreenMachine(
     // Advanced's Show launcher names is a phone setting (AppPrefs, lookKeyNames).
     private suspend fun saveKeyNames(on: Boolean) {
         attempt { d.appPrefs.save(d.appPrefs.load().copy(lookKeyNames = on)) }
+    }
+
+    private suspend fun saveGreetingName(name: String) {
+        attempt { d.appPrefs.save(d.appPrefs.load().copy(greetingName = name)) }
     }
 
     // A photo made in the Look sheet on its way to the TV: its staged file, its bytes and its dim.

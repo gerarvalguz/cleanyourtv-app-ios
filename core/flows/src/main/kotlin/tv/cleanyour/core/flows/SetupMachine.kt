@@ -866,10 +866,12 @@ class SetupMachine(
         val new = photo?.let { LookPicture.Of(it.ref, it.dim) }
         val label = { p: PackageName -> AppNames.of(p, deps.facts, snap.packages[p]?.label) }
         val lookApps = kept.map { p -> AppChoice(p, label(p)) }
-        val keyNames = lookContext.keyNames || (deps.documents?.let { docs -> attempt { AppPrefs(docs).load() }.getOrNull()?.lookKeyNames } ?: false)
+        val prefs = deps.documents?.let { docs -> attempt { AppPrefs(docs).load() }.getOrNull() }
+        val keyNames = lookContext.keyNames || (prefs?.lookKeyNames ?: false)
+        val greetingName = if (lookContext.greetingName.isNotEmpty()) lookContext.greetingName else prefs?.greetingName.orEmpty()
         val candidates = DockCandidates.of(snap, launchable, profile(), deps.facts).map { AppChoice(it, label(it)) }.sortedBy { it.name.lowercase() }
         lookContext = LookContext(apps = lookApps, others = candidates.filter { it.pkg !in kept }, mine = mine, new = new, tv = tvLook, cards = cards,
-            keyNames = keyNames)
+            keyNames = keyNames, greetingName = greetingName)
         val sheet = mutableExtras.value.look?.let { drafts.refresh(it, lookContext) } ?: drafts.open(choice, lookContext)
         val look = if (!possible) null else attempt { val (doc, w) = drafts.docOf(sheet, dock, cards, lookContext); Look.encode(deps.encoder, deps.blobs, doc, w) }
             .onFailure { deps.log.line("setup: the look could not be encoded, planned without it") }.getOrNull()
@@ -981,6 +983,11 @@ class SetupMachine(
         val l = mutableExtras.value.look ?: return
         if (edit is LookEdit.SetKeyNames) deps.documents?.let { docs -> scope.launch { attempt { AppPrefs(docs).let { p -> p.save(p.load().copy(lookKeyNames = edit.on)) } } } }
         if (edit is LookEdit.SetKeyNames) lookContext = lookContext.copy(keyNames = edit.on)
+        if (edit is LookEdit.SetGreetingName) {
+            val name = GreetingName.clean(edit.name)
+            lookContext = lookContext.copy(greetingName = name)
+            deps.documents?.let { docs -> scope.launch { attempt { AppPrefs(docs).let { p -> p.save(p.load().copy(greetingName = name)) } } } }
+        }
         setLook(drafts.edit(l, edit, lookContext))
     }
 

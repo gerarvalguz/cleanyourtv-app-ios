@@ -28,6 +28,6 @@ fun LookDraft.toEditor(
     apps = apps, waiting = waiting,
     minColumns = DockLayers.MIN_OFFERED_COLUMNS, maxColumns = DockLayers.MAX_OFFERED_COLUMNS,
     names = names, movement = movement, movementPicked = movementPicked, lift = lift, details = details, rows = rows,
-    changed = changed, newPhoto = newPhoto, wayBack = wayBack, note = note, ramMb = ramMb, keyNames = keyNames,
+    changed = changed, newPhoto = newPhoto, wayBack = wayBack, note = note, ramMb = ramMb, keyNames = keyNames, greetingName = greetingName,
     settingsFile = settingsFile, fullFile = fullFile, tvChanged = tvChanged,
 )
