@@ -8,7 +8,7 @@ dependencies {
 }
 
 // Build-time assertion (PRODUCT-SPEC W5, 7.3 item 4; RFC-CURTAIN-1): each bundled APK's sha256, size
-// and signer digest must equal its pin (PinnedLauncher, PinnedCurtain). Runs with `check` and before
+// and signer digest must equal its pin (PinnedLauncher, PinnedCurtain, PinnedInterceptor). Runs with `check` and before
 // :android:platform builds.
 fun registerPinCheck(taskName: String, pin: String, asset: String) = tasks.register(taskName, JavaExec::class) {
     val apk = rootProject.layout.projectDirectory.file("android/platform/src/main/assets/bundled/$asset")
@@ -25,4 +25,5 @@ fun registerPinCheck(taskName: String, pin: String, asset: String) = tasks.regis
 }
 val verifyLauncherPin = registerPinCheck("verifyLauncherPin", "launcher", "cleanyourtv-launcher.apk")
 val verifyCurtainPin = registerPinCheck("verifyCurtainPin", "curtain", "cleanyourtv-curtain.apk")
-tasks.named("check") { dependsOn(verifyLauncherPin, verifyCurtainPin) }
+val verifyInterceptorPin = registerPinCheck("verifyInterceptorPin", "interceptor", "cleanyourtv-interceptor.apk")
+tasks.named("check") { dependsOn(verifyLauncherPin, verifyCurtainPin, verifyInterceptorPin) }

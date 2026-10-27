@@ -16,4 +16,5 @@ sealed interface IndexVerdict { data class Ok(val index: VerifiedIndex) : IndexV
 interface IndexVerifier { fun verify(indexBytes: ByteArray, sigBytes: ByteArray, keysBytes: ByteArray, keysSig: ByteArray, lastSequence: Long?, nowMs: Long): IndexVerdict }
 interface LauncherPin { fun bundled(): LauncherArtifact }
 interface CurtainPin { fun bundled(): LauncherArtifact }   // RFC-CURTAIN-1: the TV curtain, pinned like the launcher
+interface InterceptorPin { fun bundled(): LauncherArtifact }   // the Fire TV Home interceptor, pinned like the curtain
 interface ApkInspector { fun inspect(blob: BlobRef): ApkInfo? }   // R0: 13 null when the file is not a readable APK

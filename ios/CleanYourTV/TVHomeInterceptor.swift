@@ -22,7 +22,7 @@ enum TVHomeInterceptor {
     )
     static let interceptor = Bundled(
         resource: "home-interceptor",
-        sha256: "9f433a7b2921430038bb1fdfd4ff57ad41d414c335a8d56d4268311d86401c8c"
+        sha256: "45bdd88a7f3b4bab6aff56f7f5fb304e25c797d65b32d7800b4f48ad3139132e"
     )
 
     enum Failure: LocalizedError {

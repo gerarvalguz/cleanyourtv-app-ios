@@ -52,6 +52,24 @@ object PinnedCurtain {
     const val SIGNER_SHA256 = PinnedLauncher.SIGNER_SHA256
 }
 
+// The Fire TV Home interceptor bundled in the phone app: firetv-home-interceptor/ of this repo, an
+// accessibility service that opens the Clean Your TV launcher when Amazon's Home screen appears (Fire OS
+// takes no other home screen). Built by firetv-home-interceptor/build.sh, which is byte for byte
+// reproducible, and signed with this fork's own key (kept outside the repo), so SIGNER_SHA256 is not the
+// launcher's. The verifyInterceptorPin task (part of :core:trust check and of :android:platform preBuild)
+// fails the build when the asset differs.
+object PinnedInterceptor {
+    const val ASSET_NAME = "cleanyourtv-interceptor.apk"
+    const val PACKAGE = "tv.cleanyour.homeinterceptor"
+    const val SERVICE = "tv.cleanyour.homeinterceptor/.HomeService"
+    const val VERSION_CODE = 1L
+    const val VERSION_NAME = "0.1"
+    const val SIZE = 16_852L
+    const val SHA256 = "45bdd88a7f3b4bab6aff56f7f5fb304e25c797d65b32d7800b4f48ad3139132e"
+    // SHA-256 of the signing certificate (DER), "CN=Clean Your TV Home interceptor (gerarvalguz fork)", v2 and v3.
+    const val SIGNER_SHA256 = "797cb45c9976b23b69b98afc78fca5c451ea42eba6fe53fc87cf9d85cac3e328"
+}
+
 // LauncherPin over the BlobStore's bundled asset. bundled() refuses an asset whose bytes are not the
 // pinned ones, so a swapped asset can never be offered as the launcher.
 class BundledLauncherPin(private val blobs: BlobStore) : LauncherPin {
@@ -84,6 +102,24 @@ class BundledCurtainPin(private val blobs: BlobStore) : CurtainPin {
             versionName = PinnedCurtain.VERSION_NAME,
             sha256 = Sha256(PinnedCurtain.SHA256),
             signer = Sha256(PinnedCurtain.SIGNER_SHA256),
+            blob = blob,
+        )
+    }
+}
+
+// InterceptorPin over the BlobStore's bundled asset, refusing an asset whose bytes are not the pinned ones.
+class BundledInterceptorPin(private val blobs: BlobStore) : InterceptorPin {
+    override fun bundled(): LauncherArtifact {
+        val blob = blobs.bundled(PinnedInterceptor.ASSET_NAME)
+        check(blob.sha256.hex == PinnedInterceptor.SHA256 && blob.size == PinnedInterceptor.SIZE) {
+            "bundled interceptor does not match its pin (sha256 ${blob.sha256.hex}, ${blob.size} bytes)"
+        }
+        return LauncherArtifact(
+            pkg = PackageName(PinnedInterceptor.PACKAGE),
+            versionCode = PinnedInterceptor.VERSION_CODE,
+            versionName = PinnedInterceptor.VERSION_NAME,
+            sha256 = Sha256(PinnedInterceptor.SHA256),
+            signer = Sha256(PinnedInterceptor.SIGNER_SHA256),
             blob = blob,
         )
     }

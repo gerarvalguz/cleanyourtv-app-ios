@@ -15,4 +15,4 @@ dependencies {
 
 // W5: the bundled launcher APK (assets/bundled) must match its pin before anything is packaged;
 // RFC-CURTAIN-1: so must the bundled TV curtain.
-tasks.matching { it.name == "preBuild" }.configureEach { dependsOn(":core:trust:verifyLauncherPin", ":core:trust:verifyCurtainPin") }
+tasks.matching { it.name == "preBuild" }.configureEach { dependsOn(":core:trust:verifyLauncherPin", ":core:trust:verifyCurtainPin", ":core:trust:verifyInterceptorPin") }

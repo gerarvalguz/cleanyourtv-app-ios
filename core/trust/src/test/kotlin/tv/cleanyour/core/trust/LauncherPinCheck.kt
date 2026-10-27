@@ -15,7 +15,8 @@ data class ApkPin(val name: String, val size: Long, val sha256: String, val sign
 object PinCheck {
     val launcher = ApkPin("launcher", PinnedLauncher.SIZE, PinnedLauncher.SHA256, PinnedLauncher.SIGNER_SHA256)
     val curtain = ApkPin("curtain", PinnedCurtain.SIZE, PinnedCurtain.SHA256, PinnedCurtain.SIGNER_SHA256)
-    val byName = listOf(launcher, curtain).associateBy { it.name }
+    val interceptor = ApkPin("interceptor", PinnedInterceptor.SIZE, PinnedInterceptor.SHA256, PinnedInterceptor.SIGNER_SHA256)
+    val byName = listOf(launcher, curtain, interceptor).associateBy { it.name }
 
     fun problems(pin: ApkPin, apk: File): List<String> {
         if (!apk.isFile) return listOf("missing $apk")
@@ -39,7 +40,7 @@ object LauncherPinCheck {
     fun problems(apk: File): List<String> = PinCheck.problems(PinCheck.launcher, apk)
 }
 
-// args: the pin's name ("launcher" or "curtain") and the APK; one argument alone is the launcher.
+// args: the pin's name ("launcher", "curtain" or "interceptor") and the APK; one argument alone is the launcher.
 fun main(args: Array<String>) {
     val pin = if (args.size == 1) PinCheck.launcher else PinCheck.byName[args[0]] ?: error("unknown pin ${args[0]}")
     val apk = File(args.last())
