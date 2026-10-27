@@ -162,6 +162,36 @@ struct TVLauncherConfig {
         return try Self.encode(next)
     }
 
+    var hasPicture: Bool { (object["wallpaper"] as? Bool) ?? false }
+    var style: TVLookStyle? { TVLookStyle.detect(in: object) }
+
+    // The look's keys, the apps in a row, then the dock cut as DockLayers.cut does for the new
+    // columns (rows 0 on the Spotlight shelf, no dock title at three rows). The picture is left as it is,
+    // unless `withNewPicture`: the person's own wallpaper.jpg is on its way, so it is shown (single picture, no rotation, dim 30 unless set).
+    func applying(style: TVLookStyle, columns: Int, withNewPicture: Bool = false) throws -> Data {
+        guard TVLookStyle.offeredColumns.contains(columns) else {
+            throw ADBSessionError.protocolViolation("apps in a row must be 4 to 8")
+        }
+        var next = object
+        for (key, value) in style.keys(hasPicture: hasPicture || withNewPicture) { next[key] = value }
+        if withNewPicture {
+            next["wallpaper"] = true
+            next["wallpaper_rotation_minutes"] = 0
+            if next["wallpaper_dim"] == nil { next["wallpaper_dim"] = 30 }
+        }
+        next["columns"] = columns
+        let dock = TVLauncherRows.trim(dockApps, columns: columns)
+        if dock.isEmpty {
+            next["dock_apps"] = nil
+        } else {
+            let below = style == .spotlight ? 0 : TVLauncherRows.rowsBelowDock(count: dock.count, columns: columns)
+            next["dock_apps"] = dock
+            next["rows_below_dock"] = below
+            if below == TVLauncherRows.maxRows - 1 { next["dock_title"] = false }
+        }
+        return try Self.encode(next)
+    }
+
     static let maxNameLength = 40
 
     // What the person typed as the launcher greets them by: no line breaks or control characters

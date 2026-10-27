@@ -23,6 +23,10 @@
 		A1000000000000000000000E /* TVHomeInterceptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000E /* TVHomeInterceptorTests.swift */; };
 		A1000000000000000000000F /* TVLauncherLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000F /* TVLauncherLayout.swift */; };
 		A10000000000000000000010 /* TVLauncherLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000010 /* TVLauncherLayoutTests.swift */; };
+		A1000000000000000000B01A /* TVLookStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000B01A /* TVLookStyle.swift */; };
+		A1000000000000000000B05A /* TVWallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000B05A /* TVWallpaper.swift */; };
+		A1000000000000000000B02A /* TVLookPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000B02A /* TVLookPreview.swift */; };
+		A1000000000000000000B03A /* TVLookStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000B03A /* TVLookStyleTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,10 @@
 		B1000000000000000000000E /* TVHomeInterceptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVHomeInterceptorTests.swift; sourceTree = "<group>"; };
 		B1000000000000000000000F /* TVLauncherLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVLauncherLayout.swift; sourceTree = "<group>"; };
 		B10000000000000000000010 /* TVLauncherLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVLauncherLayoutTests.swift; sourceTree = "<group>"; };
+		B1000000000000000000B01A /* TVLookStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVLookStyle.swift; sourceTree = "<group>"; };
+		B1000000000000000000B05A /* TVWallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVWallpaper.swift; sourceTree = "<group>"; };
+		B1000000000000000000B02A /* TVLookPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVLookPreview.swift; sourceTree = "<group>"; };
+		B1000000000000000000B03A /* TVLookStyleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVLookStyleTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +105,9 @@
 				B1000000000000000000000A /* TVReviewPlan.swift */,
 				B1000000000000000000000B /* TVHomeInterceptor.swift */,
 				B1000000000000000000000F /* TVLauncherLayout.swift */,
+				B1000000000000000000B02A /* TVLookPreview.swift */,
+				B1000000000000000000B01A /* TVLookStyle.swift */,
+				B1000000000000000000B05A /* TVWallpaper.swift */,
 				B1000000000000000000000C /* home-launcher.apk */,
 				B1000000000000000000000D /* home-interceptor.apk */,
 			);
@@ -109,6 +120,7 @@
 				B10000000000000000000005 /* TVAddressTests.swift */,
 				B1000000000000000000000E /* TVHomeInterceptorTests.swift */,
 				B10000000000000000000010 /* TVLauncherLayoutTests.swift */,
+				B1000000000000000000B03A /* TVLookStyleTests.swift */,
 			);
 			path = CleanYourTVTests;
 			sourceTree = "<group>";
@@ -232,6 +244,9 @@
 				A1000000000000000000000A /* TVReviewPlan.swift in Sources */,
 				A1000000000000000000000B /* TVHomeInterceptor.swift in Sources */,
 				A1000000000000000000000F /* TVLauncherLayout.swift in Sources */,
+				A1000000000000000000B02A /* TVLookPreview.swift in Sources */,
+				A1000000000000000000B01A /* TVLookStyle.swift in Sources */,
+				A1000000000000000000B05A /* TVWallpaper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +257,7 @@
 				A10000000000000000000004 /* TVAddressTests.swift in Sources */,
 				A1000000000000000000000E /* TVHomeInterceptorTests.swift in Sources */,
 				A10000000000000000000010 /* TVLauncherLayoutTests.swift in Sources */,
+				A1000000000000000000B03A /* TVLookStyleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

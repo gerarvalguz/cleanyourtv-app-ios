@@ -1057,6 +1057,14 @@ final class ADBTVConnection {
         try TVLauncherConfig.fromReadOutput(String(decoding: try await runReadOnly(.launcherConfig), as: UTF8.self))
     }
 
+    // Writes the launcher's wallpaper.jpg through the same ThemeProvider; the launcher reads it on its next start.
+    func writeLauncherWallpaper(_ jpeg: Data) async throws {
+        guard (1...TVWallpaper.maxBytes).contains(jpeg.count) else {
+            throw ADBSessionError.protocolViolation("the picture is too large for the launcher")
+        }
+        _ = try await runShell(service: "content write --uri \(TVHomeInterceptor.themeURI)/wallpaper.jpg", description: "launcher picture write", outputLimit: 32 * 1024, input: jpeg)
+    }
+
     // Writes (or, for nil, removes) the launcher's config.json through its ThemeProvider, marks a new
     // theme revision so the launcher drops its on-TV choices, and restarts the launcher to read it.
     func writeLauncherConfig(_ data: Data?) async throws {

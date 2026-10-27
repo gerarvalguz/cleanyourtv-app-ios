@@ -44,6 +44,8 @@ final class TVDiscoveryModel: ObservableObject {
     @Published private(set) var greetingMessage: String?
     @Published private(set) var isChangingLayout = false
     @Published private(set) var layoutMessage: String?
+    @Published var launcherLook: LauncherLookState?
+    @Published private(set) var lookMessage: String?
     @Published private(set) var currentSnapshotDigest: String?
     @Published private(set) var authFingerprint: String?
     @Published private(set) var connectionMessage: String?
@@ -553,6 +555,80 @@ final class TVDiscoveryModel: ObservableObject {
         }
     }
 
+    // The look and the apps in a row as the TV's config.json has them now.
+    func loadLauncherLook() {
+        guard layoutBlockReason == nil, launcherLook == nil, let tvConnection, let identity else { return }
+        Task { [weak self] in
+            guard let self else { return }
+            if let config = try? await tvConnection.readLauncherConfig() {
+                let backup = try? self.layoutBackupStore.load(tvID: identity.tvID)
+                self.launcherLook = LauncherLookState(
+                    style: config.style, columns: min(max(config.columns, TVLookStyle.offeredColumns.lowerBound), TVLookStyle.offeredColumns.upperBound),
+                    onTV: config.style, columnsOnTV: config.columns, hasPicture: config.hasPicture, hasBackup: backup != nil
+                )
+            }
+        }
+    }
+
+    // Writes the chosen look and apps in a row, keeping the picture and every other key of config.json and a copy of the file as it was.
+    func applyLauncherLook() {
+        guard layoutBlockReason == nil, let tvConnection, let identity, let look = launcherLook, let style = look.style else { return }
+        isChangingLayout = true
+        lookMessage = "Sending the look to the TV."
+        connectionTask?.cancel()
+        connectionTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let current = try await tvConnection.readLauncherConfig()
+                let next = try current.applying(style: style, columns: look.columns, withNewPicture: look.photo != nil)
+                try self.layoutBackupStore.save(TVLauncherBackup(config: current.original, savedAt: Date()), tvID: identity.tvID)
+                if let photo = look.photo { try await tvConnection.writeLauncherWallpaper(photo) }
+                try await tvConnection.writeLauncherConfig(next)
+                let written = try await tvConnection.readLauncherConfig()
+                guard written.style == style, written.columns == look.columns else {
+                    throw ADBSessionError.protocolViolation("the TV did not keep the new look")
+                }
+                self.launcherLook = LauncherLookState(style: style, columns: look.columns, onTV: style, columnsOnTV: look.columns,
+                                                      hasPicture: written.hasPicture, hasBackup: true)
+                self.launcherLayout = nil
+                self.lookMessage = look.photo == nil ? "Done. The launcher restarted with the \(style.title) look."
+                    : "Done. The launcher restarted with the \(style.title) look and your picture."
+            } catch {
+                self.lookMessage = "Stopped. \(error.localizedDescription) The previous settings are saved on this iPhone."
+            }
+            self.isChangingLayout = false
+        }
+    }
+
+    func restoreLauncherLook() {
+        guard layoutBlockReason == nil, let tvConnection, let identity else { return }
+        guard let backup = try? layoutBackupStore.load(tvID: identity.tvID) else {
+            lookMessage = "No saved settings for this TV."
+            return
+        }
+        isChangingLayout = true
+        lookMessage = "Putting the previous settings back."
+        connectionTask?.cancel()
+        connectionTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await tvConnection.writeLauncherConfig(backup.config)
+                let config = try await tvConnection.readLauncherConfig()
+                guard config.original == backup.config || (backup.config == nil && config.object.isEmpty) else {
+                    throw ADBSessionError.protocolViolation("the TV did not keep the previous settings")
+                }
+                try? self.layoutBackupStore.remove(tvID: identity.tvID)
+                self.launcherLook = nil
+                self.launcherLayout = nil
+                self.lookMessage = "The previous settings are back."
+                self.loadLauncherLook()
+            } catch {
+                self.lookMessage = "Restore is incomplete. \(error.localizedDescription) The saved copy is kept; try again."
+            }
+            self.isChangingLayout = false
+        }
+    }
+
     // Reads the apps the launcher can show and the order its config.json has now.
     func loadLauncherLayout() {
         guard layoutBlockReason == nil, let tvConnection, let identity else { return }
@@ -696,4 +772,19 @@ struct LauncherLayoutState {
     var hasBackup: Bool
 
     var others: [String] { apps.filter { !order.contains($0) } }
+}
+
+// The look card: what is chosen on the phone and what the TV has (style nil: a hand-tuned or unset config).
+struct LauncherLookState {
+    var style: TVLookStyle?
+    var columns: Int
+    let onTV: TVLookStyle?
+    let columnsOnTV: Int
+    let hasPicture: Bool
+    var hasBackup: Bool
+
+    // The person's own picture from the gallery, already made into the launcher's JPEG (TVWallpaper), not yet on the TV.
+    var photo: Data?
+
+    var changed: Bool { style != nil && (style != onTV || columns != columnsOnTV || photo != nil) }
 }

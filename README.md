@@ -39,6 +39,9 @@ shows you how), and the whole clean-up about five minutes.
 Come back any time to put an app back, check for leftovers after a TV update, change the dock or
 the look, or undo everything.
 
+**iPhone/iPad:** A native iOS 26+ companion is in [`ios/`](ios/). It currently connects read-only
+and can save a review draft; applying changes, restore and rollback are not ported yet.
+
 ## Two ways to clean your TV
 
 [Clean Your TV](https://github.com/Gathin23/cleanyourtv) gives any Android TV a calm, ad-free home
@@ -166,6 +169,11 @@ A Kotlin and Jetpack Compose app that speaks ADB to the TV itself, with no compu
 [CONTRIBUTING.md](CONTRIBUTING.md) covers tests, screenshot goldens, the module rules and how
 releases are built and signed. How the app was designed and reviewed is in
 [docs/history](docs/history/README.md), and what changed in each version in [CHANGELOG.md](CHANGELOG.md).
+
+The native iOS companion is under development in [`ios/`](ios/README.md). It targets iOS 26+,
+authenticates to Android TV over ADB, reads TV state and provides a read-only safety review using
+the bundled profile catalog; confirmed plans and TV changes are not yet ported. The launcher and
+progress curtain remain installed on the TV.
 
 The app is developed with AI coding agents under human review: the maintainer set the design and
 reviewed and tested the app, and every change went through automated tests and review.

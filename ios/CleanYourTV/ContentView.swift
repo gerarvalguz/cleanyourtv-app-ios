@@ -1,4 +1,5 @@
 import SwiftUI
+import PhotosUI
 
 private enum Palette {
     static let background = Color(red: 0.055, green: 0.063, blue: 0.078)
@@ -470,6 +471,16 @@ private struct ConnectView: View {
                             onLoad: { discovery.loadGreetingName() },
                             onApply: { discovery.applyGreetingName() }
                         )
+                        LauncherLookCard(
+                            look: $discovery.launcherLook,
+                            greetingName: discovery.greetingNameOnTV ?? "",
+                            blockReason: discovery.layoutBlockReason,
+                            isWorking: discovery.isChangingLayout,
+                            message: discovery.lookMessage,
+                            onLoad: { discovery.loadLauncherLook() },
+                            onApply: { discovery.applyLauncherLook() },
+                            onRestore: { discovery.restoreLauncherLook() }
+                        )
                         LauncherLayoutCard(
                             layout: discovery.launcherLayout,
                             blockReason: discovery.layoutBlockReason,
@@ -913,6 +924,154 @@ private struct GreetingNameCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Palette.surface, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
         .onAppear(perform: onLoad)
+    }
+}
+
+private struct LauncherLookCard: View {
+    @Binding var look: LauncherLookState?
+    let greetingName: String
+    let blockReason: String?
+    let isWorking: Bool
+    let message: String?
+    let onLoad: () -> Void
+    let onApply: () -> Void
+    let onRestore: () -> Void
+    @State private var confirmsApply = false
+    @State private var pickedItem: PhotosPickerItem?
+    @State private var photoImage: UIImage?
+    @State private var photoMessage: String?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Look", systemImage: "paintpalette")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white)
+            Text("Choose how the launcher looks and, if you want, a background photo. Your app order and the rest of the launcher's settings are kept.")
+                .font(.system(size: 12))
+                .lineSpacing(3)
+                .foregroundStyle(Palette.muted)
+                .fixedSize(horizontal: false, vertical: true)
+            if let current = look {
+                TVLookPreview(style: current.style ?? .classic, columns: current.columns, greetingName: greetingName, picture: photoImage)
+                if let style = current.style {
+                    Text("\(style.title). \(style.summary)")
+                        .font(.system(size: 12)).foregroundStyle(Palette.muted)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    Text("The TV has a look tuned by hand. Pick one below to replace its look settings.")
+                        .font(.system(size: 12)).foregroundStyle(Palette.muted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Text("STYLE").font(.system(size: 11, weight: .semibold)).foregroundStyle(Palette.amber)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(TVLookStyle.allCases) { style in
+                            Button { look?.style = style } label: {
+                                VStack(spacing: 6) {
+                                    TVLookPreview(style: style, columns: 4).frame(width: 130)
+                                        .overlay(RoundedRectangle(cornerRadius: 6)
+                                            .stroke(Palette.amber, lineWidth: current.style == style ? 2 : 0))
+                                    Text(style.title).font(.system(size: 12, weight: .semibold))
+                                        .foregroundStyle(current.style == style ? Palette.amber : .white)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                            .disabled(isWorking)
+                            .accessibilityLabel("\(style.title) look")
+                            .accessibilityAddTraits(current.style == style ? .isSelected : [])
+                        }
+                    }
+                }
+                Text("BACKGROUND PICTURE").font(.system(size: 11, weight: .semibold)).foregroundStyle(Palette.amber)
+                HStack(spacing: 10) {
+                    PhotosPicker(selection: $pickedItem, matching: .images, photoLibrary: .shared()) {
+                        Label(current.photo == nil ? "Choose from your photos" : "Choose another photo", systemImage: "photo")
+                            .font(.system(size: 14, weight: .semibold))
+                            .frame(maxWidth: .infinity).padding(.vertical, 11)
+                    }
+                    .buttonStyle(.bordered)
+                    .disabled(isWorking)
+                    if current.photo != nil {
+                        Button { look?.photo = nil } label: {
+                            Image(systemName: "xmark").padding(.vertical, 11).padding(.horizontal, 6)
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(isWorking)
+                        .accessibilityLabel("Don't use the chosen photo")
+                    }
+                }
+                Text(photoMessage ?? (current.hasPicture && current.photo == nil
+                     ? "The TV already has a picture and keeps it. Choose a photo to replace it."
+                     : "The photo is cropped to 16:9 and shrunk on this iPhone; its place and camera details are not sent."))
+                    .font(.system(size: 12)).foregroundStyle(Palette.muted)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text("APPS IN A ROW").font(.system(size: 11, weight: .semibold)).foregroundStyle(Palette.amber)
+                Picker("Apps in a row", selection: Binding(get: { current.columns }, set: { look?.columns = $0 })) {
+                    ForEach(Array(TVLookStyle.offeredColumns), id: \.self) { Text("\($0)").tag($0) }
+                }
+                .pickerStyle(.segmented)
+                .disabled(isWorking)
+                HStack {
+                    Text("Bigger").font(.system(size: 11)).foregroundStyle(Palette.muted)
+                    Spacer()
+                    Text("More apps").font(.system(size: 11)).foregroundStyle(Palette.muted)
+                }
+            }
+            if let message {
+                Label(message, systemImage: "doc.text")
+                    .font(.system(size: 12)).foregroundStyle(Palette.muted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if let blockReason, !isWorking {
+                Text(blockReason).font(.system(size: 12)).foregroundStyle(Palette.muted)
+            }
+            Button { confirmsApply = true } label: {
+                Label("Send the look to the TV", systemImage: "paperplane")
+                    .font(.system(size: 14, weight: .semibold))
+                    .frame(maxWidth: .infinity).padding(.vertical, 13)
+            }
+            .buttonStyle(.borderedProminent).tint(Palette.amber)
+            .disabled(blockReason != nil || look?.changed != true)
+            if look?.hasBackup == true {
+                Button(role: .destructive, action: onRestore) {
+                    Label("Put the previous settings back", systemImage: "arrow.uturn.backward")
+                        .font(.system(size: 14, weight: .semibold))
+                        .frame(maxWidth: .infinity).padding(.vertical, 13)
+                }
+                .buttonStyle(.bordered)
+                .disabled(blockReason != nil)
+            }
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Palette.surface, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .onAppear(perform: onLoad)
+        .onChange(of: look?.photo) { _, photo in
+            if photo == nil { photoImage = nil; pickedItem = nil; photoMessage = nil }
+        }
+        .onChange(of: pickedItem) { _, item in
+            guard let item else { return }
+            photoMessage = "Preparing the photo."
+            Task {
+                let jpeg = await Task.detached { () -> Data? in
+                    guard let data = try? await item.loadTransferable(type: Data.self) else { return nil }
+                    return TVWallpaper.jpeg(from: data)
+                }.value
+                if let jpeg, let image = UIImage(data: jpeg) {
+                    look?.photo = jpeg
+                    photoImage = image
+                    photoMessage = "Photo ready (\(jpeg.count / 1000) KB). It is sent with the look."
+                } else {
+                    photoMessage = "That photo could not be used. Try another one."
+                }
+            }
+        }
+        .confirmationDialog("Send this look to the TV?", isPresented: $confirmsApply, titleVisibility: .visible) {
+            Button("Send and restart the launcher", action: onApply)
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("The launcher restarts. A copy of the TV's current settings stays on this iPhone.")
+        }
     }
 }
 
