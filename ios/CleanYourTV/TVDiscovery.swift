@@ -566,7 +566,8 @@ final class TVDiscoveryModel: ObservableObject {
                 let backup = try? self.layoutBackupStore.load(tvID: identity.tvID)
                 self.launcherLook = LauncherLookState(
                     style: config.style, columns: min(max(config.columns, TVLookStyle.offeredColumns.lowerBound), TVLookStyle.offeredColumns.upperBound),
-                    onTV: config.style, columnsOnTV: config.columns, hasPicture: config.hasPicture, hasBackup: backup != nil
+                    onTV: config.style, columnsOnTV: config.columns, hasPicture: config.hasPicture, hasBackup: backup != nil,
+                    dim: config.pictureDim, dimOnTV: config.pictureDim
                 )
             } catch {
                 self.lookMessage = String(localized: "Could not read the look. \(error.localizedDescription)")
@@ -584,7 +585,7 @@ final class TVDiscoveryModel: ObservableObject {
             guard let self else { return }
             do {
                 let current = try await tvConnection.readLauncherConfig()
-                let next = try current.applying(style: style, columns: look.columns, withNewPicture: look.photo != nil)
+                let next = try current.applying(style: style, columns: look.columns, withNewPicture: look.photo != nil, dim: look.dim)
                 try self.layoutBackupStore.save(TVLauncherBackup(config: current.original, savedAt: Date()), tvID: identity.tvID)
                 if let photo = look.photo { try await tvConnection.writeLauncherWallpaper(photo) }
                 try await tvConnection.writeLauncherConfig(next)
@@ -593,7 +594,8 @@ final class TVDiscoveryModel: ObservableObject {
                     throw ADBSessionError.protocolViolation("the TV did not keep the new look")
                 }
                 self.launcherLook = LauncherLookState(style: style, columns: look.columns, onTV: style, columnsOnTV: look.columns,
-                                                      hasPicture: written.hasPicture, hasBackup: true)
+                                                      hasPicture: written.hasPicture, hasBackup: true,
+                                                      dim: written.pictureDim, dimOnTV: written.pictureDim)
                 self.launcherLayout = nil
                 self.lookMessage = look.photo == nil ? String(localized: "Done. The launcher restarted with the \(style.title) look.")
                     : String(localized: "Done. The launcher restarted with the \(style.title) look and your picture.")
@@ -786,9 +788,13 @@ struct LauncherLookState {
     let columnsOnTV: Int
     let hasPicture: Bool
     var hasBackup: Bool
+    var dim: Int
+    let dimOnTV: Int
 
     // The person's own picture from the gallery, already made into the launcher's JPEG (TVWallpaper), not yet on the TV.
     var photo: Data?
 
-    var changed: Bool { style != nil && (style != onTV || columns != columnsOnTV || photo != nil) }
+    var showsPicture: Bool { hasPicture || photo != nil }
+
+    var changed: Bool { style != nil && (style != onTV || columns != columnsOnTV || photo != nil || (showsPicture && dim != dimOnTV)) }
 }

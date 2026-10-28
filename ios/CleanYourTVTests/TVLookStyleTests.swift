@@ -96,7 +96,15 @@ final class TVLookStyleTests: XCTestCase {
         XCTAssertEqual(out["wallpaper_dim"] as? Int, 50)
         XCTAssertEqual(out["wallpaper_rotation_minutes"] as? Int, 0)
         XCTAssertNotNil(out["cinematic_scrim"])
-        XCTAssertEqual(try object(try config("{}").applying(style: .classic, columns: 4, withNewPicture: true))["wallpaper_dim"] as? Int, 30)
+        XCTAssertNil(try object(try config("{}").applying(style: .classic, columns: 4, withNewPicture: true))["wallpaper_dim"])
+    }
+
+    func testDimIsWrittenOnlyWithAPictureAndKeptInRange() throws {
+        XCTAssertEqual(try object(try config(#"{"wallpaper":true}"#).applying(style: .classic, columns: 4, dim: 10))["wallpaper_dim"] as? Int, 10)
+        XCTAssertEqual(try object(try config("{}").applying(style: .classic, columns: 4, withNewPicture: true, dim: 200))["wallpaper_dim"] as? Int, 90)
+        XCTAssertNil(try object(try config("{}").applying(style: .classic, columns: 4, dim: 10))["wallpaper_dim"])
+        XCTAssertEqual(try config(#"{"wallpaper_dim":50}"#).pictureDim, 50)
+        XCTAssertEqual(try config("{}").pictureDim, 30)
     }
 
     func testWallpaperIsA16by9JpegWithinTheLauncherLimit() throws {

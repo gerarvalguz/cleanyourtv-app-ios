@@ -163,12 +163,15 @@ struct TVLauncherConfig {
     }
 
     var hasPicture: Bool { (object["wallpaper"] as? Bool) ?? false }
+    // How much the launcher darkens the picture, 0 to 90 (its own default when the key is not there).
+    var pictureDim: Int { min(max((object["wallpaper_dim"] as? Int) ?? TVWallpaper.defaultDim, 0), TVWallpaper.maxDim) }
     var style: TVLookStyle? { TVLookStyle.detect(in: object) }
 
     // The look's keys, the apps in a row, then the dock cut as DockLayers.cut does for the new
     // columns (rows 0 on the Spotlight shelf, no dock title at three rows). The picture is left as it is,
-    // unless `withNewPicture`: the person's own wallpaper.jpg is on its way, so it is shown (single picture, no rotation, dim 30 unless set).
-    func applying(style: TVLookStyle, columns: Int, withNewPicture: Bool = false) throws -> Data {
+    // unless `withNewPicture`: the person's own wallpaper.jpg is on its way, so it is shown (single picture, no rotation).
+    // `dim` (0 to 90) is how much the picture is darkened; nil keeps the TV's value.
+    func applying(style: TVLookStyle, columns: Int, withNewPicture: Bool = false, dim: Int? = nil) throws -> Data {
         guard TVLookStyle.offeredColumns.contains(columns) else {
             throw ADBSessionError.protocolViolation("apps in a row must be 4 to 8")
         }
@@ -177,8 +180,8 @@ struct TVLauncherConfig {
         if withNewPicture {
             next["wallpaper"] = true
             next["wallpaper_rotation_minutes"] = 0
-            if next["wallpaper_dim"] == nil { next["wallpaper_dim"] = 30 }
         }
+        if let dim, hasPicture || withNewPicture { next["wallpaper_dim"] = min(max(dim, 0), TVWallpaper.maxDim) }
         next["columns"] = columns
         let dock = TVLauncherRows.trim(dockApps, columns: columns)
         if dock.isEmpty {

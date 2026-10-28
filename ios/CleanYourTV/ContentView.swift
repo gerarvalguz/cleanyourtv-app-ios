@@ -1005,6 +1005,18 @@ private struct LauncherLookCard: View {
                      : String(localized: "The photo is cropped to 16:9 and shrunk on this iPhone; its place and camera details are not sent.")))
                     .font(.system(size: 12)).foregroundStyle(Palette.muted)
                     .fixedSize(horizontal: false, vertical: true)
+                if current.showsPicture {
+                    HStack {
+                        Text("Clear").font(.system(size: 11)).foregroundStyle(Palette.muted)
+                        Slider(value: Binding(get: { Double(current.dim) }, set: { look?.dim = Int($0) }),
+                               in: 0...Double(TVWallpaper.maxDim), step: 5)
+                            .tint(Palette.amber)
+                            .disabled(isWorking)
+                            .accessibilityLabel("Dim the picture")
+                            .accessibilityValue("\(current.dim)%")
+                        Text("Dark").font(.system(size: 11)).foregroundStyle(Palette.muted)
+                    }
+                }
                 Text("APPS IN A ROW").font(.system(size: 11, weight: .semibold)).foregroundStyle(Palette.amber)
                 Picker("Apps in a row", selection: Binding(get: { current.columns }, set: { look?.columns = $0 })) {
                     ForEach(Array(TVLookStyle.offeredColumns), id: \.self) { Text("\($0)").tag($0) }
@@ -1060,6 +1072,7 @@ private struct LauncherLookCard: View {
                 let jpeg = await Task.detached { TVWallpaper.jpeg(from: data) }.value
                 if let jpeg, let image = UIImage(data: jpeg) {
                     look?.photo = jpeg
+                    look?.dim = TVWallpaper.newPhotoDim
                     look?.style = .spotlight   // apps in one row at the bottom, the rest of the screen shows the photo
                     photoImage = image
                     photoMessage = String(localized: "Photo ready (\(jpeg.count / 1000) KB). Spotlight keeps the apps in one row at the bottom so the photo shows; pick another look if you prefer.")

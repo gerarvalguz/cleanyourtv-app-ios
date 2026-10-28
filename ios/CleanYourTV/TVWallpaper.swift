@@ -9,6 +9,10 @@ import UIKit
 // shortcut: the middle is cropped, with no zoom or pan; add a crop screen if people ask to move it.
 enum TVWallpaper {
     static let maxBytes = 280_000
+    // The launcher's dim over the picture: 0 shows it as it is, 90 almost hides it. A new photo starts light.
+    static let maxDim = 90
+    static let defaultDim = 30
+    static let newPhotoDim = 10
     static let sizes = [CGSize(width: 1920, height: 1080), CGSize(width: 1600, height: 900), CGSize(width: 1280, height: 720)]
     static let qualities: [CGFloat] = [0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.5, 0.4]
     private static let workingLongSide = 3200
