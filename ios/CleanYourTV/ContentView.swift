@@ -473,6 +473,8 @@ private struct ConnectView: View {
                         )
                         WeatherChipCard(
                             place: discovery.weatherChipPlace,
+                            launcherCode: discovery.weatherChipLauncherCode,
+                            rowsBelowDock: discovery.weatherChipRows,
                             results: discovery.weatherChipResults,
                             isSearching: discovery.weatherChipSearching,
                             blockReason: discovery.layoutBlockReason,
@@ -1015,6 +1017,8 @@ private struct GreetingNameCard: View {
 
 private struct WeatherChipCard: View {
     let place: TVWeatherPlace?
+    let launcherCode: Int?
+    let rowsBelowDock: Int
     let results: [TVWeatherPlace]
     let isSearching: Bool
     let blockReason: String?
@@ -1038,6 +1042,19 @@ private struct WeatherChipCard: View {
             if let place {
                 Label(place.name.isEmpty ? String(localized: "A city is set") : place.name, systemImage: "mappin.and.ellipse")
                     .font(.system(size: 12, weight: .medium)).foregroundStyle(Palette.amber)
+                VStack(alignment: .leading, spacing: 6) {
+                    checkRow(launcherCode.map { $0 >= TVHomeInterceptor.chipVersionCode } ?? false,
+                             launcherCode == nil ? String(localized: "Launcher version not read") : String(localized: "Launcher with the weather chip"))
+                    if launcherCode.map({ $0 < TVHomeInterceptor.chipVersionCode }) == true {
+                        Text("This launcher is older and ignores the city. Use Reinstall in the \"Clean Your TV as the Home screen\" card (not the Weather card's).")
+                            .font(.system(size: 11)).foregroundStyle(Palette.muted).fixedSize(horizontal: false, vertical: true)
+                    }
+                    checkRow(rowsBelowDock <= 1, String(localized: "Room under the clock"))
+                    if rowsBelowDock > 1 {
+                        Text("The dock has \(rowsBelowDock) rows of apps under it, so the chip would cover them. Choose Spotlight or Glass cinema in Style and send it.")
+                            .font(.system(size: 11)).foregroundStyle(Palette.muted).fixedSize(horizontal: false, vertical: true)
+                    }
+                }
             }
             HStack(spacing: 10) {
                 TextField("City", text: $query)
@@ -1092,6 +1109,11 @@ private struct WeatherChipCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Palette.surface, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
         .onAppear(perform: onLoad)
+    }
+
+    private func checkRow(_ done: Bool, _ title: String) -> some View {
+        Label(title, systemImage: done ? "checkmark.circle.fill" : "circle")
+            .font(.system(size: 12)).foregroundStyle(done ? Palette.amber : Palette.muted)
     }
 }
 

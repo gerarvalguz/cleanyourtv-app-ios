@@ -9,6 +9,14 @@ enum TVHomeInterceptor {
     static let interceptorPackage = "tv.cleanyour.homeinterceptor"
     static let service = "tv.cleanyour.homeinterceptor/.HomeService"
     static let packages: Set<String> = [launcherPackage, interceptorPackage]
+    // The first launcher build with the weather chip (weather_lat and weather_lon); 8 and below ignore them.
+    static let chipVersionCode = 9
+
+    // "versionCode=9 minSdk=26 targetSdk=34" in `dumpsys package <name>`.
+    static func versionCode(in dump: String) -> Int? {
+        guard let range = dump.range(of: #"versionCode=(\d+)"#, options: .regularExpression) else { return nil }
+        return Int(dump[range].dropFirst("versionCode=".count))
+    }
     static let themeURI = "content://\(launcherPackage).theme"
 
     struct Bundled {
@@ -18,7 +26,7 @@ enum TVHomeInterceptor {
 
     static let launcher = Bundled(
         resource: "home-launcher",
-        sha256: "8c7f5a9edf56a780a109d7e7dc62323ceb2d5b38b90a735fafe7cbe7c3dadb57"
+        sha256: "f59b116cb0e6c0d727ba11764262f88fdb3d8f5843d76e5bf023028ef3a027dc"
     )
     static let interceptor = Bundled(
         resource: "home-interceptor",

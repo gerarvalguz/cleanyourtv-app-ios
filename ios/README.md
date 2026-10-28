@@ -60,7 +60,7 @@ The "Weather on the launcher" card sets a chip under the clock (temperature, con
 needs the launcher with the chip, which is not upstream: `third_party/cleanyourtv` plus a local patch (branch
 `weather-chip` in that checkout: `Weather.java`, the `weather_lat` and `weather_lon` config keys, and the
 `INTERNET` permission the upstream launcher deliberately lacks). The bundled `home-launcher.apk` is that build
-(versionCode 8, signed with the Android debug key like the one it replaces, so Reinstall upgrades in place and
+(versionCode 9, versionName 2.7.1, signed with the Android debug key like the one it replaces, so Reinstall upgrades in place and
 keeps `config.json`). The TV asks Open-Meteo for the chosen coordinates when Home opens and the last answer is 30
 minutes old; nothing runs while another app is open. The phone's only internet use is the city search on
 Open-Meteo's geocoding API (the typed text); it never reads the phone's location. The chip shows with at most one

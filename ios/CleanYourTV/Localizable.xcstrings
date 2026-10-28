@@ -2848,6 +2848,56 @@
           }
         }
       }
+    },
+    "Launcher version not read": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo leer la versión del launcher"
+          }
+        }
+      }
+    },
+    "Launcher with the weather chip": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launcher con el chip del clima"
+          }
+        }
+      }
+    },
+    "This launcher is older and ignores the city. Use Reinstall in the \"Clean Your TV as the Home screen\" card (not the Weather card's).": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este launcher es más viejo e ignora la ciudad. Usa Reinstalar en la tarjeta «Clean Your TV como pantalla de inicio» (no en la de la tarjeta de clima)."
+          }
+        }
+      }
+    },
+    "Room under the clock": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Espacio bajo el reloj"
+          }
+        }
+      }
+    },
+    "The dock has %lld rows of apps under it, so the chip would cover them. Choose Spotlight or Glass cinema in Style and send it.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El dock tiene %lld filas de apps debajo, así que el chip las taparía. Elige Destacado o Cine de cristal en Estilo y envíalo."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

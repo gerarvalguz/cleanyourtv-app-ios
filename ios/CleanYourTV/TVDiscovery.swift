@@ -46,6 +46,8 @@ final class TVDiscoveryModel: ObservableObject {
     @Published private(set) var greetingMessage: String?
     @Published private(set) var weatherChipPlace: TVWeatherPlace?
     @Published private(set) var weatherChipLoaded = false
+    @Published private(set) var weatherChipLauncherCode: Int?
+    @Published private(set) var weatherChipRows = 0
     @Published private(set) var weatherChipResults: [TVWeatherPlace] = []
     @Published private(set) var weatherChipSearching = false
     @Published private(set) var weatherChipMessage: String?
@@ -181,6 +183,8 @@ final class TVDiscoveryModel: ObservableObject {
         greetingMessage = nil
         weatherChipPlace = nil
         weatherChipLoaded = false
+        weatherChipLauncherCode = nil
+        weatherChipRows = 0
         weatherChipResults = []
         weatherChipMessage = nil
         layoutMessage = nil
@@ -577,6 +581,8 @@ final class TVDiscoveryModel: ObservableObject {
             guard let self else { return }
             if let config = try? await tvConnection.readLauncherConfig() {
                 self.weatherChipPlace = config.weatherPlace
+                self.weatherChipRows = config.rowsBelowDock
+                self.weatherChipLauncherCode = (try? await tvConnection.readLauncherVersionCode()) ?? nil
                 self.weatherChipLoaded = true
             }
         }
@@ -617,6 +623,7 @@ final class TVDiscoveryModel: ObservableObject {
                     throw ADBSessionError.protocolViolation("the TV did not keep the city")
                 }
                 self.weatherChipPlace = written.weatherPlace
+                self.weatherChipRows = written.rowsBelowDock
                 self.weatherChipResults = []
                 self.weatherChipMessage = place == nil
                     ? String(localized: "Done. The weather chip is off.")

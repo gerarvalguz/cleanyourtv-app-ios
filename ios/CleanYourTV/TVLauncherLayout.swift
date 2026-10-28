@@ -210,6 +210,11 @@ struct TVLauncherConfig {
     // The launcher says "<greeting>, <name>" for greeting_name and just the greeting without the key.
     var greetingName: String { Self.cleanName((object["greeting_name"] as? String) ?? "") }
 
+    // How many rows of apps sit under the dock (the launcher's own default is 0). The chip needs 1 or fewer.
+    var rowsBelowDock: Int {
+        (object["rows_below_dock"] as? Int).flatMap { (0...3).contains($0) ? $0 : nil } ?? 0
+    }
+
     // The city of the weather chip, nil when there is none (or its numbers are not a real place).
     var weatherPlace: TVWeatherPlace? {
         guard let lat = (object["weather_lat"] as? NSNumber)?.doubleValue, let lon = (object["weather_lon"] as? NSNumber)?.doubleValue else { return nil }

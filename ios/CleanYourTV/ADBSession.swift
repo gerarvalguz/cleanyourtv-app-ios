@@ -1030,6 +1030,12 @@ final class ADBTVConnection {
         }
     }
 
+    // The launcher's versionCode as the TV reports it (9 and up has the weather chip), nil when it is not installed.
+    func readLauncherVersionCode() async throws -> Int? {
+        let text = String(decoding: try await runReadOnly(.packagePermission(TVHomeInterceptor.launcherPackage)), as: UTF8.self)
+        return TVHomeInterceptor.versionCode(in: text)
+    }
+
     func uninstallBundledPackage(_ package: String) async throws {
         guard TVHomeInterceptor.packages.contains(package) || package == TVWeatherAddon.package else {
             throw ADBSessionError.protocolViolation("only the bundled packages can be removed")

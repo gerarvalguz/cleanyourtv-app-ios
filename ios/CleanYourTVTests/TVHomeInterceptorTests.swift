@@ -36,4 +36,10 @@ final class TVHomeInterceptorTests: XCTestCase {
         XCTAssertFalse(TVHomeSwitchStatus(packages: both, services: other).isActive)
         XCTAssertFalse(TVHomeSwitchStatus(packages: [], services: nil).hasAnyPart)
     }
+
+    func testTheLauncherVersionIsReadFromTheDump() {
+        XCTAssertEqual(TVHomeInterceptor.versionCode(in: "Packages:\n  Package [com.gathin.tvhome] (1a2b):\n    versionCode=9 minSdk=26 targetSdk=34\n"), 9)
+        XCTAssertNil(TVHomeInterceptor.versionCode(in: "Unable to find package: com.gathin.tvhome"))
+        XCTAssertGreaterThanOrEqual(9, TVHomeInterceptor.chipVersionCode)
+    }
 }

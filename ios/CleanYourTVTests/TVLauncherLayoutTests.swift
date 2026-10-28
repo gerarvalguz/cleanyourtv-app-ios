@@ -127,6 +127,12 @@ final class TVLauncherLayoutTests: XCTestCase {
         XCTAssertNil(cleared["weather_lat"]); XCTAssertNil(cleared["weather_lon"]); XCTAssertNil(cleared["weather_name"])
     }
 
+    func testRowsUnderTheDockDefaultToZeroAndStayInRange() throws {
+        XCTAssertEqual(try weatherConfig("{}").rowsBelowDock, 0)
+        XCTAssertEqual(try weatherConfig(#"{"rows_below_dock":2}"#).rowsBelowDock, 2)
+        XCTAssertEqual(try weatherConfig(#"{"rows_below_dock":9}"#).rowsBelowDock, 0)
+    }
+
     func testAPlaceNeedsRealCoordinates() {
         XCTAssertNil(TVWeatherPlace(name: "x", latitude: 91, longitude: 0))
         XCTAssertNil(TVWeatherPlace(name: "x", latitude: 0, longitude: -181))
