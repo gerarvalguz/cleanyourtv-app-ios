@@ -1031,8 +1031,8 @@ final class ADBTVConnection {
     }
 
     func uninstallBundledPackage(_ package: String) async throws {
-        guard TVHomeInterceptor.packages.contains(package) else {
-            throw ADBSessionError.protocolViolation("only the bundled home screen packages can be removed")
+        guard TVHomeInterceptor.packages.contains(package) || package == TVWeatherAddon.package else {
+            throw ADBSessionError.protocolViolation("only the bundled packages can be removed")
         }
         _ = try await runShell(service: "pm uninstall --user 0 \(package)", description: "app removal", outputLimit: 32 * 1024)
     }

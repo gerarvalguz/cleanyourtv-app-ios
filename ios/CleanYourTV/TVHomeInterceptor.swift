@@ -70,6 +70,17 @@ enum TVHomeInterceptor {
     }
 }
 
+// The optional Weather card: the launcher's own add-on (addons/weather, MIT), built from the repository and
+// bundled pinned by SHA-256 like the two above. It is an ordinary app with a dock card; its only
+// permission is INTERNET (Open-Meteo). The launcher asks once on the TV whether to show the card.
+enum TVWeatherAddon {
+    static let package = "io.github.sumyabazar1.weather"
+    static let apk = TVHomeInterceptor.Bundled(
+        resource: "weather-addon",
+        sha256: "b7c040bf0e339341adc7467ea3ce9dbdb8e3e129fdce6f09538d5920d9561da3"
+    )
+}
+
 struct TVHomeSwitchStatus: Equatable {
     let launcherInstalled: Bool
     let interceptorInstalled: Bool

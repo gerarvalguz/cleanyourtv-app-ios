@@ -493,6 +493,14 @@ private struct ConnectView: View {
                             onApply: { discovery.applyLauncherLayout() },
                             onRestore: { discovery.restoreLauncherLayout() }
                         )
+                        WeatherCard(
+                            installed: discovery.weatherInstalled,
+                            blockReason: discovery.layoutBlockReason,
+                            isWorking: discovery.isChangingHome,
+                            message: discovery.weatherMessage,
+                            onInstall: { discovery.installWeather() },
+                            onRemove: { discovery.removeWeather() }
+                        )
                     }
                     if let message = discovery.connectionMessage {
                         Label(message, systemImage: discovery.identity == nil ? "info.circle" : "lock.shield")
@@ -872,6 +880,73 @@ private struct HomeSwitchCard: View {
         Label(title, systemImage: done ? "checkmark.circle.fill" : "circle")
             .font(.system(size: 12))
             .foregroundStyle(done ? Palette.amber : Palette.muted)
+    }
+}
+
+private struct WeatherCard: View {
+    let installed: Bool
+    let blockReason: String?
+    let isWorking: Bool
+    let message: String?
+    let onInstall: () -> Void
+    let onRemove: () -> Void
+    @State private var confirmsInstall = false
+    @State private var confirmsRemove = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Weather card", systemImage: "cloud.sun")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white)
+            Text("Adds a Weather card to the launcher's dock: the temperature now, the air quality and the next days for one city. You type the city once on the TV with the remote. It reads Open-Meteo (no account) while the page is open, and is the only part that uses the internet.")
+                .font(.system(size: 12))
+                .lineSpacing(3)
+                .foregroundStyle(Palette.muted)
+                .fixedSize(horizontal: false, vertical: true)
+            if installed {
+                Label("Weather installed", systemImage: "checkmark.circle.fill")
+                    .font(.system(size: 12)).foregroundStyle(Palette.amber)
+            }
+            if let message {
+                Label(message, systemImage: "doc.text")
+                    .font(.system(size: 12)).foregroundStyle(Palette.muted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if let blockReason, !isWorking {
+                Text(blockReason).font(.system(size: 12)).foregroundStyle(Palette.muted)
+            }
+            Button { confirmsInstall = true } label: {
+                Label(installed ? String(localized: "Reinstall") : String(localized: "Install the Weather card"), systemImage: "arrow.down.app")
+                    .font(.system(size: 14, weight: .semibold))
+                    .frame(maxWidth: .infinity).padding(.vertical, 13)
+            }
+            .buttonStyle(.borderedProminent).tint(Palette.amber)
+            .disabled(blockReason != nil)
+            if installed {
+                Button(role: .destructive) { confirmsRemove = true } label: {
+                    Label("Remove the Weather card", systemImage: "trash")
+                        .font(.system(size: 14, weight: .semibold))
+                        .frame(maxWidth: .infinity).padding(.vertical, 13)
+                }
+                .buttonStyle(.bordered)
+                .disabled(blockReason != nil)
+            }
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Palette.surface, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .alert("Install the Weather card?", isPresented: $confirmsInstall) {
+            Button("Install", action: onInstall)
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Installs one small app (it asks for internet access only). After it, press Home on the TV and choose Show when the launcher asks. Remove it any time from this screen.")
+        }
+        .alert("Remove the Weather card?", isPresented: $confirmsRemove) {
+            Button("Remove", role: .destructive, action: onRemove)
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Uninstalls the Weather app. Nothing else on the TV changes.")
+        }
     }
 }
 

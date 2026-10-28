@@ -22,6 +22,7 @@
 		A1000000000000000000000A /* TVReviewPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000A /* TVReviewPlan.swift */; };
 		A1000000000000000000000B /* TVHomeInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000B /* TVHomeInterceptor.swift */; };
 		A1000000000000000000000C /* home-launcher.apk in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000C /* home-launcher.apk */; };
+		A1000000000000000000B09A /* weather-addon.apk in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000B09A /* weather-addon.apk */; };
 		A1000000000000000000000D /* home-interceptor.apk in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000D /* home-interceptor.apk */; };
 		A1000000000000000000000E /* TVHomeInterceptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000E /* TVHomeInterceptorTests.swift */; };
 		A1000000000000000000000F /* TVLauncherLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000F /* TVLauncherLayout.swift */; };
@@ -60,6 +61,7 @@
 		C10000000000000000000002 /* CleanYourTVTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleanYourTVTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1000000000000000000000B /* TVHomeInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVHomeInterceptor.swift; sourceTree = "<group>"; };
 		B1000000000000000000000C /* home-launcher.apk */ = {isa = PBXFileReference; lastKnownFileType = file; path = "home-launcher.apk"; sourceTree = "<group>"; };
+		B1000000000000000000B09A /* weather-addon.apk */ = {isa = PBXFileReference; lastKnownFileType = file; path = "weather-addon.apk"; sourceTree = "<group>"; };
 		B1000000000000000000000D /* home-interceptor.apk */ = {isa = PBXFileReference; lastKnownFileType = file; path = "home-interceptor.apk"; sourceTree = "<group>"; };
 		B1000000000000000000000E /* TVHomeInterceptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVHomeInterceptorTests.swift; sourceTree = "<group>"; };
 		B1000000000000000000000F /* TVLauncherLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVLauncherLayout.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				B1000000000000000000B08A /* TVPictureGallery.swift */,
 				B1000000000000000000B07A /* Wallpapers */,
 				B1000000000000000000000C /* home-launcher.apk */,
+				B1000000000000000000B09A /* weather-addon.apk */,
 				B1000000000000000000000D /* home-interceptor.apk */,
 			);
 			path = CleanYourTV;
@@ -229,6 +232,7 @@
 				A1000000000000000000B07A /* Wallpapers in Resources */,
 				A10000000000000000000008 /* profiles.json in Resources */,
 				A1000000000000000000000C /* home-launcher.apk in Resources */,
+				A1000000000000000000B09A /* weather-addon.apk in Resources */,
 				A1000000000000000000000D /* home-interceptor.apk in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

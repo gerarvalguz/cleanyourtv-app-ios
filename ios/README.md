@@ -51,6 +51,11 @@ uninstalls those two packages. Amazon's home is never disabled. This is experime
 break it, and the first press of Home waits 0.7 s so Amazon's Settings still open. Amazon's featured-content
 autoplay controls must still be changed on the TV.
 
+The optional "Weather card" installs a third bundled, SHA-256-pinned APK, the launcher's own add-on
+(`io.github.sumyabazar1.weather`, built from `third_party/cleanyourtv/addons/weather`, MIT, signed with the
+Android debug key like the launcher). It declares a dock card and asks only for `INTERNET` (Open-Meteo); the
+launcher asks once on the TV whether to show it. "Remove the Weather card" uninstalls just that package.
+
 The bundled catalog is generated from the pinned `third_party/cleanyourtv` submodule at
 `9071ec8d2f41826778f6b4c7f5f42dadc22f5b22` and `core/spec` metadata. Regenerate it with
 `./gradlew :core:spec:convertProfiles`, then copy the generated `profiles.json` into

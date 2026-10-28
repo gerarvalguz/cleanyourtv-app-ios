@@ -37,6 +37,8 @@ final class TVDiscoveryModel: ObservableObject {
     @Published private(set) var isRestoringPlan = false
     @Published private(set) var homeSwitchStatus: TVHomeSwitchStatus?
     @Published private(set) var isChangingHome = false
+    @Published private(set) var weatherInstalled = false
+    @Published private(set) var weatherMessage: String?
     @Published private(set) var homeSwitchMessage: String?
     @Published private(set) var launcherLayout: LauncherLayoutState?
     @Published var greetingName = ""
@@ -165,6 +167,8 @@ final class TVDiscoveryModel: ObservableObject {
         restorePoint = nil
         homeSwitchStatus = nil
         homeSwitchMessage = nil
+        weatherInstalled = false
+        weatherMessage = nil
         isChangingHome = false
         launcherLayout = nil
         greetingName = ""
@@ -233,6 +237,7 @@ final class TVDiscoveryModel: ObservableObject {
                 guard !Task.isCancelled else { return }
                 self.packages = snapshot.packages
                 self.configuration = snapshot.configuration
+                self.weatherInstalled = snapshot.packages.contains { $0.name == TVWeatherAddon.package }
                 self.homeSwitchStatus = TVHomeSwitchStatus(
                     packages: Set(snapshot.packages.map(\.name)),
                     services: snapshot.configuration.settings.first { $0.setting == .enabledAccessibilityServices }?.value
@@ -739,6 +744,53 @@ final class TVDiscoveryModel: ObservableObject {
                 self.layoutMessage = String(localized: "Restore is incomplete. \(error.localizedDescription) The saved copy is kept; try again.")
             }
             self.isChangingLayout = false
+        }
+    }
+
+    // Installs (or reinstalls) the bundled Weather card app. The launcher asks on the TV, once, whether to show it.
+    func installWeather() {
+        guard layoutBlockReason == nil, let tvConnection else { return }
+        isChangingHome = true
+        weatherMessage = String(localized: "Installing the Weather card.")
+        connectionTask?.cancel()
+        connectionTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await tvConnection.installBundledAPK(try TVHomeInterceptor.load(TVWeatherAddon.apk))
+                let installed = Set(try await tvConnection.readPackageInventory().map(\.name))
+                guard installed.contains(TVWeatherAddon.package) else {
+                    throw ADBSessionError.protocolViolation("the TV does not list the Weather app")
+                }
+                self.weatherInstalled = true
+                self.currentSnapshotDigest = nil
+                self.weatherMessage = String(localized: "Done. Press Home on the TV: the launcher asks whether to show the Weather card. Choose Show, then open the card and type your city.")
+            } catch {
+                self.weatherMessage = String(localized: "Stopped. \(error.localizedDescription) Nothing else was changed; you can try again.")
+            }
+            self.isChangingHome = false
+        }
+    }
+
+    func removeWeather() {
+        guard layoutBlockReason == nil, let tvConnection else { return }
+        isChangingHome = true
+        weatherMessage = String(localized: "Removing the Weather card.")
+        connectionTask?.cancel()
+        connectionTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await tvConnection.uninstallBundledPackage(TVWeatherAddon.package)
+                let installed = Set(try await tvConnection.readPackageInventory().map(\.name))
+                guard !installed.contains(TVWeatherAddon.package) else {
+                    throw ADBSessionError.protocolViolation("the TV still has the Weather app")
+                }
+                self.weatherInstalled = false
+                self.currentSnapshotDigest = nil
+                self.weatherMessage = String(localized: "The Weather card was removed.")
+            } catch {
+                self.weatherMessage = String(localized: "Removal is incomplete. \(error.localizedDescription) Reconnect and try again.")
+            }
+            self.isChangingHome = false
         }
     }
 

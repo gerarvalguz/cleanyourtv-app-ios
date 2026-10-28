@@ -2598,6 +2598,146 @@
           }
         }
       }
+    },
+    "Installing the Weather card.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instalando la tarjeta de clima."
+          }
+        }
+      }
+    },
+    "Done. Press Home on the TV: the launcher asks whether to show the Weather card. Choose Show, then open the card and type your city.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listo. Presiona Home en la TV: el launcher pregunta si mostrar la tarjeta de clima. Elige Mostrar, abre la tarjeta y escribe tu ciudad."
+          }
+        }
+      }
+    },
+    "Stopped. %@ Nothing else was changed; you can try again.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se detuvo. %@ No se cambió nada más; puedes intentarlo de nuevo."
+          }
+        }
+      }
+    },
+    "Removing the Weather card.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitando la tarjeta de clima."
+          }
+        }
+      }
+    },
+    "The Weather card was removed.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se quitó la tarjeta de clima."
+          }
+        }
+      }
+    },
+    "Weather card": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarjeta de clima"
+          }
+        }
+      }
+    },
+    "Adds a Weather card to the launcher's dock: the temperature now, the air quality and the next days for one city. You type the city once on the TV with the remote. It reads Open-Meteo (no account) while the page is open, and is the only part that uses the internet.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agrega una tarjeta de clima al dock del launcher: la temperatura actual, la calidad del aire y los próximos días de una ciudad. Escribes la ciudad una vez en la TV con el control remoto. Consulta Open-Meteo (sin cuenta) mientras la página está abierta, y es la única parte que usa internet."
+          }
+        }
+      }
+    },
+    "Weather installed": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clima instalado"
+          }
+        }
+      }
+    },
+    "Install the Weather card": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instalar la tarjeta de clima"
+          }
+        }
+      }
+    },
+    "Remove the Weather card": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitar la tarjeta de clima"
+          }
+        }
+      }
+    },
+    "Install the Weather card?": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Instalar la tarjeta de clima?"
+          }
+        }
+      }
+    },
+    "Installs one small app (it asks for internet access only). After it, press Home on the TV and choose Show when the launcher asks. Remove it any time from this screen.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instala una app pequeña (solo pide acceso a internet). Después, presiona Home en la TV y elige Mostrar cuando el launcher pregunte. Puedes quitarla cuando quieras desde esta pantalla."
+          }
+        }
+      }
+    },
+    "Remove the Weather card?": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Quitar la tarjeta de clima?"
+          }
+        }
+      }
+    },
+    "Uninstalls the Weather app. Nothing else on the TV changes.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desinstala la app de clima. Nada más cambia en la TV."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

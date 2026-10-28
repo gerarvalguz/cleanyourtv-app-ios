@@ -27,6 +27,7 @@ final class TVHomeInterceptorTests: XCTestCase {
         let bundle = Bundle(for: TVDiscoveryModel.self)
         XCTAssertFalse(try TVHomeInterceptor.load(TVHomeInterceptor.launcher, bundle: bundle).isEmpty)
         XCTAssertFalse(try TVHomeInterceptor.load(TVHomeInterceptor.interceptor, bundle: bundle).isEmpty)
+        XCTAssertFalse(try TVHomeInterceptor.load(TVWeatherAddon.apk, bundle: bundle).isEmpty)
     }
 
     func testStatusNeedsAllThreePartsToBeActive() {
