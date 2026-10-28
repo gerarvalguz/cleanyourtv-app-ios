@@ -109,4 +109,38 @@ final class TVLauncherLayoutTests: XCTestCase {
         XCTAssertEqual(TVLauncherConfig.cleanName("Ana\nMaría"), "AnaMaría")
         XCTAssertEqual(TVLauncherConfig.cleanName(""), "")
     }
+
+    private func weatherConfig(_ json: String) throws -> TVLauncherConfig { try TVLauncherConfig(data: Data(json.utf8)) }
+
+    func testTheWeatherChipKeysAreSetAndTakenOutKeepingTheRest() throws {
+        let place = try XCTUnwrap(TVWeatherPlace(name: "Tapachula, Chiapas, Mexico", latitude: 14.904412345, longitude: -92.262198765))
+        let out = try JSONSerialization.jsonObject(with: try weatherConfig(#"{"columns":5,"greeting_name":"Gera"}"#).applying(weatherPlace: place)) as! [String: Any]
+        XCTAssertEqual(out["weather_lat"] as? Double, 14.9044)
+        XCTAssertEqual(out["weather_lon"] as? Double, -92.2622)
+        XCTAssertEqual(out["weather_name"] as? String, "Tapachula, Chiapas, Mexico")
+        XCTAssertEqual(out["columns"] as? Int, 5)
+        XCTAssertEqual(out["greeting_name"] as? String, "Gera")
+        let again = try weatherConfig(String(decoding: try weatherConfig("{}").applying(weatherPlace: place), as: UTF8.self))
+        XCTAssertEqual(again.weatherPlace?.name, "Tapachula, Chiapas, Mexico")
+        XCTAssertEqual(again.weatherPlace?.latitude, 14.9044)
+        let cleared = try JSONSerialization.jsonObject(with: again.applying(weatherPlace: nil)) as! [String: Any]
+        XCTAssertNil(cleared["weather_lat"]); XCTAssertNil(cleared["weather_lon"]); XCTAssertNil(cleared["weather_name"])
+    }
+
+    func testAPlaceNeedsRealCoordinates() {
+        XCTAssertNil(TVWeatherPlace(name: "x", latitude: 91, longitude: 0))
+        XCTAssertNil(TVWeatherPlace(name: "x", latitude: 0, longitude: -181))
+        XCTAssertNil(try weatherConfig(#"{"weather_lat":14.9}"#).weatherPlace)
+    }
+
+    func testTheCitySearchReadsOpenMeteosAnswerAndAsksOnlyForTheCity() throws {
+        let answer = #"{"results":[{"name":"Tapachula","latitude":14.9,"longitude":-92.26,"country":"México","admin1":"Chiapas"},{"name":"Tapachula","latitude":14.91,"longitude":-92.27}]}"#
+        let places = try TVCitySearch.places(from: Data(answer.utf8))
+        XCTAssertEqual(places.map(\.name), ["Tapachula, Chiapas, México", "Tapachula"])
+        XCTAssertEqual(try TVCitySearch.places(from: Data("{\"generationtime_ms\":0.5}".utf8)), [])   // no "results" key: nothing matched
+        let url = try XCTUnwrap(TVCitySearch.url(for: "  São Paulo ", language: "es"))
+        XCTAssertEqual(url.host, "geocoding-api.open-meteo.com")
+        XCTAssertTrue(url.absoluteString.contains("name=S%C3%A3o%20Paulo"))
+        XCTAssertNil(TVCitySearch.url(for: "a", language: "es"))
+    }
 }

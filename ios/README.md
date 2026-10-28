@@ -56,6 +56,16 @@ The optional "Weather card" installs a third bundled, SHA-256-pinned APK, the la
 Android debug key like the launcher). It declares a dock card and asks only for `INTERNET` (Open-Meteo); the
 launcher asks once on the TV whether to show it. "Remove the Weather card" uninstalls just that package.
 
+The "Weather on the launcher" card sets a chip under the clock (temperature, conditions, today's high and low). It
+needs the launcher with the chip, which is not upstream: `third_party/cleanyourtv` plus a local patch (branch
+`weather-chip` in that checkout: `Weather.java`, the `weather_lat` and `weather_lon` config keys, and the
+`INTERNET` permission the upstream launcher deliberately lacks). The bundled `home-launcher.apk` is that build
+(versionCode 8, signed with the Android debug key like the one it replaces, so Reinstall upgrades in place and
+keeps `config.json`). The TV asks Open-Meteo for the chosen coordinates when Home opens and the last answer is 30
+minutes old; nothing runs while another app is open. The phone's only internet use is the city search on
+Open-Meteo's geocoding API (the typed text); it never reads the phone's location. The chip shows with at most one
+row of apps under the dock, so Spotlight and Glass cinema have it and a three row dock does not.
+
 The bundled catalog is generated from the pinned `third_party/cleanyourtv` submodule at
 `9071ec8d2f41826778f6b4c7f5f42dadc22f5b22` and `core/spec` metadata. Regenerate it with
 `./gradlew :core:spec:convertProfiles`, then copy the generated `profiles.json` into

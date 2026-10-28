@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1000000000000000000B0AA /* TVWeatherPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000B0AA /* TVWeatherPlace.swift */; };
 		A1000000000000000000B07A /* Wallpapers in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000B07A /* Wallpapers */; };
 		A1000000000000000000B08A /* TVPictureGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000B08A /* TVPictureGallery.swift */; };
 		A1000000000000000000B06A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000B06A /* Localizable.xcstrings */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B1000000000000000000B0AA /* TVWeatherPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVWeatherPlace.swift; sourceTree = "<group>"; };
 		B1000000000000000000B07A /* Wallpapers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Wallpapers; sourceTree = "<group>"; };
 		B1000000000000000000B08A /* TVPictureGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVPictureGallery.swift; sourceTree = "<group>"; };
 		B1000000000000000000B06A /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				B1000000000000000000B01A /* TVLookStyle.swift */,
 				B1000000000000000000B05A /* TVWallpaper.swift */,
 				B1000000000000000000B08A /* TVPictureGallery.swift */,
+				B1000000000000000000B0AA /* TVWeatherPlace.swift */,
 				B1000000000000000000B07A /* Wallpapers */,
 				B1000000000000000000000C /* home-launcher.apk */,
 				B1000000000000000000B09A /* weather-addon.apk */,
@@ -264,6 +267,7 @@
 				A1000000000000000000B01A /* TVLookStyle.swift in Sources */,
 				A1000000000000000000B05A /* TVWallpaper.swift in Sources */,
 				A1000000000000000000B08A /* TVPictureGallery.swift in Sources */,
+				A1000000000000000000B0AA /* TVWeatherPlace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -471,6 +471,17 @@ private struct ConnectView: View {
                             onLoad: { discovery.loadGreetingName() },
                             onApply: { discovery.applyGreetingName() }
                         )
+                        WeatherChipCard(
+                            place: discovery.weatherChipPlace,
+                            results: discovery.weatherChipResults,
+                            isSearching: discovery.weatherChipSearching,
+                            blockReason: discovery.layoutBlockReason,
+                            isWorking: discovery.isChangingLayout,
+                            message: discovery.weatherChipMessage,
+                            onLoad: { discovery.loadWeatherChip() },
+                            onSearch: { discovery.searchWeatherCity($0) },
+                            onApply: { discovery.applyWeatherPlace($0) }
+                        )
                         LauncherLookCard(
                             look: $discovery.launcherLook,
                             greetingName: discovery.greetingNameOnTV ?? "",
@@ -994,6 +1005,88 @@ private struct GreetingNameCard: View {
             }
             .buttonStyle(.borderedProminent).tint(Palette.amber)
             .disabled(blockReason != nil || !changed)
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Palette.surface, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .onAppear(perform: onLoad)
+    }
+}
+
+private struct WeatherChipCard: View {
+    let place: TVWeatherPlace?
+    let results: [TVWeatherPlace]
+    let isSearching: Bool
+    let blockReason: String?
+    let isWorking: Bool
+    let message: String?
+    let onLoad: () -> Void
+    let onSearch: (String) -> Void
+    let onApply: (TVWeatherPlace?) -> Void
+    @State private var query = ""
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Weather on the launcher", systemImage: "cloud.sun")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white)
+            Text("Shows the temperature, the conditions and today's high and low in a chip under the clock. The TV itself asks Open-Meteo (no account) when the home screen opens; only the city's coordinates are sent. It needs the updated launcher: use Reinstall in the Home screen card.")
+                .font(.system(size: 12))
+                .lineSpacing(3)
+                .foregroundStyle(Palette.muted)
+                .fixedSize(horizontal: false, vertical: true)
+            if let place {
+                Label(place.name.isEmpty ? String(localized: "A city is set") : place.name, systemImage: "mappin.and.ellipse")
+                    .font(.system(size: 12, weight: .medium)).foregroundStyle(Palette.amber)
+            }
+            HStack(spacing: 10) {
+                TextField("City", text: $query)
+                    .textInputAutocapitalization(.words)
+                    .autocorrectionDisabled()
+                    .submitLabel(.search)
+                    .onSubmit { onSearch(query) }
+                    .font(.system(size: 15))
+                    .padding(12)
+                    .background(Palette.background, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .disabled(isWorking)
+                Button { onSearch(query) } label: {
+                    Image(systemName: "magnifyingglass").padding(.vertical, 12).padding(.horizontal, 6)
+                }
+                .buttonStyle(.bordered)
+                .disabled(isWorking || isSearching || query.trimmingCharacters(in: .whitespaces).count < 2)
+                .accessibilityLabel("Search the city")
+            }
+            ForEach(results) { result in
+                Button { onApply(result) } label: {
+                    HStack {
+                        Text(result.name).font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
+                        Image(systemName: "paperplane").foregroundStyle(Palette.amber)
+                    }
+                    .padding(12)
+                    .background(Palette.background, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+                .buttonStyle(.plain)
+                .disabled(blockReason != nil || isWorking)
+            }
+            if let message {
+                Label(message, systemImage: "doc.text")
+                    .font(.system(size: 12)).foregroundStyle(Palette.muted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if let blockReason, !isWorking {
+                Text(blockReason).font(.system(size: 12)).foregroundStyle(Palette.muted)
+            }
+            if place != nil {
+                Button(role: .destructive) { onApply(nil) } label: {
+                    Label("Remove the weather chip", systemImage: "trash")
+                        .font(.system(size: 14, weight: .semibold))
+                        .frame(maxWidth: .infinity).padding(.vertical, 13)
+                }
+                .buttonStyle(.bordered)
+                .disabled(blockReason != nil || isWorking)
+            }
         }
         .padding(18)
         .frame(maxWidth: .infinity, alignment: .leading)

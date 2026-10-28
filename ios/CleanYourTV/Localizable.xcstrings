@@ -2738,6 +2738,116 @@
           }
         }
       }
+    },
+    "No city found. Check the spelling or try the nearest big city.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se encontró la ciudad. Revisa cómo está escrita o prueba con la ciudad grande más cercana."
+          }
+        }
+      }
+    },
+    "Could not search the city. Check this iPhone's internet and try again.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo buscar la ciudad. Revisa el internet de este iPhone e inténtalo de nuevo."
+          }
+        }
+      }
+    },
+    "Sending the city to the TV.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviando la ciudad a la TV."
+          }
+        }
+      }
+    },
+    "Done. The weather chip is off.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listo. El chip del clima está apagado."
+          }
+        }
+      }
+    },
+    "Done. The launcher restarted. The chip shows under the clock once the TV has the weather, and only with at most one row of apps under the dock (Spotlight and Glass cinema have none).": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listo. El launcher se reinició. El chip aparece bajo el reloj cuando la TV obtiene el clima, y solo con una fila de apps o menos bajo el dock (Destacado y Cine de cristal no tienen ninguna)."
+          }
+        }
+      }
+    },
+    "Weather on the launcher": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clima en el launcher"
+          }
+        }
+      }
+    },
+    "Shows the temperature, the conditions and today's high and low in a chip under the clock. The TV itself asks Open-Meteo (no account) when the home screen opens; only the city's coordinates are sent. It needs the updated launcher: use Reinstall in the Home screen card.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra la temperatura, el estado del tiempo y la máxima y mínima de hoy en un chip bajo el reloj. La propia TV consulta Open-Meteo (sin cuenta) al abrir la pantalla de inicio; solo se envían las coordenadas de la ciudad. Necesita el launcher actualizado: usa Reinstalar en la tarjeta de pantalla de inicio."
+          }
+        }
+      }
+    },
+    "A city is set": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hay una ciudad configurada"
+          }
+        }
+      }
+    },
+    "City": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad"
+          }
+        }
+      }
+    },
+    "Search the city": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar la ciudad"
+          }
+        }
+      }
+    },
+    "Remove the weather chip": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitar el chip del clima"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

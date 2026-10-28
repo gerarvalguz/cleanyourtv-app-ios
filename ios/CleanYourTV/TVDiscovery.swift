@@ -44,6 +44,11 @@ final class TVDiscoveryModel: ObservableObject {
     @Published var greetingName = ""
     @Published private(set) var greetingNameOnTV: String?
     @Published private(set) var greetingMessage: String?
+    @Published private(set) var weatherChipPlace: TVWeatherPlace?
+    @Published private(set) var weatherChipLoaded = false
+    @Published private(set) var weatherChipResults: [TVWeatherPlace] = []
+    @Published private(set) var weatherChipSearching = false
+    @Published private(set) var weatherChipMessage: String?
     @Published private(set) var isChangingLayout = false
     @Published private(set) var layoutMessage: String?
     @Published var launcherLook: LauncherLookState?
@@ -174,6 +179,10 @@ final class TVDiscoveryModel: ObservableObject {
         greetingName = ""
         greetingNameOnTV = nil
         greetingMessage = nil
+        weatherChipPlace = nil
+        weatherChipLoaded = false
+        weatherChipResults = []
+        weatherChipMessage = nil
         layoutMessage = nil
         isChangingLayout = false
         connectionTask = Task { [weak self] in
@@ -556,6 +565,64 @@ final class TVDiscoveryModel: ObservableObject {
                 self.greetingMessage = name.isEmpty ? String(localized: "Done. The greeting has no name now.") : String(localized: "Done. The launcher greets you by name.")
             } catch {
                 self.greetingMessage = String(localized: "Stopped. \(error.localizedDescription)")
+            }
+            self.isChangingLayout = false
+        }
+    }
+
+    // The city the weather chip shows now, as the TV's config.json has it.
+    func loadWeatherChip() {
+        guard layoutBlockReason == nil, !weatherChipLoaded, let tvConnection else { return }
+        Task { [weak self] in
+            guard let self else { return }
+            if let config = try? await tvConnection.readLauncherConfig() {
+                self.weatherChipPlace = config.weatherPlace
+                self.weatherChipLoaded = true
+            }
+        }
+    }
+
+    // Looks the typed city up on Open-Meteo (the one place the phone goes to the internet).
+    func searchWeatherCity(_ query: String) {
+        guard !weatherChipSearching else { return }
+        weatherChipSearching = true
+        weatherChipMessage = nil
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let places = try await TVCitySearch.search(query)
+                self.weatherChipResults = places
+                self.weatherChipMessage = places.isEmpty ? String(localized: "No city found. Check the spelling or try the nearest big city.") : nil
+            } catch {
+                self.weatherChipResults = []
+                self.weatherChipMessage = String(localized: "Could not search the city. Check this iPhone's internet and try again.")
+            }
+            self.weatherChipSearching = false
+        }
+    }
+
+    // Writes the chosen city (or takes the chip off for nil), keeping every other key of config.json.
+    func applyWeatherPlace(_ place: TVWeatherPlace?) {
+        guard layoutBlockReason == nil, let tvConnection else { return }
+        isChangingLayout = true
+        weatherChipMessage = String(localized: "Sending the city to the TV.")
+        connectionTask?.cancel()
+        connectionTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let current = try await tvConnection.readLauncherConfig()
+                try await tvConnection.writeLauncherConfig(try current.applying(weatherPlace: place))
+                let written = try await tvConnection.readLauncherConfig()
+                guard written.weatherPlace == place || (place != nil && written.weatherPlace?.latitude == place?.latitude && written.weatherPlace?.longitude == place?.longitude) else {
+                    throw ADBSessionError.protocolViolation("the TV did not keep the city")
+                }
+                self.weatherChipPlace = written.weatherPlace
+                self.weatherChipResults = []
+                self.weatherChipMessage = place == nil
+                    ? String(localized: "Done. The weather chip is off.")
+                    : String(localized: "Done. The launcher restarted. The chip shows under the clock once the TV has the weather, and only with at most one row of apps under the dock (Spotlight and Glass cinema have none).")
+            } catch {
+                self.weatherChipMessage = String(localized: "Stopped. \(error.localizedDescription)")
             }
             self.isChangingLayout = false
         }

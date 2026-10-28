@@ -18,7 +18,7 @@ enum TVHomeInterceptor {
 
     static let launcher = Bundled(
         resource: "home-launcher",
-        sha256: "31144f5a938223032dee573629b231b2041dad16068a0c344488128f5b4a1fee"
+        sha256: "8c7f5a9edf56a780a109d7e7dc62323ceb2d5b38b90a735fafe7cbe7c3dadb57"
     )
     static let interceptor = Bundled(
         resource: "home-interceptor",

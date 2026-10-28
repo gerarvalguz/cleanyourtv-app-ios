@@ -210,6 +210,21 @@ struct TVLauncherConfig {
     // The launcher says "<greeting>, <name>" for greeting_name and just the greeting without the key.
     var greetingName: String { Self.cleanName((object["greeting_name"] as? String) ?? "") }
 
+    // The city of the weather chip, nil when there is none (or its numbers are not a real place).
+    var weatherPlace: TVWeatherPlace? {
+        guard let lat = (object["weather_lat"] as? NSNumber)?.doubleValue, let lon = (object["weather_lon"] as? NSNumber)?.doubleValue else { return nil }
+        return TVWeatherPlace(name: (object["weather_name"] as? String) ?? "", latitude: lat, longitude: lon)
+    }
+
+    // Sets the chip's three keys, or takes them out for nil; every other key is kept.
+    func applying(weatherPlace: TVWeatherPlace?) throws -> Data {
+        var next = object
+        next["weather_lat"] = weatherPlace?.latitude
+        next["weather_lon"] = weatherPlace?.longitude
+        next["weather_name"] = weatherPlace.flatMap { $0.name.isEmpty ? nil : $0.name }
+        return try Self.encode(next)
+    }
+
     func applying(greetingName: String) throws -> Data {
         var next = object
         let name = Self.cleanName(greetingName)
