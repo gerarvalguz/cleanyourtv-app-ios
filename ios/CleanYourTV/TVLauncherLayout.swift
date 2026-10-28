@@ -169,9 +169,9 @@ struct TVLauncherConfig {
 
     // The look's keys, the apps in a row, then the dock cut as DockLayers.cut does for the new
     // columns (rows 0 on the Spotlight shelf, no dock title at three rows). The picture is left as it is,
-    // unless `withNewPicture`: the person's own wallpaper.jpg is on its way, so it is shown (single picture, no rotation).
+    // unless `withNewPicture`: a wallpaper.jpg (the person's own, or a gallery picture, `picture`) is on its way, so it is shown (single picture, no rotation).
     // `dim` (0 to 90) is how much the picture is darkened; nil keeps the TV's value.
-    func applying(style: TVLookStyle, columns: Int, withNewPicture: Bool = false, dim: Int? = nil) throws -> Data {
+    func applying(style: TVLookStyle, columns: Int, withNewPicture: Bool = false, dim: Int? = nil, picture: TVPicture? = nil) throws -> Data {
         guard TVLookStyle.offeredColumns.contains(columns) else {
             throw ADBSessionError.protocolViolation("apps in a row must be 4 to 8")
         }
@@ -180,6 +180,8 @@ struct TVLauncherConfig {
         if withNewPicture {
             next["wallpaper"] = true
             next["wallpaper_rotation_minutes"] = 0
+            // A gallery picture brings its own keys; the person's own photo clears a festival and the sky of the last one.
+            for (key, value) in picture?.keys ?? ["festival": nil, "festival_until": nil, "accent_color": nil, "sky_intensity": 0] { next[key] = value }
         }
         if let dim, hasPicture || withNewPicture { next["wallpaper_dim"] = min(max(dim, 0), TVWallpaper.maxDim) }
         next["columns"] = columns
@@ -187,7 +189,7 @@ struct TVLauncherConfig {
         if dock.isEmpty {
             next["dock_apps"] = nil
         } else {
-            let below = style == .spotlight ? 0 : TVLauncherRows.rowsBelowDock(count: dock.count, columns: columns)
+            let below = style.isCinematic ? 0 : TVLauncherRows.rowsBelowDock(count: dock.count, columns: columns)
             next["dock_apps"] = dock
             next["rows_below_dock"] = below
             if below == TVLauncherRows.maxRows - 1 { next["dock_title"] = false }

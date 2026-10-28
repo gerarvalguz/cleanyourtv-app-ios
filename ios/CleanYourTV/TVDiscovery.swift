@@ -585,7 +585,7 @@ final class TVDiscoveryModel: ObservableObject {
             guard let self else { return }
             do {
                 let current = try await tvConnection.readLauncherConfig()
-                let next = try current.applying(style: style, columns: look.columns, withNewPicture: look.photo != nil, dim: look.dim)
+                let next = try current.applying(style: style, columns: look.columns, withNewPicture: look.photo != nil, dim: look.dim, picture: look.picture)
                 try self.layoutBackupStore.save(TVLauncherBackup(config: current.original, savedAt: Date()), tvID: identity.tvID)
                 if let photo = look.photo { try await tvConnection.writeLauncherWallpaper(photo) }
                 try await tvConnection.writeLauncherConfig(next)
@@ -793,6 +793,8 @@ struct LauncherLookState {
 
     // The person's own picture from the gallery, already made into the launcher's JPEG (TVWallpaper), not yet on the TV.
     var photo: Data?
+    // Set when `photo` is a picture of the gallery, which brings its own keys; nil for the person's own photo.
+    var picture: TVPicture?
 
     var showsPicture: Bool { hasPicture || photo != nil }
 

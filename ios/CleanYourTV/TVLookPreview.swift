@@ -8,6 +8,7 @@ struct TVLookPreview: View {
     let columns: Int
     var greetingName = ""
     var picture: UIImage?
+    var pictureDim = 0   // percent, as the launcher's wallpaper_dim
 
     private let tiles: [(String, Color)] = [
         ("Netflix", Color(red: 0.75, green: 0.1, blue: 0.12)), ("Disney+", Color(red: 0.1, green: 0.2, blue: 0.5)),
@@ -24,7 +25,7 @@ struct TVLookPreview: View {
                 VStack(alignment: .leading, spacing: 0) {
                     topBar(width: w)
                     Spacer(minLength: 0)
-                    if style == .spotlight {
+                    if style.isCinematic {
                         Text("Netflix").font(.system(size: w * 0.075, weight: .bold)).foregroundStyle(.white)
                             .padding(.bottom, h * 0.02)
                     } else if style.showsBigName {
@@ -48,7 +49,7 @@ struct TVLookPreview: View {
             if let picture {
                 Color.black
                 Image(uiImage: picture).resizable().scaledToFill()
-                Color.black.opacity(0.3)
+                Color.black.opacity(Double(pictureDim) / 100)
             } else {
                 LinearGradient(colors: [Color(red: 0.2, green: 0.05, blue: 0.3), Color(red: 0.05, green: 0.02, blue: 0.1)],
                                startPoint: .top, endPoint: .bottom)
@@ -57,7 +58,7 @@ struct TVLookPreview: View {
                                    center: style == .glass ? .top : .center, startRadius: 4, endRadius: 160)
                 }
             }
-            if style == .spotlight {
+            if style.isCinematic {
                 LinearGradient(colors: [.clear, .black.opacity(0.7)], startPoint: .top, endPoint: .bottom)
             }
         }
@@ -105,7 +106,7 @@ struct TVLookPreview: View {
         }
         .padding(style.showsDockBand ? spacing : 0)
         .background {
-            if style == .glass { band.fill(.white.opacity(0.14)) }
+            if style.hasGlassDock { band.fill(.white.opacity(0.14)) }
             else if style.showsDockBand { band.fill(.black.opacity(0.55)) }
         }
     }

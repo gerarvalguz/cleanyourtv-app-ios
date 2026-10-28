@@ -952,7 +952,7 @@ private struct LauncherLookCard: View {
                 .foregroundStyle(Palette.muted)
                 .fixedSize(horizontal: false, vertical: true)
             if let current = look {
-                TVLookPreview(style: current.style ?? .classic, columns: current.columns, greetingName: greetingName, picture: photoImage)
+                TVLookPreview(style: current.style ?? .classic, columns: current.columns, greetingName: greetingName, picture: photoImage, pictureDim: current.dim)
                 if let style = current.style {
                     Text("\(style.title). \(style.summary)")
                         .font(.system(size: 12)).foregroundStyle(Palette.muted)
@@ -983,6 +983,37 @@ private struct LauncherLookCard: View {
                     }
                 }
                 Text("BACKGROUND PICTURE").font(.system(size: 11, weight: .semibold)).foregroundStyle(Palette.amber)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(TVPicture.offered()) { picture in
+                            Button {
+                                guard let jpeg = picture.jpeg else { return }
+                                look?.photo = jpeg
+                                look?.picture = picture
+                                look?.dim = 0
+                                if look?.style?.isCinematic != true { look?.style = .spotlight }
+                                photoImage = UIImage(data: jpeg)
+                                photoMessage = nil
+                                pickedItem = nil
+                            } label: {
+                                VStack(spacing: 6) {
+                                    Group {
+                                        if let thumbnail = picture.thumbnail { Image(uiImage: thumbnail).resizable().scaledToFill() } else { Color.black }
+                                    }
+                                    .frame(width: 112, height: 63)
+                                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Palette.amber, lineWidth: current.picture?.id == picture.id ? 2 : 0))
+                                    Text(picture.title).font(.system(size: 12, weight: .semibold))
+                                        .foregroundStyle(current.picture?.id == picture.id ? Palette.amber : .white)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                            .disabled(isWorking)
+                            .accessibilityLabel(picture.title)
+                            .accessibilityAddTraits(current.picture?.id == picture.id ? .isSelected : [])
+                        }
+                    }
+                }
                 HStack(spacing: 10) {
                     PhotosPicker(selection: $pickedItem, matching: .images, photoLibrary: .shared()) {
                         Label(current.photo == nil ? String(localized: "Choose from your photos") : String(localized: "Choose another photo"), systemImage: String(localized: "photo"))
@@ -992,7 +1023,7 @@ private struct LauncherLookCard: View {
                     .buttonStyle(.bordered)
                     .disabled(isWorking)
                     if current.photo != nil {
-                        Button { look?.photo = nil } label: {
+                        Button { look?.photo = nil; look?.picture = nil } label: {
                             Image(systemName: "xmark").padding(.vertical, 11).padding(.horizontal, 6)
                         }
                         .buttonStyle(.bordered)
@@ -1072,8 +1103,9 @@ private struct LauncherLookCard: View {
                 let jpeg = await Task.detached { TVWallpaper.jpeg(from: data) }.value
                 if let jpeg, let image = UIImage(data: jpeg) {
                     look?.photo = jpeg
+                    look?.picture = nil
                     look?.dim = TVWallpaper.newPhotoDim
-                    look?.style = .spotlight   // apps in one row at the bottom, the rest of the screen shows the photo
+                    if look?.style?.isCinematic != true { look?.style = .spotlight }   // apps in one row at the bottom, the rest of the screen shows the photo
                     photoImage = image
                     photoMessage = String(localized: "Photo ready (\(jpeg.count / 1000) KB). Spotlight keeps the apps in one row at the bottom so the photo shows; pick another look if you prefer.")
                 } else {

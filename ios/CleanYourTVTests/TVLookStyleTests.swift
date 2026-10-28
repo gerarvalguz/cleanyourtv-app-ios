@@ -117,4 +117,47 @@ final class TVLookStyleTests: XCTestCase {
         XCTAssertEqual(image.size.width * image.scale / (image.size.height * image.scale), 16.0 / 9.0, accuracy: 0.01)
         XCTAssertNil(TVWallpaper.jpeg(from: Data("not a picture".utf8)))
     }
+
+    func testGlassCinemaIsSpotlightWithAGlassDock() throws {
+        let out = try object(try config("{}").applying(style: .cinemaglass, columns: 6))
+        XCTAssertEqual(out["cinematic_home"] as? Bool, true)
+        XCTAssertEqual(out["dock_glass"] as? Bool, true)
+        XCTAssertEqual(out["dock_even_padding"] as? Bool, true)
+        XCTAssertEqual(out["rows_below_dock"] as? Int ?? 0, 0)
+        let spot = try object(try config("{}").applying(style: .spotlight, columns: 6))
+        XCTAssertEqual(spot["dock_glass"] as? Bool, false)
+    }
+
+    func testEachStyleIsDetectedFromItsOwnConfig() throws {
+        for style in TVLookStyle.allCases {
+            let data = try config("{}").applying(style: style, columns: 5)
+            XCTAssertEqual(try config(String(decoding: data, as: UTF8.self)).style, style, "\(style)")
+        }
+    }
+
+    func testEveryGalleryPictureIsBundledAndFitsTheLauncher() throws {
+        for picture in TVPicture.all {
+            let jpeg = try XCTUnwrap(picture.jpeg, picture.id)
+            XCTAssertLessThanOrEqual(jpeg.count, TVWallpaper.maxBytes, picture.id)
+            XCTAssertNotNil(UIImage(data: jpeg), picture.id)
+        }
+    }
+
+    func testAGalleryPictureWritesItsKeysAndAFestivalEndsOnItsLastDay() throws {
+        let diwali = try XCTUnwrap(TVPicture.all.first { $0.id == "diwali" })
+        let out = try object(try config("{}").applying(style: .classic, columns: 5, withNewPicture: true, dim: 0, picture: diwali))
+        XCTAssertEqual(out["festival"] as? String, "diwali")
+        XCTAssertEqual(out["festival_until"] as? String, "2026-11-10")
+        XCTAssertEqual(out["background_color"] as? String, "#120809")
+        XCTAssertEqual(out["wallpaper_dim"] as? Int, 0)
+        // Another picture afterwards leaves no festival behind.
+        let mountains = try XCTUnwrap(TVPicture.all.first { $0.id == "mountains" })
+        let next = try object(try config(String(decoding: try config("{}").applying(style: .classic, columns: 5, withNewPicture: true, picture: diwali), as: UTF8.self))
+            .applying(style: .classic, columns: 5, withNewPicture: true, picture: mountains))
+        XCTAssertNil(next["festival"])
+        XCTAssertNil(next["accent_color"])
+        XCTAssertEqual(next["sky_intensity"] as? Int, 55)
+        XCTAssertTrue(TVPicture.offered(on: "2026-11-10").contains { $0.id == "diwali" })
+        XCTAssertFalse(TVPicture.offered(on: "2026-11-11").contains { $0.id == "diwali" })
+    }
 }

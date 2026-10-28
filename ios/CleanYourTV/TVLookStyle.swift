@@ -5,7 +5,7 @@ import Foundation
 // "lively", launcher names off). Every key is written outright, a style's value or its removal, so
 // nothing of the last look stays behind on the TV. Picture, dim and sky keys are never touched.
 enum TVLookStyle: String, CaseIterable, Identifiable {
-    case classic, glass, spotlight, allapps, calm
+    case classic, glass, spotlight, cinemaglass, allapps, calm
 
     var id: String { rawValue }
 
@@ -14,6 +14,7 @@ enum TVLookStyle: String, CaseIterable, Identifiable {
         case .classic: String(localized: "Classic")
         case .glass: String(localized: "Glass")
         case .spotlight: String(localized: "Spotlight")
+        case .cinemaglass: String(localized: "Glass cinema")
         case .allapps: String(localized: "All apps")
         case .calm: String(localized: "Calm")
         }
@@ -24,6 +25,7 @@ enum TVLookStyle: String, CaseIterable, Identifiable {
         case .classic: String(localized: "A dark dock, a big name and a soft glow.")
         case .glass: String(localized: "A frosted dock and light in each app's colour.")
         case .spotlight: String(localized: "A big banner of the app you are on, like newer smart TVs.")
+        case .cinemaglass: String(localized: "Spotlight's banner with a frosted dock over your picture.")
         case .allapps: String(localized: "Every app in one grid, with no dock band.")
         case .calm: String(localized: "No glow and no big name. Just apps and your picture.")
         }
@@ -35,6 +37,10 @@ enum TVLookStyle: String, CaseIterable, Identifiable {
     private static let spotlightScrimWithPicture = 45, spotlightArtWithPicture = 20
     private static let spotlightScrimWithout = 100, spotlightArtWithout = 50
 
+    // Spotlight and Glass cinema: the cinematic shelf, apps in one row at the bottom.
+    var isCinematic: Bool { self == .spotlight || self == .cinemaglass }
+    var hasGlassDock: Bool { self == .glass || self == .cinemaglass }
+
     var showsBigName: Bool { self != .allapps && self != .calm }
     var showsDockBand: Bool { self != .allapps && self != .spotlight }
     var showsGlow: Bool { self != .calm }
@@ -42,7 +48,7 @@ enum TVLookStyle: String, CaseIterable, Identifiable {
 
     // nil means the key is removed.
     func keys(hasPicture: Bool) -> [String: Any?] {
-        let spot = self == .spotlight
+        let spot = isCinematic
         let glass = self == .glass
         let ring = self != .classic && self != .calm
         let glowOn = self != .calm
@@ -56,9 +62,9 @@ enum TVLookStyle: String, CaseIterable, Identifiable {
             "ambient_glow": glowOn,
             "glow_style": glass ? "horizon" : "radial",
             "app_glow": spot ? false : ring,
-            "dock_glass": glass,
+            "dock_glass": hasGlassDock,
             "dock_opacity": 100,
-            "dock_even_padding": glass,
+            "dock_even_padding": hasGlassDock,
             "always_show_names": false,
             "icon_only_buttons": roundButtons,
             "icon_only_inputs": roundButtons,

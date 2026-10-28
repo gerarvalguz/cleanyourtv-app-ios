@@ -2508,6 +2508,96 @@
           }
         }
       }
+    },
+    "Glass cinema": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cine de cristal"
+          }
+        }
+      }
+    },
+    "Spotlight's banner with a frosted dock over your picture.": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El banner de Destacado con un dock esmerilado sobre tu imagen."
+          }
+        }
+      }
+    },
+    "Curtains": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cortinas"
+          }
+        }
+      }
+    },
+    "Mountains": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montañas"
+          }
+        }
+      }
+    },
+    "Neon": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neón"
+          }
+        }
+      }
+    },
+    "Cobalt": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cobalto"
+          }
+        }
+      }
+    },
+    "Lamp light": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luz de lámpara"
+          }
+        }
+      }
+    },
+    "Mist": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niebla"
+          }
+        }
+      }
+    },
+    "Diwali": {
+      "localizations": {
+        "es-419": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diwali"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
