@@ -57,8 +57,9 @@ Android debug key like the launcher). It declares a dock card and asks only for 
 launcher asks once on the TV whether to show it. "Remove the Weather card" uninstalls just that package.
 
 The "Weather on the launcher" card sets a chip under the clock (temperature, conditions, today's high and low). It
-needs the launcher with the chip, which is not upstream: `third_party/cleanyourtv` plus a local patch (branch
-`weather-chip` in that checkout: `Weather.java`, the `weather_lat` and `weather_lon` config keys, and the
+needs the launcher with the chip, which is not upstream: `third_party/cleanyourtv` (v2.7.0) plus the patch
+`third_party/patches/launcher-weather-chip.patch` (`git -C third_party/cleanyourtv am ../patches/launcher-weather-chip.patch`:
+`Weather.java`, the `weather_lat` and `weather_lon` config keys, and the
 `INTERNET` permission the upstream launcher deliberately lacks). The bundled `home-launcher.apk` is that build
 (versionCode 9, versionName 2.7.1, signed with the Android debug key like the one it replaces, so Reinstall upgrades in place and
 keeps `config.json`). The TV asks Open-Meteo for the chosen coordinates when Home opens and the last answer is 30

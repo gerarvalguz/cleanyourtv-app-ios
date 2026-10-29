@@ -1,0 +1,616 @@
+From d158a9b01dce978d8a7d14d2d44bf819ecb41b99 Mon Sep 17 00:00:00 2001
+From: Gerardo Valenciano <gera.valenciano@gmail.com>
+Date: Tue, 27 Oct 2026 19:52:06 -0600
+Subject: [PATCH 1/2] Launcher: a weather chip under the clock (weather_lat,
+ weather_lon)
+
+One GET to Open-Meteo when Home is shown and the last answer is 30 minutes old,
+on a worker thread; off without both keys. Adds the INTERNET permission the
+upstream launcher does not have. Shown with at most one row under the dock.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
+---
+ launcher/app/build.gradle                     |   2 +
+ launcher/app/src/main/AndroidManifest.xml     |   2 +
+ .../main/java/com/gathin/tvhome/Config.java   |  18 ++-
+ .../java/com/gathin/tvhome/MainActivity.java  |  64 ++++++++++
+ .../main/java/com/gathin/tvhome/Weather.java  | 116 ++++++++++++++++++
+ .../src/main/res/drawable/ic_weather_moon.xml |   6 +
+ .../src/main/res/drawable/ic_weather_sun.xml  |   7 ++
+ .../src/main/res/drawable/weather_chip_bg.xml |   6 +
+ .../app/src/main/res/layout/activity_main.xml |  63 ++++++++++
+ .../app/src/main/res/values-es/strings.xml    |   9 ++
+ launcher/app/src/main/res/values/strings.xml  |  11 ++
+ .../java/com/gathin/tvhome/WeatherTest.java   |  72 +++++++++++
+ 12 files changed, 374 insertions(+), 2 deletions(-)
+ create mode 100644 launcher/app/src/main/java/com/gathin/tvhome/Weather.java
+ create mode 100644 launcher/app/src/main/res/drawable/ic_weather_moon.xml
+ create mode 100644 launcher/app/src/main/res/drawable/ic_weather_sun.xml
+ create mode 100644 launcher/app/src/main/res/drawable/weather_chip_bg.xml
+ create mode 100644 launcher/app/src/test/java/com/gathin/tvhome/WeatherTest.java
+
+diff --git a/launcher/app/build.gradle b/launcher/app/build.gradle
+index b5cf71f1..b1c8bf88 100644
+--- a/launcher/app/build.gradle
++++ b/launcher/app/build.gradle
+@@ -45,4 +45,6 @@ dependencies {
+     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+     // Test only (never in the APK): plain JVM tests for the module card validators, src/test.
+     testImplementation 'junit:junit:4.13.2'
++    // Test only: the JVM has no org.json (Android ships it), and Weather.parse reads Open-Meteo's answer with it.
++    testImplementation 'org.json:json:20231013'
+ }
+diff --git a/launcher/app/src/main/AndroidManifest.xml b/launcher/app/src/main/AndroidManifest.xml
+index 80124b58..d229a25c 100644
+--- a/launcher/app/src/main/AndroidManifest.xml
++++ b/launcher/app/src/main/AndroidManifest.xml
+@@ -7,6 +7,8 @@
+     <uses-feature android:name="android.hardware.wifi" android:required="false" />
+     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+ 
++    <!-- Only for the weather chip (Weather.java): one GET to open-meteo.com when the owner has set weather_lat and weather_lon. -->
++    <uses-permission android:name="android.permission.INTERNET" />
+     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+     <!-- Needed since Android 10 to read the Wi-Fi network name for the network pill. Never requested at
+diff --git a/launcher/app/src/main/java/com/gathin/tvhome/Config.java b/launcher/app/src/main/java/com/gathin/tvhome/Config.java
+index 6252d6d4..cf1a4eb2 100644
+--- a/launcher/app/src/main/java/com/gathin/tvhome/Config.java
++++ b/launcher/app/src/main/java/com/gathin/tvhome/Config.java
+@@ -143,6 +143,8 @@ final class Config {
+     final boolean keyFilter;
+     /** With keyFilter on, the key services stop filtering while a game controller is connected (gamepad_passthrough). */
+     final boolean gamepadPassthrough;
++    /** The weather chip's place (weather_lat, weather_lon); NaN for both when it is off. */
++    final double weatherLat, weatherLon;
+     /** Stock launcher whose home screen is sent back here if the firmware revives it (config.xml stock_home_redirect). */
+     final String stockHomeRedirect;
+     /** The Settings button opens the quick settings panel instead of the TV's Settings (settings_key_panel). */
+@@ -220,7 +222,7 @@ final class Config {
+                    List<RaceWeekend.Race> raceCalendar, boolean cinematicHome, boolean ambientGlow, boolean appGlow, boolean fadeRows, int homeIdleClockMinutes,
+                    boolean keyFilter, boolean dockGlass, String glowStyle, boolean wallpaperCaptions,
+                    boolean handleViewInputs, boolean tileMenu, boolean dockEvenPadding, boolean cinematicDots, boolean cinematicWhiteFocus, boolean wifiStatusColor, int cinematicScrim, int cinematicArt,
+-                   Map<String, Set<String>> wallpaperMoods, boolean gamepadPassthrough) {
++                   Map<String, Set<String>> wallpaperMoods, boolean gamepadPassthrough, double weatherLat, double weatherLon) {
+         this.handleViewInputs = handleViewInputs;
+         this.tileMenu = tileMenu;
+         this.inputKeycodes = inputKeycodes;
+@@ -300,6 +302,8 @@ final class Config {
+         this.cinematicScrim = cinematicScrim;
+         this.wallpaperMoods = wallpaperMoods;
+         this.gamepadPassthrough = gamepadPassthrough;
++        this.weatherLat = weatherLat;
++        this.weatherLon = weatherLon;
+         this.glowStyle = glowStyle(glowStyle);
+         this.wallpaperCaptions = wallpaperCaptions;
+     }
+@@ -378,6 +382,7 @@ final class Config {
+         int idleClockMinutes = res.getInteger(R.integer.home_idle_clock_minutes);
+         boolean keyFilter = res.getBoolean(R.bool.key_filter);
+         boolean gamepadPassthrough = res.getBoolean(R.bool.gamepad_passthrough);
++        double weatherLat = Double.NaN, weatherLon = Double.NaN;
+         boolean dockGlass = res.getBoolean(R.bool.dock_glass);
+         boolean dockEvenPadding = res.getBoolean(R.bool.dock_even_padding);
+         boolean cinematicDots = res.getBoolean(R.bool.cinematic_dots);
+@@ -457,6 +462,8 @@ final class Config {
+             idleClockMinutes = integer(json, "home_idle_clock_minutes", idleClockMinutes, 0, 1440);
+             keyFilter = bool(json, "key_filter", keyFilter);
+             gamepadPassthrough = bool(json, "gamepad_passthrough", gamepadPassthrough);
++            weatherLat = number(json, "weather_lat", weatherLat, -90, 90);
++            weatherLon = number(json, "weather_lon", weatherLon, -180, 180);
+             dockGlass = bool(json, "dock_glass", dockGlass);
+             dockEvenPadding = bool(json, "dock_even_padding", dockEvenPadding);
+             cinematicDots = bool(json, "cinematic_dots", cinematicDots);
+@@ -520,7 +527,7 @@ final class Config {
+                 Math.max(0, Math.min(100, skyIntensity)), settingsKeycodes, settingsKeyPanel, restoreKeyServices, wallpaperEnabled, wallpaper,
+                 wallpapers, rotationMinutes, wallpaperDim, dockOpacity, wallpaperOrder, applied,
+                 festival, inputKeycodes, appKeys, stockHomeRedirect, json == null ? Collections.emptyList() : raceCalendar(json), cinematic, ambientGlow, appGlow, fadeRows,
+-                Math.max(0, idleClockMinutes), keyFilter, dockGlass, glowStyle, wallpaperCaptions, handleViewInputs, tileMenu, dockEvenPadding, cinematicDots, cinematicWhiteFocus, wifiStatusColor, cinematicScrim, cinematicArt, wallpaperMoods, gamepadPassthrough);
++                Math.max(0, idleClockMinutes), keyFilter, dockGlass, glowStyle, wallpaperCaptions, handleViewInputs, tileMenu, dockEvenPadding, cinematicDots, cinematicWhiteFocus, wifiStatusColor, cinematicScrim, cinematicArt, wallpaperMoods, gamepadPassthrough, weatherLat, weatherLon);
+     }
+ 
+     /**
+@@ -670,6 +677,13 @@ final class Config {
+         return v instanceof Boolean ? (Boolean) v : fallback;
+     }
+ 
++    private static double number(JSONObject o, String key, double fallback, double min, double max) {
++        Object v = o.opt(key);
++        if (!(v instanceof Number)) return fallback;
++        double d = ((Number) v).doubleValue();
++        return d < min || d > max ? fallback : d;
++    }
++
+     private static int integer(JSONObject o, String key, int fallback, int min, int max) {
+         Object v = o.opt(key);
+         if (!(v instanceof Number)) return fallback;
+diff --git a/launcher/app/src/main/java/com/gathin/tvhome/MainActivity.java b/launcher/app/src/main/java/com/gathin/tvhome/MainActivity.java
+index dca4f842..123dcaf1 100644
+--- a/launcher/app/src/main/java/com/gathin/tvhome/MainActivity.java
++++ b/launcher/app/src/main/java/com/gathin/tvhome/MainActivity.java
+@@ -182,6 +182,12 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
+     private TextView stats;
+     private List<RaceWeekend.Race> raceCalendar;
+     private View racePanel;
++    private View weatherChip;
++    private ImageView weatherIcon;
++    private TextView weatherTemp, weatherCondition, weatherRange;
++    private boolean weatherFetching;
++    private double weatherLat = Double.NaN, weatherLon = Double.NaN;
++    private int rowsUnderDock;
+     private TextView raceKicker, raceHeadline, raceSessions;
+     /** config.xml show_stats, overridable by a theme. Off: the line is gone and nothing is read. */
+     private boolean showStats;
+@@ -339,6 +345,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
+         public void run() {
+             updateGreeting();
+             updateRace();
++            refreshWeather();
+             // The pill follows the network callbacks and each return to Home; only the diya's flame follows the
+             // signal level, so only it needs this minute's binder calls (about 7 ms on the UI thread).
+             if (festive) updateWifiLabel();
+@@ -438,7 +445,15 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
+         shamsiDate = findViewById(R.id.shamsiDate);
+         stats = findViewById(R.id.stats);
+         raceCalendar = cfg.raceCalendar;
++        weatherLat = cfg.weatherLat;
++        weatherLon = cfg.weatherLon;
++        rowsUnderDock = cfg.rowsBelowDock;
+         racePanel = findViewById(R.id.racePanel);
++        weatherChip = findViewById(R.id.weatherChip);
++        weatherIcon = findViewById(R.id.weatherIcon);
++        weatherTemp = findViewById(R.id.weatherTemp);
++        weatherCondition = findViewById(R.id.weatherCondition);
++        weatherRange = findViewById(R.id.weatherRange);
+         raceKicker = findViewById(R.id.raceKicker);
+         raceHeadline = findViewById(R.id.raceHeadline);
+         raceSessions = findViewById(R.id.raceSessions);
+@@ -842,6 +857,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
+         if (openLiveTvAfterBoot()) return;
+         updateGreeting();
+         updateRace();
++        refreshWeather();
+         // The network and Inputs pills keep their state while Home is in the background, and callbacks update them
+         // when the network or the inputs change, so this refresh only catches anything missed. Its binder calls
+         // (about 7 ms on a TCL C755, most of it WifiManager.getConnectionInfo) would hold up the first frame back
+@@ -2287,6 +2303,54 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
+         if (shamsi) shamsiDate.setText(Shamsi.today(getResources()));
+     }
+ 
++    // ---- weather chip (weather_lat and weather_lon) --------------------------------------------------
++
++    /**
++     * Shows the last answer, and asks again when it is 30 minutes old: on Home's resume only, on a worker
++     * thread, never on a timer. A failed ask leaves the chip as it was and is tried again at the next resume.
++     */
++    private void refreshWeather() {
++        if (!Weather.valid(weatherLat, weatherLon)) return;
++        showWeather();
++        long now = System.currentTimeMillis();
++        if (weatherFetching || !Weather.due(now)) return;
++        weatherFetching = true;
++        final double lat = weatherLat, lon = weatherLon;
++        new Thread(() -> {
++            Weather.Now result = null;
++            try {
++                result = Weather.fetch(lat, lon);
++            } catch (IOException | org.json.JSONException | RuntimeException e) {
++                // offline, a bad answer or a server error: nothing to show, and the next resume asks again
++            }
++            final Weather.Now answer = result;
++            runOnUiThread(() -> {
++                weatherFetching = false;
++                if (answer != null) Weather.store(answer, System.currentTimeMillis());
++                if (!isFinishing() && !isDestroyed()) showWeather();
++            });
++        }, "weather").start();
++    }
++
++    /**
++     * The chip needs room: the dock and the rows under it start about 168 dp down with two rows under the dock
++     * and would sit on it, so it shows only with at most one row under the dock (the cinematic shelf has none),
++     * and not while the race-weekend panel takes the same place.
++     */
++    private void showWeather() {
++        Weather.Now w = Weather.shown(System.currentTimeMillis());
++        boolean room = rowsUnderDock <= 1 && racePanel.getVisibility() != View.VISIBLE;
++        if (w == null || !room) {
++            weatherChip.setVisibility(View.GONE);
++            return;
++        }
++        weatherIcon.setImageResource(w.day ? R.drawable.ic_weather_sun : R.drawable.ic_weather_moon);
++        weatherTemp.setText(getString(R.string.weather_degrees, w.temp));
++        weatherCondition.setText(Weather.conditionRes(w.code));
++        weatherRange.setText(getString(R.string.weather_range, w.high, w.low));
++        weatherChip.setVisibility(View.VISIBLE);
++    }
++
+     // ---- race-weekend panel (a theme's race_calendar) -----------------------------------------------
+ 
+     private static final int RACE_RED = 0xFFFF3B2F;
+diff --git a/launcher/app/src/main/java/com/gathin/tvhome/Weather.java b/launcher/app/src/main/java/com/gathin/tvhome/Weather.java
+new file mode 100644
+index 00000000..8fb35690
+--- /dev/null
++++ b/launcher/app/src/main/java/com/gathin/tvhome/Weather.java
+@@ -0,0 +1,116 @@
++package com.gathin.tvhome;
++
++import org.json.JSONArray;
++import org.json.JSONException;
++import org.json.JSONObject;
++
++import java.io.ByteArrayOutputStream;
++import java.io.IOException;
++import java.io.InputStream;
++import java.net.HttpURLConnection;
++import java.net.URL;
++import java.nio.charset.StandardCharsets;
++import java.util.Locale;
++
++/**
++ * The weather chip under the clock (config weather_lat and weather_lon, both needed; off without them).
++ * One GET to Open-Meteo (https://open-meteo.com, no account or key) when Home is shown and the last answer
++ * is 30 minutes old: no timer, no service, nothing runs while another app is open. Only the coordinates
++ * the owner chose are sent. Celsius.
++ * shortcut: Celsius only, no unit key; add weather_unit if someone asks for Fahrenheit.
++ */
++final class Weather {
++    static final long REFRESH_MS = 30 * 60 * 1000L;
++    /** An answer older than this is not shown (the TV was offline for hours). */
++    static final long STALE_MS = 6 * 60 * 60 * 1000L;
++    private static final int MAX_BYTES = 16 * 1024;
++
++    static final class Now {
++        final int temp, high, low, code;
++        final boolean day;
++
++        Now(int temp, int high, int low, int code, boolean day) {
++            this.temp = temp;
++            this.high = high;
++            this.low = low;
++            this.code = code;
++            this.day = day;
++        }
++    }
++
++    private static volatile Now last;
++    private static volatile long lastAt;
++
++    private Weather() {}
++
++    static boolean valid(double lat, double lon) {
++        return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;   // false for NaN too
++    }
++
++    static String url(double lat, double lon) {
++        return String.format(Locale.US, "https://api.open-meteo.com/v1/forecast?latitude=%.4f&longitude=%.4f"
++                + "&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min"
++                + "&forecast_days=1&timezone=auto", lat, lon);
++    }
++
++    static Now parse(String json) throws JSONException {
++        JSONObject root = new JSONObject(json);
++        JSONObject current = root.getJSONObject("current");
++        JSONObject daily = root.getJSONObject("daily");
++        JSONArray max = daily.getJSONArray("temperature_2m_max");
++        JSONArray min = daily.getJSONArray("temperature_2m_min");
++        return new Now((int) Math.round(current.getDouble("temperature_2m")),
++                (int) Math.round(max.getDouble(0)), (int) Math.round(min.getDouble(0)),
++                current.getInt("weather_code"), current.optInt("is_day", 1) != 0);
++    }
++
++    /** The words for a WMO weather code (Open-Meteo's weather_code). */
++    static int conditionRes(int code) {
++        if (code == 0) return R.string.weather_clear;
++        if (code == 1 || code == 2) return R.string.weather_partly;
++        if (code == 3) return R.string.weather_cloudy;
++        if (code == 45 || code == 48) return R.string.weather_fog;
++        if (code >= 51 && code <= 57) return R.string.weather_drizzle;
++        if (code >= 61 && code <= 67) return R.string.weather_rain;
++        if ((code >= 71 && code <= 77) || code == 85 || code == 86) return R.string.weather_snow;
++        if (code >= 80 && code <= 82) return R.string.weather_showers;
++        if (code >= 95) return R.string.weather_storm;
++        return R.string.weather_cloudy;
++    }
++
++    static Now fetch(double lat, double lon) throws IOException, JSONException {
++        HttpURLConnection c = (HttpURLConnection) new URL(url(lat, lon)).openConnection();
++        try {
++            c.setConnectTimeout(8000);
++            c.setReadTimeout(8000);
++            c.setRequestProperty("Accept", "application/json");
++            if (c.getResponseCode() != 200) throw new IOException("HTTP " + c.getResponseCode());
++            try (InputStream in = c.getInputStream()) {
++                ByteArrayOutputStream out = new ByteArrayOutputStream();
++                byte[] buf = new byte[2048];
++                int n;
++                while ((n = in.read(buf)) > 0) {
++                    out.write(buf, 0, n);
++                    if (out.size() > MAX_BYTES) throw new IOException("answer too long");
++                }
++                return parse(new String(out.toByteArray(), StandardCharsets.UTF_8));
++            }
++        } finally {
++            c.disconnect();
++        }
++    }
++
++    static void store(Now now, long at) {
++        last = now;
++        lastAt = at;
++    }
++
++    /** The last answer, or null when there is none or it is too old to show. */
++    static Now shown(long at) {
++        return last != null && at - lastAt <= STALE_MS ? last : null;
++    }
++
++    static boolean due(long at) {
++        return at - lastAt >= REFRESH_MS;
++    }
++}
+diff --git a/launcher/app/src/main/res/drawable/ic_weather_moon.xml b/launcher/app/src/main/res/drawable/ic_weather_moon.xml
+new file mode 100644
+index 00000000..135345f8
+--- /dev/null
++++ b/launcher/app/src/main/res/drawable/ic_weather_moon.xml
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
++    <!-- A crescent: a 9 dp circle with a 7 dp bite out of its upper right. -->
++    <path android:fillColor="#FFFFFFFF" android:pathData="M21,12.79A9,9 0 1,1 11.21,3A7,7 0 0,0 21,12.79z" />
++</vector>
+diff --git a/launcher/app/src/main/res/drawable/ic_weather_sun.xml b/launcher/app/src/main/res/drawable/ic_weather_sun.xml
+new file mode 100644
+index 00000000..9519bbd6
+--- /dev/null
++++ b/launcher/app/src/main/res/drawable/ic_weather_sun.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
++    <path android:fillColor="#FFFFFFFF" android:pathData="M12,12m-4.5,0a4.5,4.5 0 1,0 9,0a4.5,4.5 0 1,0 -9,0" />
++    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="2" android:strokeLineCap="round"
++        android:pathData="M12,2L12,4.5M12,19.5L12,22M2,12L4.5,12M19.5,12L22,12M4.9,4.9L6.7,6.7M17.3,17.3L19.1,19.1M4.9,19.1L6.7,17.3M17.3,6.7L19.1,4.9" />
++</vector>
+diff --git a/launcher/app/src/main/res/drawable/weather_chip_bg.xml b/launcher/app/src/main/res/drawable/weather_chip_bg.xml
+new file mode 100644
+index 00000000..25e89b07
+--- /dev/null
++++ b/launcher/app/src/main/res/drawable/weather_chip_bg.xml
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
++    <gradient android:angle="270" android:startColor="#2EFFFFFF" android:endColor="#14FFFFFF" />
++    <stroke android:width="1dp" android:color="#38FFFFFF" />
++    <corners android:radius="24dp" />
++</shape>
+diff --git a/launcher/app/src/main/res/layout/activity_main.xml b/launcher/app/src/main/res/layout/activity_main.xml
+index c5d56e73..90fbceca 100644
+--- a/launcher/app/src/main/res/layout/activity_main.xml
++++ b/launcher/app/src/main/res/layout/activity_main.xml
+@@ -30,6 +30,69 @@
+         android:layout_height="match_parent"
+         android:alpha="0" />
+ 
++    <!-- Weather chip (weather_lat and weather_lon, see Weather): under the clock, shown once the first answer
++         is in and only where there is room (see MainActivity.showWeather). Text only, never animated. -->
++    <LinearLayout
++        android:id="@+id/weatherChip"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_gravity="top|left"
++        android:layout_marginStart="60dp"
++        android:layout_marginTop="150dp"
++        android:background="@drawable/weather_chip_bg"
++        android:orientation="horizontal"
++        android:gravity="center_vertical"
++        android:paddingStart="16dp"
++        android:paddingEnd="18dp"
++        android:paddingTop="7dp"
++        android:paddingBottom="7dp"
++        android:focusable="false"
++        android:importantForAccessibility="no"
++        android:visibility="gone">
++
++        <ImageView
++            android:id="@+id/weatherIcon"
++            android:layout_width="22dp"
++            android:layout_height="22dp"
++            android:layout_marginEnd="10dp"
++            android:importantForAccessibility="no" />
++
++        <TextView
++            android:id="@+id/weatherTemp"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_marginEnd="12dp"
++            android:textColor="#FFFFFFFF"
++            android:textSize="24sp"
++            android:fontFamily="@string/font_medium"
++            android:includeFontPadding="false" />
++
++        <LinearLayout
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:orientation="vertical">
++
++            <TextView
++                android:id="@+id/weatherCondition"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:singleLine="true"
++                android:textColor="#FFFFFFFF"
++                android:textSize="13sp"
++                android:fontFamily="@string/font_medium"
++                android:includeFontPadding="false" />
++
++            <TextView
++                android:id="@+id/weatherRange"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:textColor="#B3FFFFFF"
++                android:textSize="11sp"
++                android:fontFamily="@string/font_medium"
++                android:includeFontPadding="false" />
++        </LinearLayout>
++    </LinearLayout>
++
+     <!-- Race-weekend panel (a theme's race_calendar, see RaceWeekend): in the free space under the clock,
+          shown only from shortly before a weekend's first session until the race is over. Updated once a
+          minute with the clock, never animated. -->
+diff --git a/launcher/app/src/main/res/values-es/strings.xml b/launcher/app/src/main/res/values-es/strings.xml
+index 9823208d..22f95196 100644
+--- a/launcher/app/src/main/res/values-es/strings.xml
++++ b/launcher/app/src/main/res/values-es/strings.xml
+@@ -99,6 +99,15 @@
+     <string name="card_state_new">Nueva</string>
+     <string name="card_state_new_key">Clave nueva</string>
+     <string name="card_state_new_label">Nombre nuevo</string>
++    <string name="weather_clear">Despejado</string>
++    <string name="weather_partly">Parcialmente nublado</string>
++    <string name="weather_cloudy">Nublado</string>
++    <string name="weather_fog">Niebla</string>
++    <string name="weather_drizzle">Llovizna</string>
++    <string name="weather_rain">Lluvia</string>
++    <string name="weather_showers">Chubascos</string>
++    <string name="weather_snow">Nieve</string>
++    <string name="weather_storm">Tormenta</string>
+     <string name="race_kicker">Ronda %1$d · %2$s · %3$s</string>
+     <string name="race_kicker_no_place">Ronda %1$d · %2$s</string>
+     <string name="race_next">%1$s en %2$s</string>
+diff --git a/launcher/app/src/main/res/values/strings.xml b/launcher/app/src/main/res/values/strings.xml
+index aa9d3e9e..851dc07f 100644
+--- a/launcher/app/src/main/res/values/strings.xml
++++ b/launcher/app/src/main/res/values/strings.xml
+@@ -119,6 +119,17 @@
+     <string name="greeting_with_name">%1$s, %2$s</string>
+ 
+     <!-- Race-weekend panel (RaceWeekend). -->
++    <string name="weather_degrees" translatable="false">%1$d°</string>
++    <string name="weather_range" translatable="false">%1$d°/%2$d°</string>
++    <string name="weather_clear">Clear</string>
++    <string name="weather_partly">Partly cloudy</string>
++    <string name="weather_cloudy">Cloudy</string>
++    <string name="weather_fog">Fog</string>
++    <string name="weather_drizzle">Drizzle</string>
++    <string name="weather_rain">Rain</string>
++    <string name="weather_showers">Showers</string>
++    <string name="weather_snow">Snow</string>
++    <string name="weather_storm">Thunderstorm</string>
+     <string name="race_kicker">Round %1$d · %2$s · %3$s</string>
+     <string name="race_kicker_no_place">Round %1$d · %2$s</string>
+     <string name="race_next">%1$s in %2$s</string>
+diff --git a/launcher/app/src/test/java/com/gathin/tvhome/WeatherTest.java b/launcher/app/src/test/java/com/gathin/tvhome/WeatherTest.java
+new file mode 100644
+index 00000000..cf3439bf
+--- /dev/null
++++ b/launcher/app/src/test/java/com/gathin/tvhome/WeatherTest.java
+@@ -0,0 +1,72 @@
++package com.gathin.tvhome;
++
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertFalse;
++import static org.junit.Assert.assertNotNull;
++import static org.junit.Assert.assertNull;
++import static org.junit.Assert.assertTrue;
++
++import org.json.JSONException;
++import org.junit.Test;
++
++public class WeatherTest {
++    // Open-Meteo's answer for the request Weather.url builds, trimmed to the fields read.
++    private static final String ANSWER = "{\"latitude\":14.9,\"current\":{\"time\":\"2026-10-27T15:30\","
++            + "\"temperature_2m\":29.6,\"weather_code\":3,\"is_day\":0},"
++            + "\"daily\":{\"temperature_2m_max\":[33.2],\"temperature_2m_min\":[21.5]}}";
++
++    @Test
++    public void readsTheCurrentAndTheDay() throws JSONException {
++        Weather.Now w = Weather.parse(ANSWER);
++        assertEquals(30, w.temp);
++        assertEquals(33, w.high);
++        assertEquals(22, w.low);
++        assertEquals(3, w.code);
++        assertFalse(w.day);
++    }
++
++    @Test(expected = JSONException.class)
++    public void anAnswerWithoutTheDayIsRefused() throws JSONException {
++        Weather.parse("{\"current\":{\"temperature_2m\":20,\"weather_code\":0}}");
++    }
++
++    @Test
++    public void onlyRealCoordinatesAreAsked() {
++        assertTrue(Weather.valid(14.9, -92.26));
++        assertTrue(Weather.valid(-90, 180));
++        assertFalse(Weather.valid(Double.NaN, -92.26));
++        assertFalse(Weather.valid(91, 0));
++        assertFalse(Weather.valid(0, -181));
++    }
++
++    @Test
++    public void theRequestCarriesOnlyThePlaceInAFixedFormat() {
++        assertEquals("https://api.open-meteo.com/v1/forecast?latitude=14.9000&longitude=-92.2600"
++                + "&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min"
++                + "&forecast_days=1&timezone=auto", Weather.url(14.9, -92.26));
++    }
++
++    @Test
++    public void codesBecomeWords() {
++        assertEquals(R.string.weather_clear, Weather.conditionRes(0));
++        assertEquals(R.string.weather_partly, Weather.conditionRes(2));
++        assertEquals(R.string.weather_cloudy, Weather.conditionRes(3));
++        assertEquals(R.string.weather_fog, Weather.conditionRes(48));
++        assertEquals(R.string.weather_drizzle, Weather.conditionRes(53));
++        assertEquals(R.string.weather_rain, Weather.conditionRes(63));
++        assertEquals(R.string.weather_snow, Weather.conditionRes(75));
++        assertEquals(R.string.weather_showers, Weather.conditionRes(81));
++        assertEquals(R.string.weather_storm, Weather.conditionRes(96));
++        assertEquals(R.string.weather_cloudy, Weather.conditionRes(-1));
++    }
++
++    @Test
++    public void anAnswerIsShownForSixHoursAndAskedAgainAfterThirtyMinutes() {
++        Weather.Now w = new Weather.Now(30, 33, 22, 0, true);
++        Weather.store(w, 1_000_000L);
++        assertNotNull(Weather.shown(1_000_000L + Weather.STALE_MS));
++        assertNull(Weather.shown(1_000_000L + Weather.STALE_MS + 1));
++        assertFalse(Weather.due(1_000_000L + Weather.REFRESH_MS - 1));
++        assertTrue(Weather.due(1_000_000L + Weather.REFRESH_MS));
++    }
++}
+-- 
+2.53.0
+
+
+From d3d090217b0f339e15ba3ea138bbe5e0de6729bb Mon Sep 17 00:00:00 2001
+From: Gerardo Valenciano <gera.valenciano@gmail.com>
+Date: Tue, 27 Oct 2026 19:59:59 -0600
+Subject: [PATCH 2/2] Launcher 2.7.1 (versionCode 9): the build with the
+ weather chip
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
+---
+ launcher/app/build.gradle | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/launcher/app/build.gradle b/launcher/app/build.gradle
+index b1c8bf88..d502da13 100644
+--- a/launcher/app/build.gradle
++++ b/launcher/app/build.gradle
+@@ -11,8 +11,8 @@ android {
+         applicationId providers.gradleProperty('launcherApplicationId').getOrElse('com.gathin.tvhome')
+         minSdk 26
+         targetSdk 34
+-        versionCode 8
+-        versionName '2.7'
++        versionCode 9
++        versionName '2.7.1'
+     }
+ 
+     buildTypes {
+-- 
+2.53.0
+
