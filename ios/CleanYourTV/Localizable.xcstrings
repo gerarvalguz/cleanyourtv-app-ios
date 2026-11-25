@@ -1,2904 +1,2923 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "%@ look": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estilo %@"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@"
           }
         }
       }
     },
-    "%@ · %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ · %2$@"
+    "%@ · %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$lld"
           }
         }
       }
     },
-    "%@ · %lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ · %2$lld"
+    "%@ look" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estilo %@"
           }
         }
       }
     },
-    "%@. %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@. %2$@"
+    "%@. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@. %2$@"
           }
         }
       }
     },
-    "%lld": {},
-    "%lld ADB services found": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld servicios ADB encontrados"
+    "%lld" : {
+
+    },
+    "%lld ADB services found" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld servicios ADB encontrados"
           }
         }
       }
     },
-    "%lld installed · %lld currently disabled": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld instalados · %lld desactivados actualmente"
+    "%lld installed · %lld currently disabled" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld instalados · %lld desactivados actualmente"
           }
         }
       }
     },
-    "%lld of %lld packages selected": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld de %lld paquetes seleccionados"
+    "%lld of %lld packages selected" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld de %lld paquetes seleccionados"
           }
         }
       }
     },
-    "%lld service packages detected": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld paquetes de servicio detectados"
+    "%lld service packages detected" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld paquetes de servicio detectados"
           }
         }
       }
+    },
+    "%lld%%" : {
+
     },
-    "1 ADB service found": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 servicio ADB encontrado"
+    "1 ADB service found" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 servicio ADB encontrado"
           }
         }
       }
+    },
+    "1:02" : {
+
+    },
+    "192.168.1.42" : {
+
     },
-    "192.168.1.42": {},
-    "1:02": {},
-    "A big banner of the app you are on, like newer smart TVs.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Un banner grande de la app en la que estás, como en los smart TV más nuevos."
+    "A big banner of the app you are on, like newer smart TVs." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un banner grande de la app en la que estás, como en los smart TV más nuevos."
           }
         }
       }
     },
-    "A careful plan for your TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Un plan cuidadoso para tu TV."
+    "A careful plan for your TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un plan cuidadoso para tu TV."
           }
         }
       }
     },
-    "A dark dock, a big name and a soft glow.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Un dock oscuro, un nombre grande y un brillo suave."
+    "A city is set" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hay una ciudad configurada"
           }
         }
       }
     },
-    "A frosted dock and light in each app's colour.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Un dock esmerilado y luz del color de cada app."
+    "A dark dock, a big name and a soft glow." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un dock oscuro, un nombre grande y un brillo suave."
           }
         }
       }
     },
-    "A read-only command failed on the TV (exit %lld).": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Falló un comando de solo lectura en la TV (código de salida %lld)."
+    "A frosted dock and light in each app's colour." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un dock esmerilado y luz del color de cada app."
           }
         }
       }
     },
-    "A restore point records each package's original state first.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Un punto de restauración guarda primero el estado original de cada paquete."
+    "A read-only command failed on the TV (exit %lld)." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falló un comando de solo lectura en la TV (código de salida %lld)."
           }
         }
       }
     },
-    "A restore point will be saved first. Selected packages will be disabled for user 0, not uninstalled. Restore requires this iPhone and its saved restore point.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Primero se guardará un punto de restauración. Los paquetes seleccionados se desactivarán para el usuario 0, no se desinstalarán. Para restaurar se necesita este iPhone y su punto de restauración guardado."
+    "A restore point records each package's original state first." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un punto de restauración guarda primero el estado original de cada paquete."
           }
         }
       }
     },
-    "A review plan is unavailable until all required safety checks pass.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay un plan de revisión disponible hasta que se aprueben todas las verificaciones de seguridad necesarias."
+    "A restore point will be saved first. Selected packages will be disabled for user 0, not uninstalled. Restore requires this iPhone and its saved restore point." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primero se guardará un punto de restauración. Los paquetes seleccionados se desactivarán para el usuario 0, no se desinstalarán. Para restaurar se necesita este iPhone y su punto de restauración guardado."
           }
         }
       }
     },
-    "ADB DEVICES": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DISPOSITIVOS ADB"
+    "A review plan is unavailable until all required safety checks pass." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay un plan de revisión disponible hasta que se aprueben todas las verificaciones de seguridad necesarias."
           }
         }
       }
     },
-    "ADB connection failed: %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Falló la conexión ADB: %@"
+    "Active keyboard" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teclado activo"
           }
         }
       }
     },
-    "APPS IN A ROW": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "APPS POR FILA"
+    "ADB connection failed: %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falló la conexión ADB: %@"
           }
         }
       }
     },
-    "Active keyboard": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Teclado activo"
+    "ADB DEVICES" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DISPOSITIVOS ADB"
           }
         }
       }
     },
-    "Add %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Agregar %@"
+    "Add %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar %@"
           }
         }
       }
     },
-    "All apps": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todas las apps"
+    "Adds a Weather card to the launcher's dock: the temperature now, the air quality and the next days for one city. You type the city once on the TV with the remote. It reads Open-Meteo (no account) while the page is open, and is the only part that uses the internet." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrega una tarjeta de clima al dock del launcher: la temperatura actual, la calidad del aire y los próximos días de una ciudad. Escribes la ciudad una vez en la TV con el control remoto. Consulta Open-Meteo (sin cuenta) mientras la página está abierta, y es la única parte que usa internet."
           }
         }
       }
     },
-    "Already off": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ya desactivado"
+    "All apps" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las apps"
           }
         }
       }
     },
-    "Amazon's home screen is back. The launcher and the Home button service were removed.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La pantalla de inicio de Amazon volvió. Se eliminaron el launcher y el servicio del botón Home."
+    "Already off" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya desactivado"
           }
         }
       }
     },
-    "Analyze TV safely · read-only": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analizar la TV de forma segura · solo lectura"
+    "Amazon's home screen is back. The launcher and the Home button service were removed." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La pantalla de inicio de Amazon volvió. Se eliminaron el launcher y el servicio del botón Home."
           }
         }
       }
     },
-    "Analyze the TV before applying this plan.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analiza la TV antes de aplicar este plan."
+    "Analyze the TV before applying this plan." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analiza la TV antes de aplicar este plan."
           }
         }
       }
     },
-    "Analyze the TV before creating a review plan.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analiza la TV antes de crear un plan de revisión."
+    "Analyze the TV before creating a review plan." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analiza la TV antes de crear un plan de revisión."
           }
         }
       }
     },
-    "Application stopped. The restore point was kept so you can restore the original package states. %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La aplicación se detuvo. Se conservó el punto de restauración para que puedas restaurar el estado original de los paquetes. %@"
+    "Analyze TV safely · read-only" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analizar la TV de forma segura · solo lectura"
           }
         }
       }
     },
-    "Apply %lld selected package(s)": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplicar a %lld paquete(s) seleccionado(s)"
+    "Application stopped. The restore point was kept so you can restore the original package states. %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La aplicación se detuvo. Se conservó el punto de restauración para que puedas restaurar el estado original de los paquetes. %@"
           }
         }
       }
     },
-    "Apply selected changes": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplicar los cambios seleccionados"
+    "Apply %lld selected package(s)" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicar a %lld paquete(s) seleccionado(s)"
           }
         }
       }
     },
-    "Apply selected package changes?": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Aplicar los cambios a los paquetes seleccionados?"
+    "Apply selected changes" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicar los cambios seleccionados"
           }
         }
       }
     },
-    "Applying disables selected candidates for user 0. The saved restore point stays on this iPhone; do not delete the app before restoring.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Al aplicar se desactivan los candidatos seleccionados para el usuario 0. El punto de restauración guardado permanece en este iPhone; no borres la app antes de restaurar."
+    "Apply selected package changes?" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Aplicar los cambios a los paquetes seleccionados?"
           }
         }
       }
     },
-    "Applying selected packages…": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplicando los paquetes seleccionados…"
+    "Applying disables selected candidates for user 0. The saved restore point stays on this iPhone; do not delete the app before restoring." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al aplicar se desactivan los candidatos seleccionados para el usuario 0. El punto de restauración guardado permanece en este iPhone; no borres la app antes de restaurar."
           }
         }
       }
     },
-    "Applying the selected package changes.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplicando los cambios a los paquetes seleccionados."
+    "Applying selected packages…" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicando los paquetes seleccionados…"
           }
         }
       }
     },
-    "Approve the debugging prompt on your TV. The key fingerprint is shown below.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aprueba el aviso de depuración en tu TV. La huella de la clave se muestra abajo."
+    "Applying the selected package changes." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicando los cambios a los paquetes seleccionados."
           }
         }
       }
     },
-    "Approve this iPhone on your TV": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Autoriza este iPhone en tu TV"
+    "Approve the debugging prompt on your TV. The key fingerprint is shown below." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aprueba el aviso de depuración en tu TV. La huella de la clave se muestra abajo."
           }
         }
       }
     },
-    "Apps first on the launcher": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apps primero en el launcher"
+    "Approve this iPhone on your TV" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autoriza este iPhone en tu TV"
           }
         }
       }
     },
-    "Apps in a row": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apps por fila"
+    "Apps first on the launcher" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps primero en el launcher"
           }
         }
       }
     },
-    "BACKGROUND PICTURE": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "IMAGEN DE FONDO"
+    "Apps in a row" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps por fila"
           }
         }
       }
     },
-    "Bigger": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Más grandes"
+    "APPS IN A ROW" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "APPS POR FILA"
           }
         }
       }
     },
-    "CLEAN YOUR TV": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CLEAN YOUR TV"
+    "arrow.down.app" : {
+
+    },
+    "BACKGROUND PICTURE" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IMAGEN DE FONDO"
           }
         }
       }
     },
-    "Calm": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Calma"
+    "Bigger" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más grandes"
           }
         }
       }
     },
-    "Cancel": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancelar"
+    "Calm" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calma"
           }
         }
       }
     },
-    "Checking TV safety details…": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Revisando los datos de seguridad de la TV…"
+    "Cancel" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
           }
         }
       }
     },
-    "Choose another photo": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elegir otra foto"
+    "Checking TV safety details…" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisando los datos de seguridad de la TV…"
           }
         }
       }
     },
-    "Choose apps": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elegir apps"
+    "Choose another photo" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir otra foto"
           }
         }
       }
     },
-    "Choose from your photos": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elegir de tus fotos"
+    "Choose apps" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir apps"
           }
         }
       }
     },
-    "Choose how the launcher looks and, if you want, a background photo. Your app order and the rest of the launcher's settings are kept.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elige cómo se ve el launcher y, si quieres, una foto de fondo. Se conservan el orden de tus apps y el resto de los ajustes del launcher."
+    "Choose from your photos" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir de tus fotos"
           }
         }
       }
     },
-    "Classic": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clásico"
+    "Choose how the launcher looks and, if you want, a background photo. Your app order and the rest of the launcher's settings are kept." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige cómo se ve el launcher y, si quieres, una foto de fondo. Se conservan el orden de tus apps y el resto de los ajustes del launcher."
           }
         }
       }
     },
-    "Clean Your TV": {},
-    "Clean Your TV as the Home screen": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clean Your TV como pantalla de inicio"
+    "City" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciudad"
           }
         }
       }
     },
-    "Confirmed package plan": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plan de paquetes confirmado"
+    "Classic" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clásico"
           }
         }
       }
+    },
+    "Clean Your TV" : {
+
     },
-    "Connect to TV": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Conectar a la TV"
+    "CLEAN YOUR TV" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CLEAN YOUR TV"
           }
         }
       }
     },
-    "Connect to the TV and analyze it first.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Conéctate a la TV y analízala primero."
+    "Clean Your TV as the Home screen" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clean Your TV como pantalla de inicio"
           }
         }
       }
     },
-    "Connect to the TV first.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Conéctate a la TV primero."
+    "Clear" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claro"
           }
         }
       }
     },
-    "Connect to your TV": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Conéctate a tu TV"
+    "Cobalt" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cobalto"
           }
         }
       }
     },
-    "Connect to your TV, review the safety report, and apply only selected reversible changes.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Conéctate a tu TV, revisa el informe de seguridad y aplica solo los cambios reversibles que selecciones."
+    "Confirmed package plan" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan de paquetes confirmado"
           }
         }
       }
     },
-    "Connected and identified": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Conectada e identificada"
+    "Connect to the TV and analyze it first." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conéctate a la TV y analízala primero."
           }
         }
       }
     },
-    "Connecting asks the TV to authorize this iPhone's ADB key. Package changes are limited to a reviewed plan with a saved restore point.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Al conectar, la TV debe autorizar la clave ADB de este iPhone. Los cambios en paquetes se limitan a un plan revisado con un punto de restauración guardado."
+    "Connect to the TV first." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conéctate a la TV primero."
           }
         }
       }
     },
-    "Connecting to TV…": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Conectando a la TV…"
+    "Connect to TV" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conectar a la TV"
           }
         }
       }
     },
-    "Could not be verified": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo verificar"
+    "Connect to your TV" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conéctate a tu TV"
           }
         }
       }
     },
-    "Could not create an ADB key: %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo crear una clave ADB: %@"
+    "Connect to your TV, review the safety report, and apply only selected reversible changes." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conéctate a tu TV, revisa el informe de seguridad y aplica solo los cambios reversibles que selecciones."
           }
         }
       }
     },
-    "Could not read the ADB key from iOS Keychain (status %d).": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo leer la clave ADB del llavero de iOS (estado %d)."
+    "Connected and identified" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conectada e identificada"
           }
         }
       }
     },
-    "Could not read the layout. %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo leer la disposición. %@"
+    "Connecting asks the TV to authorize this iPhone's ADB key. Package changes are limited to a reviewed plan with a saved restore point." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al conectar, la TV debe autorizar la clave ADB de este iPhone. Los cambios en paquetes se limitan a un plan revisado con un punto de restauración guardado."
           }
         }
       }
     },
-    "Could not save the review plan: %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo guardar el plan de revisión: %@"
+    "Connecting to TV…" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conectando a la TV…"
           }
         }
       }
     },
-    "Create a reviewable plan from this analysis first.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Primero crea un plan revisable a partir de este análisis."
+    "Could not be verified" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo verificar"
           }
         }
       }
     },
-    "Create reviewable plan": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crear plan revisable"
+    "Could not create an ADB key: %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo crear una clave ADB: %@"
           }
         }
       }
     },
-    "Current HOME app": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "App HOME actual"
+    "Could not load that photo. If it is in iCloud, open it in Photos first and try again." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo cargar esa foto. Si está en iCloud, ábrela primero en Fotos e inténtalo de nuevo."
           }
         }
       }
     },
-    "Deselect optional packages before applying. Only safety-approved review candidates can be changed.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deselecciona los paquetes opcionales antes de aplicar. Solo se pueden cambiar los candidatos a revisión aprobados por seguridad."
+    "Could not read the ADB key from iOS Keychain (status %d)." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo leer la clave ADB del llavero de iOS (estado %d)."
           }
         }
       }
     },
-    "Deselect optional packages. Only review candidates can be applied.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deselecciona los paquetes opcionales. Solo se pueden aplicar los candidatos a revisión."
+    "Could not read the layout. %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo leer la disposición. %@"
           }
         }
       }
     },
-    "Device %@ · Android API %lld · serial ending %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dispositivo %@ · API de Android %lld · serie terminada en %@"
+    "Could not read the look. %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo leer el estilo. %@"
           }
         }
       }
     },
-    "Dock": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dock"
+    "Could not save the review plan: %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo guardar el plan de revisión: %@"
           }
         }
       }
     },
-    "Don't use the chosen photo": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No usar la foto elegida"
+    "Could not search the city. Check this iPhone's internet and try again." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo buscar la ciudad. Revisa el internet de este iPhone e inténtalo de nuevo."
           }
         }
       }
     },
-    "Done": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo"
+    "Create a reviewable plan from this analysis first." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primero crea un plan revisable a partir de este análisis."
           }
         }
       }
     },
-    "Done. Press Home on the TV remote: it now opens the Clean Your TV launcher. Back from Amazon's Settings still works.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo. Presiona Home en el control remoto de la TV: ahora abre el launcher de Clean Your TV. El botón Atrás desde los Ajustes de Amazon sigue funcionando."
+    "Create reviewable plan" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear plan revisable"
           }
         }
       }
     },
-    "Done. The greeting has no name now.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo. El saludo ya no lleva nombre."
+    "Current HOME app" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App HOME actual"
           }
         }
       }
     },
-    "Done. The launcher greets you by name.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo. El launcher te saluda por tu nombre."
+    "Curtains" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cortinas"
           }
         }
       }
     },
-    "Done. The launcher restarted with the %@ look and your picture.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo. El launcher se reinició con el estilo %@ y tu imagen."
+    "Dark" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oscuro"
           }
         }
       }
     },
-    "Done. The launcher restarted with the %@ look.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo. El launcher se reinició con el estilo %@."
+    "Deselect optional packages before applying. Only safety-approved review candidates can be changed." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deselecciona los paquetes opcionales antes de aplicar. Solo se pueden cambiar los candidatos a revisión aprobados por seguridad."
           }
         }
       }
     },
-    "Done. The launcher restarted with your order. Anything you set in the launcher's own settings applies until you choose Follow theme.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo. El launcher se reinició con tu orden. Lo que configures en los ajustes del propio launcher se aplica hasta que elijas Seguir el tema."
+    "Deselect optional packages. Only review candidates can be applied." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deselecciona los paquetes opcionales. Solo se pueden aplicar los candidatos a revisión."
           }
         }
       }
     },
-    "Enter an address instead": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ingresar una dirección"
+    "Device %@ · Android API %lld · serial ending %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dispositivo %@ · API de Android %lld · serie terminada en %@"
           }
         }
       }
     },
-    "Every app in one grid, with no dock band.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todas las apps en una sola cuadrícula, sin franja de dock."
+    "Dim the picture" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atenuar la imagen"
           }
         }
       }
     },
-    "Export review summary": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Exportar resumen de revisión"
+    "Diwali" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diwali"
           }
         }
       }
     },
-    "Fire OS does not let another launcher own Home. This installs the Clean Your TV launcher plus a small service that opens it whenever Amazon's Home screen appears. Amazon's own home stays installed and Settings still open normally.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fire OS no permite que otro launcher sea el inicio. Esto instala el launcher de Clean Your TV y un pequeño servicio que lo abre cada vez que aparece la pantalla de inicio de Amazon. El inicio de Amazon sigue instalado y los Ajustes se abren con normalidad."
+    "Dock" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock"
           }
         }
       }
     },
-    "Fire TV keeps Amazon's home screen. This plan cannot remove or rearrange its rows.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fire TV conserva la pantalla de inicio de Amazon. Este plan no puede quitar ni reordenar sus filas."
+    "Don't use the chosen photo" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No usar la foto elegida"
           }
         }
       }
     },
-    "Found on your local network. Authorization is still required.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Encontrado en tu red local. Aún se requiere autorización."
+    "Done" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo"
           }
         }
       }
     },
-    "GOOD NIGHT": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "BUENAS NOCHES"
+    "Done. Press Home on the TV remote: it now opens the Clean Your TV launcher. Back from Amazon's Settings still works." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo. Presiona Home en el control remoto de la TV: ahora abre el launcher de Clean Your TV. El botón Atrás desde los Ajustes de Amazon sigue funcionando."
           }
         }
       }
     },
-    "GOOD NIGHT, %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "BUENAS NOCHES, %@"
+    "Done. Press Home on the TV: the launcher asks whether to show the Weather card. Choose Show, then open the card and type your city." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo. Presiona Home en la TV: el launcher pregunta si mostrar la tarjeta de clima. Elige Mostrar, abre la tarjeta y escribe tu ciudad."
           }
         }
       }
     },
-    "Give Home back to Amazon": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Devolver el inicio a Amazon"
+    "Done. The greeting has no name now." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo. El saludo ya no lleva nombre."
           }
         }
       }
     },
-    "Give Home back?": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Devolver el inicio?"
+    "Done. The launcher greets you by name." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo. El launcher te saluda por tu nombre."
           }
         }
       }
     },
-    "Giving Home back to Amazon.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Devolviendo el inicio a Amazon."
+    "Done. The launcher restarted with the %@ look and your picture." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo. El launcher se reinició con el estilo %@ y tu imagen."
           }
         }
       }
     },
-    "Glass": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cristal"
+    "Done. The launcher restarted with the %@ look." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo. El launcher se reinició con el estilo %@."
           }
         }
       }
     },
-    "Gray switches marked Optional are locked. Only Review candidate packages can be selected.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Los interruptores grises marcados como Opcional están bloqueados. Solo se pueden seleccionar los paquetes Candidato a revisión."
+    "Done. The launcher restarted with your order. Anything you set in the launcher's own settings applies until you choose Follow theme." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo. El launcher se reinició con tu orden. Lo que configures en los ajustes del propio launcher se aplica hasta que elijas Seguir el tema."
           }
         }
       }
     },
-    "HOME claimants": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apps que reclaman HOME"
+    "Done. The launcher restarted. The chip shows under the clock once the TV has the weather, and only with at most one row of apps under the dock (Spotlight and Glass cinema have none)." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo. El launcher se reinició. El chip aparece bajo el reloj cuando la TV obtiene el clima, y solo con una fila de apps o menos bajo el dock (Destacado y Cine de cristal no tienen ninguna)."
           }
         }
       }
     },
-    "Home button service installed": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Servicio del botón Home instalado"
+    "Done. The weather chip is off." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo. El chip del clima está apagado."
           }
         }
       }
     },
-    "Inputs": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Entradas"
+    "Enter an address instead" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingresar una dirección"
           }
         }
       }
     },
-    "Inspect my TV": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inspeccionar mi TV"
+    "Every app in one grid, with no dock band." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las apps en una sola cuadrícula, sin franja de dock."
           }
         }
       }
     },
-    "Install": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instalar"
+    "Export review summary" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar resumen de revisión"
           }
         }
       }
     },
-    "Install and switch on": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instalar y activar"
+    "Fire OS does not let another launcher own Home. This installs the Clean Your TV launcher plus a small service that opens it whenever Amazon's Home screen appears. Amazon's own home stays installed and Settings still open normally." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fire OS no permite que otro launcher sea el inicio. Esto instala el launcher de Clean Your TV y un pequeño servicio que lo abre cada vez que aparece la pantalla de inicio de Amazon. El inicio de Amazon sigue instalado y los Ajustes se abren con normalidad."
           }
         }
       }
     },
-    "Install on this TV?": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Instalar en esta TV?"
+    "Fire TV keeps Amazon's home screen. This plan cannot remove or rearrange its rows." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fire TV conserva la pantalla de inicio de Amazon. Este plan no puede quitar ni reordenar sus filas."
           }
         }
       }
     },
-    "Install the Clean Your TV launcher first.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Primero instala el launcher de Clean Your TV."
+    "Found on your local network. Authorization is still required." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontrado en tu red local. Aún se requiere autorización."
           }
         }
       }
     },
-    "Installing the launcher and the Home button service.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instalando el launcher y el servicio del botón Home."
+    "Give Home back to Amazon" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devolver el inicio a Amazon"
           }
         }
       }
     },
-    "Installs the launcher and the Home button service, and switches the service on. Services you already use stay on. Remove it any time from this screen.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instala el launcher y el servicio del botón Home, y activa el servicio. Los servicios que ya usas siguen activos. Puedes quitarlo cuando quieras desde esta pantalla."
+    "Give Home back?" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Devolver el inicio?"
           }
         }
       }
     },
-    "Keep the TV on and network debugging enabled.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantén la TV encendida y la depuración de red activada."
+    "Giving Home back to Amazon." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devolviendo el inicio a Amazon."
           }
         }
       }
     },
-    "Keep this screen open while the TV is on the same Wi-Fi and network debugging is enabled.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantén esta pantalla abierta mientras la TV esté en la misma red Wi-Fi y la depuración de red esté activada."
+    "Glass" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cristal"
           }
         }
       }
     },
-    "Kept safe": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Protegido"
+    "Glass cinema" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cine de cristal"
           }
         }
       }
     },
-    "Launcher installed": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Launcher instalado"
+    "GOOD NIGHT" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BUENAS NOCHES"
           }
         }
       }
     },
-    "Look": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estilo"
+    "GOOD NIGHT, %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BUENAS NOCHES, %@"
           }
         }
       }
     },
-    "Looking for Android TV ADB services.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscando servicios ADB de Android TV."
+    "Gray switches marked Optional are locked. Only Review candidate packages can be selected." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los interruptores grises marcados como Opcional están bloqueados. Solo se pueden seleccionar los paquetes Candidato a revisión."
           }
         }
       }
     },
-    "More apps": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Más apps"
+    "Home button service installed" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Servicio del botón Home instalado"
           }
         }
       }
     },
-    "Move %@ earlier": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mover %@ antes"
+    "HOME claimants" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps que reclaman HOME"
           }
         }
       }
     },
-    "Move %@ later": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mover %@ después"
+    "Inputs" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entradas"
           }
         }
       }
     },
-    "Name": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nombre"
+    "Inspect my TV" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inspeccionar mi TV"
           }
         }
       }
     },
-    "Netflix": {},
-    "Network scan unavailable": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Búsqueda en la red no disponible"
+    "Install" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalar"
           }
         }
       }
     },
-    "No HOME app resolved": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se identificó una app HOME"
+    "Install and switch on" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalar y activar"
           }
         }
       }
     },
-    "No TVs found yet": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no se encontraron TV"
+    "Install on this TV?" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Instalar en esta TV?"
           }
         }
       }
     },
-    "No active, valid restore point is available for this TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay un punto de restauración activo y válido para esta TV."
+    "Install the Clean Your TV launcher first." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primero instala el launcher de Clean Your TV."
           }
         }
       }
     },
-    "No apps chosen: the launcher keeps its own order.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay apps elegidas: el launcher conserva su propio orden."
+    "Install the Weather card" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalar la tarjeta de clima"
           }
         }
       }
     },
-    "No glow and no big name. Just apps and your picture.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin brillo ni nombre grande. Solo apps y tu imagen."
+    "Install the Weather card?" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Instalar la tarjeta de clima?"
           }
         }
       }
     },
-    "No packages from this catalog profile are installed.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay instalados paquetes de este perfil del catálogo."
+    "Installing the launcher and the Home button service." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalando el launcher y el servicio del botón Home."
           }
         }
       }
     },
-    "No saved order for this TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay un orden guardado para esta TV."
+    "Installing the Weather card." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalando la tarjeta de clima."
           }
         }
       }
     },
-    "No saved settings for this TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay ajustes guardados para esta TV."
+    "Installs one small app (it asks for internet access only). After it, press Home on the TV and choose Show when the launcher asks. Remove it any time from this screen." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instala una app pequeña (solo pide acceso a internet). Después, presiona Home en la TV y elige Mostrar cuando el launcher pregunte. Puedes quitarla cuando quieras desde esta pantalla."
           }
         }
       }
     },
-    "None reported": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ninguna reportada"
+    "Installs the launcher and the Home button service, and switches the service on. Services you already use stay on. Remove it any time from this screen." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instala el launcher y el servicio del botón Home, y activa el servicio. Los servicios que ya usas siguen activos. Puedes quitarlo cuando quieras desde esta pantalla."
           }
         }
       }
     },
-    "Not set": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin definir"
+    "Keep the TV on and network debugging enabled." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantén la TV encendida y la depuración de red activada."
           }
         }
       }
     },
-    "OFF": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OFF"
+    "Keep this screen open while the TV is on the same Wi-Fi and network debugging is enabled." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantén esta pantalla abierta mientras la TV esté en la misma red Wi-Fi y la depuración de red esté activada."
           }
         }
       }
     },
-    "On your home network": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "En tu red doméstica"
+    "Kept safe" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protegido"
           }
         }
       }
     },
-    "Only selected packages are changed, with a saved restore point.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Solo se cambian los paquetes seleccionados, con un punto de restauración guardado."
+    "Lamp light" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luz de lámpara"
           }
         }
       }
     },
-    "Only selected review candidates can be applied. Optional and protected packages cannot be included.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Solo se pueden aplicar los candidatos a revisión seleccionados. Los paquetes opcionales y protegidos no se pueden incluir."
+    "Launcher installed" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Launcher instalado"
           }
         }
       }
     },
-    "Only selected review candidates can be disabled. The app saves each package's prior state on this iPhone before applying; no apps are uninstalled and no system settings are changed.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Solo se pueden desactivar los candidatos a revisión seleccionados. La app guarda en este iPhone el estado previo de cada paquete antes de aplicar; no se desinstala ninguna app ni se cambian ajustes del sistema."
+    "Launcher version not read" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo leer la versión del launcher"
           }
         }
       }
     },
-    "Optional": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opcional"
+    "Launcher with the weather chip" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Launcher con el chip del clima"
           }
         }
       }
     },
-    "Optional · kept by default": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opcional · se conserva por defecto"
+    "Look" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estilo"
           }
         }
       }
     },
-    "Original package states restored": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estados originales de los paquetes restaurados"
+    "Looking for Android TV ADB services." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando servicios ADB de Android TV."
           }
         }
       }
     },
-    "Original package states restored and verified.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estados originales de los paquetes restaurados y verificados."
+    "Mist" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niebla"
           }
         }
       }
     },
-    "Other apps": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Otras apps"
+    "More apps" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más apps"
           }
         }
       }
     },
-    "Pick which apps come first. The first row is the dock; the rest fill the rows under it, up to three rows. Everything else in the launcher's settings is kept.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elige qué apps van primero. La primera fila es el dock; las demás llenan las filas de abajo, hasta tres filas. Se conserva todo lo demás de los ajustes del launcher."
+    "Mountains" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Montañas"
           }
         }
       }
     },
-    "Preparing the photo.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preparando la foto."
+    "Move %@ earlier" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover %@ antes"
           }
         }
       }
     },
-    "Pressing Home on the remote opens the Clean Your TV launcher.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Al presionar Home en el control remoto se abre el launcher de Clean Your TV."
+    "Move %@ later" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover %@ después"
           }
         }
       }
     },
-    "Preview of the %@ look with %lld apps in a row": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vista previa del estilo %@ con %lld apps por fila"
+    "Name" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre"
           }
         }
       }
     },
-    "Put the previous order back": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurar el orden anterior"
+    "Neon" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neón"
           }
         }
       }
     },
-    "Put the previous settings back": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurar los ajustes anteriores"
+    "Netflix" : {
+
+    },
+    "Network scan unavailable" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Búsqueda en la red no disponible"
           }
         }
       }
     },
-    "Putting the previous order back.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurando el orden anterior."
+    "No active, valid restore point is available for this TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay un punto de restauración activo y válido para esta TV."
           }
         }
       }
     },
-    "Putting the previous settings back.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurando los ajustes anteriores."
+    "No apps chosen: the launcher keeps its own order." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay apps elegidas: el launcher conserva su propio orden."
           }
         }
       }
     },
-    "Re-scan the TV and resolve any active restore point before applying this plan.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vuelve a analizar la TV y resuelve cualquier punto de restauración activo antes de aplicar este plan."
+    "No city found. Check the spelling or try the nearest big city." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontró la ciudad. Revisa cómo está escrita o prueba con la ciudad grande más cercana."
           }
         }
       }
     },
-    "Read TV safety details and prepared a read-only review. No changes were made.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se leyeron los datos de seguridad de la TV y se preparó una revisión de solo lectura. No se hicieron cambios."
+    "No glow and no big name. Just apps and your picture." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin brillo ni nombre grande. Solo apps y tu imagen."
           }
         }
       }
     },
-    "Read-only TV configuration": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Configuración de la TV (solo lectura)"
+    "No HOME app resolved" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se identificó una app HOME"
           }
         }
       }
     },
-    "Read-only safety review": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Revisión de seguridad (solo lectura)"
+    "No packages from this catalog profile are installed." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay instalados paquetes de este perfil del catálogo."
           }
         }
       }
     },
-    "Reading the apps on the TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Leyendo las apps de la TV."
+    "No saved order for this TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay un orden guardado para esta TV."
           }
         }
       }
     },
-    "Ready to scan": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo para buscar"
+    "No saved settings for this TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay ajustes guardados para esta TV."
           }
         }
       }
     },
-    "Rechecking safety and saving a restore point before making changes.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verificando de nuevo la seguridad y guardando un punto de restauración antes de hacer cambios."
+    "No TVs found yet" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no se encontraron TV"
           }
         }
       }
     },
-    "Reconnect to the TV and analyze it before applying this plan.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vuelve a conectarte a la TV y analízala antes de aplicar este plan."
+    "None reported" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguna reportada"
           }
         }
       }
     },
-    "Reinstall": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reinstalar"
+    "Not set" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin definir"
           }
         }
       }
     },
-    "Removal is incomplete. %@ Reconnect and try again.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La eliminación está incompleta. %@ Vuelve a conectarte e inténtalo de nuevo."
+    "OFF" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OFF"
           }
         }
       }
     },
-    "Remove": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quitar"
+    "On your home network" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En tu red doméstica"
           }
         }
       }
     },
-    "Remove %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quitar %@"
+    "Only selected packages are changed, with a saved restore point." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo se cambian los paquetes seleccionados, con un punto de restauración guardado."
           }
         }
       }
     },
-    "Replace saved plan with this scan": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reemplazar el plan guardado con este análisis"
+    "Only selected review candidates can be applied. Optional and protected packages cannot be included." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo se pueden aplicar los candidatos a revisión seleccionados. Los paquetes opcionales y protegidos no se pueden incluir."
           }
         }
       }
     },
-    "Restore %lld package(s)": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurar %lld paquete(s)"
+    "Only selected review candidates can be disabled. The app saves each package's prior state on this iPhone before applying; no apps are uninstalled and no system settings are changed." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo se pueden desactivar los candidatos a revisión seleccionados. La app guarda en este iPhone el estado previo de cada paquete antes de aplicar; no se desinstala ninguna app ni se cambian ajustes del sistema."
           }
         }
       }
     },
-    "Restore is incomplete. %@ The saved copy is kept; try again.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La restauración está incompleta. %@ Se conserva la copia guardada; inténtalo de nuevo."
+    "Optional" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opcional"
           }
         }
       }
     },
-    "Restore is incomplete. The saved restore point remains available; reconnect and retry. %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La restauración está incompleta. El punto de restauración guardado sigue disponible; vuelve a conectarte e inténtalo de nuevo. %@"
+    "Optional · kept by default" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opcional · se conserva por defecto"
           }
         }
       }
     },
-    "Restore original package states": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurar los estados originales de los paquetes"
+    "Original package states restored" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estados originales de los paquetes restaurados"
           }
         }
       }
     },
-    "Restore original package states?": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Restaurar los estados originales de los paquetes?"
+    "Original package states restored and verified." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estados originales de los paquetes restaurados y verificados."
           }
         }
       }
     },
-    "Restore point active · %lld package(s)": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Punto de restauración activo · %lld paquete(s)"
+    "Other apps" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otras apps"
           }
         }
       }
     },
-    "Restore the active changes, analyze the TV again, then replace this plan before changing selections.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaura los cambios activos, vuelve a analizar la TV y luego reemplaza este plan antes de cambiar la selección."
+    "photo" : {
+
+    },
+    "Photo ready (%lld KB). Spotlight keeps the apps in one row at the bottom so the photo shows; pick another look if you prefer." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto lista (%lld KB). Spotlight deja las apps en una sola fila abajo para que se vea la foto; elige otro estilo si prefieres."
           }
         }
       }
     },
-    "Restore the original package states before applying another plan.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaura los estados originales de los paquetes antes de aplicar otro plan."
+    "Pick which apps come first. The first row is the dock; the rest fill the rows under it, up to three rows. Everything else in the launcher's settings is kept." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige qué apps van primero. La primera fila es el dock; las demás llenan las filas de abajo, hasta tres filas. Se conserva todo lo demás de los ajustes del launcher."
           }
         }
       }
     },
-    "Restoring original states…": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurando los estados originales…"
+    "Preparing the photo." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparando la foto."
           }
         }
       }
     },
-    "Restoring the saved package states.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurando los estados guardados de los paquetes."
+    "Pressing Home on the remote opens the Clean Your TV launcher." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al presionar Home en el control remoto se abre el launcher de Clean Your TV."
           }
         }
       }
     },
-    "Reversible changes": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cambios reversibles"
+    "Preview of the %@ look with %lld apps in a row" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vista previa del estilo %@ con %lld apps por fila"
           }
         }
       }
     },
-    "Review": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Revisar"
+    "Put the previous order back" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar el orden anterior"
           }
         }
       }
     },
-    "Review candidate": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Candidato a revisión"
+    "Put the previous settings back" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar los ajustes anteriores"
           }
         }
       }
     },
-    "Review plan": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plan de revisión"
+    "Putting the previous order back." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurando el orden anterior."
           }
         }
       }
     },
-    "Review plan saved privately on this iPhone.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plan de revisión guardado de forma privada en este iPhone."
+    "Putting the previous settings back." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurando los ajustes anteriores."
           }
         }
       }
     },
-    "Review plan updated.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plan de revisión actualizado."
+    "Re-scan the TV and resolve any active restore point before applying this plan." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a analizar la TV y resuelve cualquier punto de restauración activo antes de aplicar este plan."
           }
         }
       }
     },
-    "Row %lld": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fila %lld"
+    "Read TV safety details and prepared a read-only review. No changes were made." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se leyeron los datos de seguridad de la TV y se preparó una revisión de solo lectura. No se hicieron cambios."
           }
         }
       }
     },
-    "STYLE": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ESTILO"
+    "Read-only safety review" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisión de seguridad (solo lectura)"
           }
         }
       }
     },
-    "Safety checks are incomplete: %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Las verificaciones de seguridad están incompletas: %@"
+    "Read-only TV configuration" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración de la TV (solo lectura)"
           }
         }
       }
     },
-    "Scan again": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscar de nuevo"
+    "Reading the apps on the TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leyendo las apps de la TV."
           }
         }
       }
     },
-    "Scanning for TVs": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscando TV"
+    "Ready to scan" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo para buscar"
           }
         }
       }
     },
-    "Searching your network": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscando en tu red"
+    "Rechecking safety and saving a restore point before making changes." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificando de nuevo la seguridad y guardando un punto de restauración antes de hacer cambios."
           }
         }
       }
     },
-    "Select at least one package to apply.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Selecciona al menos un paquete para aplicar."
+    "Reconnect to the TV and analyze it before applying this plan." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a conectarte a la TV y analízala antes de aplicar este plan."
           }
         }
       }
     },
-    "Select safety-reviewed packages before applying changes.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Selecciona paquetes revisados por seguridad antes de aplicar cambios."
+    "Reinstall" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reinstalar"
           }
         }
       }
     },
-    "Selected packages were disabled. A restore point is saved on this iPhone.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se desactivaron los paquetes seleccionados. Se guardó un punto de restauración en este iPhone."
+    "Removal is incomplete. %@ Reconnect and try again." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La eliminación está incompleta. %@ Vuelve a conectarte e inténtalo de nuevo."
           }
         }
       }
     },
-    "Send": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enviar"
+    "Remove" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar"
           }
         }
       }
     },
-    "Send and restart the launcher": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enviar y reiniciar el launcher"
+    "Remove %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar %@"
           }
         }
       }
     },
-    "Send the look to the TV": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enviar el estilo a la TV"
+    "Remove the Weather card" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar la tarjeta de clima"
           }
         }
       }
     },
-    "Send the name to the TV": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enviar el nombre a la TV"
+    "Remove the Weather card?" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Quitar la tarjeta de clima?"
           }
         }
       }
     },
-    "Send this look to the TV?": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Enviar este estilo a la TV?"
+    "Remove the weather chip" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar el chip del clima"
           }
         }
       }
     },
-    "Send this order to the TV?": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Enviar este orden a la TV?"
+    "Removing the Weather card." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitando la tarjeta de clima."
           }
         }
       }
     },
-    "Send to the TV": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enviar a la TV"
+    "Replace saved plan with this scan" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reemplazar el plan guardado con este análisis"
           }
         }
       }
     },
-    "Sending the app order to the TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enviando el orden de las apps a la TV."
+    "Restore %lld package(s)" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar %lld paquete(s)"
           }
         }
       }
     },
-    "Sending the look to the TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enviando el estilo a la TV."
+    "Restore is incomplete. %@ The saved copy is kept; try again." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La restauración está incompleta. %@ Se conserva la copia guardada; inténtalo de nuevo."
           }
         }
       }
     },
-    "Sending the name to the TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enviando el nombre a la TV."
+    "Restore is incomplete. The saved restore point remains available; reconnect and retry. %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La restauración está incompleta. El punto de restauración guardado sigue disponible; vuelve a conectarte e inténtalo de nuevo. %@"
           }
         }
       }
     },
-    "Service switched on": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Servicio activado"
+    "Restore original package states" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar los estados originales de los paquetes"
           }
         }
       }
     },
-    "Settings": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes"
+    "Restore original package states?" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Restaurar los estados originales de los paquetes?"
           }
         }
       }
     },
-    "Some checks are incomplete": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Algunas verificaciones están incompletas"
+    "Restore point active · %lld package(s)" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Punto de restauración activo · %lld paquete(s)"
           }
         }
       }
     },
-    "Spotlight": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Destacado"
+    "Restore the active changes, analyze the TV again, then replace this plan before changing selections." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaura los cambios activos, vuelve a analizar la TV y luego reemplaza este plan antes de cambiar la selección."
           }
         }
       }
     },
-    "Stopped. %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se detuvo. %@"
+    "Restore the original package states before applying another plan." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaura los estados originales de los paquetes antes de aplicar otro plan."
           }
         }
       }
     },
-    "Stopped. %@ Nothing else was changed; you can try again or remove it.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se detuvo. %@ No se cambió nada más; puedes intentarlo de nuevo o quitarlo."
+    "Restoring original states…" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurando los estados originales…"
           }
         }
       }
     },
-    "Stopped. %@ The previous order is saved on this iPhone.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se detuvo. %@ El orden anterior está guardado en este iPhone."
+    "Restoring the saved package states." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurando los estados guardados de los paquetes."
           }
         }
       }
     },
-    "Stopped. %@ The previous settings are saved on this iPhone.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se detuvo. %@ Los ajustes anteriores están guardados en este iPhone."
+    "Reversible changes" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambios reversibles"
           }
         }
       }
     },
-    "Switches the service off and uninstalls the launcher and the service. Amazon's home screen is untouched.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Desactiva el servicio y desinstala el launcher y el servicio. La pantalla de inicio de Amazon no se toca."
+    "Review" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisar"
           }
         }
       }
     },
-    "TV IPv4 address": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dirección IPv4 de la TV"
+    "Review candidate" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Candidato a revisión"
           }
         }
       }
     },
-    "TV identified. Review the safety report before applying package changes.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "TV identificada. Revisa el informe de seguridad antes de aplicar cambios a los paquetes."
+    "Review plan" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan de revisión"
           }
         }
       }
     },
-    "TV input services": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Servicios de entrada de la TV"
+    "Review plan saved privately on this iPhone." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan de revisión guardado de forma privada en este iPhone."
           }
         }
       }
     },
-    "Tap to request a secure ADB connection": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toca para solicitar una conexión ADB segura"
+    "Review plan updated." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan de revisión actualizado."
           }
         }
       }
     },
-    "That package is not part of this review plan.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ese paquete no forma parte de este plan de revisión."
+    "Room under the clock" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacio bajo el reloj"
           }
         }
       }
     },
-    "That photo could not be used. Try another one.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo usar esa foto. Prueba con otra."
+    "Row %lld" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fila %lld"
           }
         }
       }
     },
-    "The TV already has a picture and keeps it. Choose a photo to replace it.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La TV ya tiene una imagen y la conserva. Elige una foto para reemplazarla."
+    "Safety checks are incomplete: %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las verificaciones de seguridad están incompletas: %@"
           }
         }
       }
     },
-    "The TV did not provide the serial number, device name and Android API needed to identify it.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La TV no proporcionó el número de serie, el nombre del dispositivo ni la API de Android necesarios para identificarla."
+    "Scan again" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar de nuevo"
           }
         }
       }
     },
-    "The TV did not respond in time.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La TV no respondió a tiempo."
+    "Scanning for TVs" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando TV"
           }
         }
       }
     },
-    "The TV has a look tuned by hand. Pick one below to replace its look settings.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La TV tiene un estilo ajustado a mano. Elige uno abajo para reemplazar sus ajustes de estilo."
+    "Search the city" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar la ciudad"
           }
         }
       }
     },
-    "The TV rejected this ADB key. Check the TV's debugging authorization.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La TV rechazó esta clave ADB. Revisa la autorización de depuración en la TV."
+    "Searching your network" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando en tu red"
           }
         }
       }
     },
-    "The TV safety snapshot is incomplete or invalid.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La captura de seguridad de la TV está incompleta o no es válida."
+    "Select at least one package to apply." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecciona al menos un paquete para aplicar."
           }
         }
       }
     },
-    "The TV sent an invalid ADB response: %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La TV envió una respuesta ADB no válida: %@"
+    "Select safety-reviewed packages before applying changes." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecciona paquetes revisados por seguridad antes de aplicar cambios."
           }
         }
       }
     },
-    "The app will compare each package with its saved state and only re-enable or re-disable it when needed.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La app comparará cada paquete con su estado guardado y solo lo reactivará o lo desactivará cuando sea necesario."
+    "Selected packages were disabled. A restore point is saved on this iPhone." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se desactivaron los paquetes seleccionados. Se guardó un punto de restauración en este iPhone."
           }
         }
       }
     },
-    "The bundled %@ file does not match its pinned digest.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El archivo %@ incluido no coincide con su huella fijada."
+    "Send" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar"
           }
         }
       }
     },
-    "The bundled %@ file is missing from the app.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Falta el archivo %@ incluido en la app."
+    "Send and restart the launcher" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar y reiniciar el launcher"
           }
         }
       }
     },
-    "The bundled TV profile catalog has an invalid size.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El catálogo de perfiles de TV incluido tiene un tamaño no válido."
+    "Send the look to the TV" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar el estilo a la TV"
           }
         }
       }
     },
-    "The bundled TV profile catalog is invalid.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El catálogo de perfiles de TV incluido no es válido."
+    "Send the name to the TV" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar el nombre a la TV"
           }
         }
       }
     },
-    "The bundled TV profile catalog is missing.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Falta el catálogo de perfiles de TV incluido."
+    "Send this look to the TV?" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Enviar este estilo a la TV?"
           }
         }
       }
     },
-    "The greeting at the top of the launcher says your name after it. Leave it empty and only the greeting shows.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El saludo en la parte superior del launcher dice tu nombre después. Si lo dejas vacío, solo se muestra el saludo."
+    "Send this order to the TV?" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Enviar este orden a la TV?"
           }
         }
       }
     },
-    "The launcher restarts to show it. The previous order stays saved on this iPhone so you can put it back.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El launcher se reinicia para mostrarlo. El orden anterior queda guardado en este iPhone para que puedas restaurarlo."
+    "Send to the TV" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar a la TV"
           }
         }
       }
     },
-    "The launcher restarts. A copy of the TV's current settings stays on this iPhone.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El launcher se reinicia. Una copia de los ajustes actuales de la TV queda en este iPhone."
+    "Sending the app order to the TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviando el orden de las apps a la TV."
           }
         }
       }
     },
-    "The photo is cropped to 16:9 and shrunk on this iPhone; its place and camera details are not sent.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La foto se recorta a 16:9 y se reduce en este iPhone; no se envían el lugar ni los datos de la cámara."
+    "Sending the city to the TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviando la ciudad a la TV."
           }
         }
       }
     },
-    "The previous order is back.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El orden anterior fue restaurado."
+    "Sending the look to the TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviando el estilo a la TV."
           }
         }
       }
     },
-    "The previous settings are back.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Los ajustes anteriores fueron restaurados."
+    "Sending the name to the TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviando el nombre a la TV."
           }
         }
       }
     },
-    "The saved review plan failed its integrity check.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El plan de revisión guardado no pasó la verificación de integridad."
+    "Service switched on" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Servicio activado"
           }
         }
       }
     },
-    "This TV does not support the shell protocol required by Clean Your TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esta TV no admite el protocolo de shell que requiere Clean Your TV."
+    "Settings" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes"
           }
         }
       }
     },
-    "This TV requires Android Wireless Debugging pairing, which is not supported yet.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esta TV requiere la vinculación de Depuración inalámbrica de Android, que aún no es compatible."
+    "Shows the temperature, the conditions and today's high and low in a chip under the clock. The TV itself asks Open-Meteo (no account) when the home screen opens; only the city's coordinates are sent. It needs the updated launcher: use Reinstall in the Home screen card." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra la temperatura, el estado del tiempo y la máxima y mínima de hoy en un chip bajo el reloj. La propia TV consulta Open-Meteo (sin cuenta) al abrir la pantalla de inicio; solo se envían las coordenadas de la ciudad. Necesita el launcher actualizado: usa Reinstalar en la tarjeta de pantalla de inicio."
           }
         }
       }
     },
-    "This applies to Fire TV only; other TVs can take a launcher as their home screen directly.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esto aplica solo a Fire TV; en otras TV se puede usar un launcher directamente como pantalla de inicio."
+    "Some checks are incomplete" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algunas verificaciones están incompletas"
           }
         }
       }
     },
-    "This draft is based on an older TV snapshot. Analyze the TV and create a new draft.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Este borrador se basa en una captura anterior de la TV. Analiza la TV y crea un borrador nuevo."
+    "Spotlight" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destacado"
           }
         }
       }
     },
-    "This plan failed its integrity check. Create a new plan.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Este plan no pasó la verificación de integridad. Crea un plan nuevo."
+    "Spotlight's banner with a frosted dock over your picture." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El banner de Destacado con un dock esmerilado sobre tu imagen."
           }
         }
       }
     },
-    "This plan is out of date. Replace it with the latest analysis.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Este plan está desactualizado. Reemplázalo con el análisis más reciente."
+    "Stopped. %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se detuvo. %@"
           }
         }
       }
     },
-    "This profile has no installed packages available for a review plan.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Este perfil no tiene paquetes instalados disponibles para un plan de revisión."
+    "Stopped. %@ Nothing else was changed; you can try again or remove it." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se detuvo. %@ No se cambió nada más; puedes intentarlo de nuevo o quitarlo."
           }
         }
       }
     },
-    "This saved plan is read-only because it does not match the latest TV scan. Analyze the TV and replace the plan to edit it.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Este plan guardado es de solo lectura porque no coincide con el último análisis de la TV. Analiza la TV y reemplaza el plan para editarlo."
+    "Stopped. %@ Nothing else was changed; you can try again." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se detuvo. %@ No se cambió nada más; puedes intentarlo de nuevo."
           }
         }
       }
     },
-    "To stop featured videos from autoplaying, use the TV remote: Settings > Preferences > Featured Content, then turn off video and audio autoplay. Sponsored rows may still appear. These home-screen controls are not available from the iPhone app.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Para detener la reproducción automática de los videos destacados, usa el control remoto de la TV: Ajustes > Preferencias > Contenido destacado y desactiva la reproducción automática de video y audio. Aún pueden aparecer filas patrocinadas. Estos controles de la pantalla de inicio no están disponibles desde la app del iPhone."
+    "Stopped. %@ The previous order is saved on this iPhone." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se detuvo. %@ El orden anterior está guardado en este iPhone."
           }
         }
       }
     },
-    "Turn on network debugging on the TV, then choose it below.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Activa la depuración de red en la TV y luego elígela abajo."
+    "Stopped. %@ The previous settings are saved on this iPhone." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se detuvo. %@ Los ajustes anteriores están guardados en este iPhone."
           }
         }
       }
     },
-    "View package names": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ver nombres de paquetes"
+    "STYLE" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ESTILO"
           }
         }
       }
     },
-    "Wait for package restoration to finish.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espera a que termine la restauración de los paquetes."
+    "Switches the service off and uninstalls the launcher and the service. Amazon's home screen is untouched." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactiva el servicio y desinstala el launcher y el servicio. La pantalla de inicio de Amazon no se toca."
           }
         }
       }
     },
-    "Wait for the current operation to finish.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espera a que termine la operación actual."
+    "Tap to request a secure ADB connection" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca para solicitar una conexión ADB segura"
           }
         }
       }
     },
-    "When the TV asks whether to allow USB/network debugging, choose Allow. Compare this fingerprint with the one shown by the TV if available.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cuando la TV pregunte si permites la depuración USB/de red, elige Permitir. Compara esta huella con la que muestra la TV, si está disponible."
+    "That package is not part of this review plan." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ese paquete no forma parte de este plan de revisión."
           }
         }
       }
     },
-    "Wi-Fi": {},
-    "Working on the TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Trabajando en la TV."
+    "That photo could not be used. Try another one." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo usar esa foto. Prueba con otra."
           }
         }
       }
     },
-    "Your TV's launcher stays an Android app. This iPhone app is its remote companion.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El launcher de tu TV sigue siendo una app de Android. Esta app del iPhone es su compañera de control remoto."
+    "The app will compare each package with its saved state and only re-enable or re-disable it when needed." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app comparará cada paquete con su estado guardado y solo lo reactivará o lo desactivará cuando sea necesario."
           }
         }
       }
     },
-    "Your iPhone and TV need the same Wi-Fi.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tu iPhone y tu TV deben estar en la misma red Wi-Fi."
+    "The bundled %@ file does not match its pinned digest." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El archivo %@ incluido no coincide con su huella fijada."
           }
         }
       }
     },
-    "Your iPhone and TV need to be on the same Wi-Fi.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tu iPhone y tu TV deben estar en la misma red Wi-Fi."
+    "The bundled %@ file is missing from the app." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falta el archivo %@ incluido en la app."
           }
         }
       }
     },
-    "Your name on the launcher": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tu nombre en el launcher"
+    "The bundled TV profile catalog has an invalid size." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El catálogo de perfiles de TV incluido tiene un tamaño no válido."
           }
         }
       }
     },
-    "arrow.down.app": {},
-    "photo": {},
-    "Could not read the look. %@": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo leer el estilo. %@"
+    "The bundled TV profile catalog is invalid." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El catálogo de perfiles de TV incluido no es válido."
           }
         }
       }
     },
-    "Could not load that photo. If it is in iCloud, open it in Photos first and try again.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo cargar esa foto. Si está en iCloud, ábrela primero en Fotos e inténtalo de nuevo."
+    "The bundled TV profile catalog is missing." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falta el catálogo de perfiles de TV incluido."
           }
         }
       }
     },
-    "Photo ready (%lld KB). Spotlight keeps the apps in one row at the bottom so the photo shows; pick another look if you prefer.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Foto lista (%lld KB). Spotlight deja las apps en una sola fila abajo para que se vea la foto; elige otro estilo si prefieres."
+    "The dock has %lld rows of apps under it, so the chip would cover them. Choose Spotlight or Glass cinema in Style and send it." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El dock tiene %lld filas de apps debajo, así que el chip las taparía. Elige Destacado o Cine de cristal en Estilo y envíalo."
           }
         }
       }
     },
-    "Clear": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Claro"
+    "The greeting at the top of the launcher says your name after it. Leave it empty and only the greeting shows." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El saludo en la parte superior del launcher dice tu nombre después. Si lo dejas vacío, solo se muestra el saludo."
           }
         }
       }
     },
-    "Dark": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Oscuro"
+    "The launcher restarts to show it. The previous order stays saved on this iPhone so you can put it back." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El launcher se reinicia para mostrarlo. El orden anterior queda guardado en este iPhone para que puedas restaurarlo."
           }
         }
       }
     },
-    "Dim the picture": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atenuar la imagen"
+    "The launcher restarts. A copy of the TV's current settings stays on this iPhone." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El launcher se reinicia. Una copia de los ajustes actuales de la TV queda en este iPhone."
           }
         }
       }
     },
-    "Glass cinema": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cine de cristal"
+    "The photo is cropped to 16:9 and shrunk on this iPhone; its place and camera details are not sent." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La foto se recorta a 16:9 y se reduce en este iPhone; no se envían el lugar ni los datos de la cámara."
           }
         }
       }
     },
-    "Spotlight's banner with a frosted dock over your picture.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El banner de Destacado con un dock esmerilado sobre tu imagen."
+    "The previous order is back." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El orden anterior fue restaurado."
           }
         }
       }
     },
-    "Curtains": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cortinas"
+    "The previous settings are back." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los ajustes anteriores fueron restaurados."
           }
         }
       }
     },
-    "Mountains": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Montañas"
+    "The saved review plan failed its integrity check." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El plan de revisión guardado no pasó la verificación de integridad."
           }
         }
       }
     },
-    "Neon": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Neón"
+    "The TV already has a picture and keeps it. Choose a photo to replace it." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La TV ya tiene una imagen y la conserva. Elige una foto para reemplazarla."
           }
         }
       }
     },
-    "Cobalt": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cobalto"
+    "The TV did not provide the serial number, device name and Android API needed to identify it." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La TV no proporcionó el número de serie, el nombre del dispositivo ni la API de Android necesarios para identificarla."
           }
         }
       }
     },
-    "Lamp light": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Luz de lámpara"
+    "The TV did not respond in time." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La TV no respondió a tiempo."
           }
         }
       }
     },
-    "Mist": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Niebla"
+    "The TV has a look tuned by hand. Pick one below to replace its look settings." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La TV tiene un estilo ajustado a mano. Elige uno abajo para reemplazar sus ajustes de estilo."
           }
         }
       }
     },
-    "Diwali": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Diwali"
+    "The TV rejected this ADB key. Check the TV's debugging authorization." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La TV rechazó esta clave ADB. Revisa la autorización de depuración en la TV."
           }
         }
       }
     },
-    "Installing the Weather card.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instalando la tarjeta de clima."
+    "The TV safety snapshot is incomplete or invalid." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La captura de seguridad de la TV está incompleta o no es válida."
           }
         }
       }
     },
-    "Done. Press Home on the TV: the launcher asks whether to show the Weather card. Choose Show, then open the card and type your city.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo. Presiona Home en la TV: el launcher pregunta si mostrar la tarjeta de clima. Elige Mostrar, abre la tarjeta y escribe tu ciudad."
+    "The TV sent an invalid ADB response: %@" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La TV envió una respuesta ADB no válida: %@"
           }
         }
       }
     },
-    "Stopped. %@ Nothing else was changed; you can try again.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se detuvo. %@ No se cambió nada más; puedes intentarlo de nuevo."
+    "The Weather card was removed." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se quitó la tarjeta de clima."
           }
         }
       }
     },
-    "Removing the Weather card.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quitando la tarjeta de clima."
+    "This applies to Fire TV only; other TVs can take a launcher as their home screen directly." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto aplica solo a Fire TV; en otras TV se puede usar un launcher directamente como pantalla de inicio."
           }
         }
       }
     },
-    "The Weather card was removed.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se quitó la tarjeta de clima."
+    "This draft is based on an older TV snapshot. Analyze the TV and create a new draft." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este borrador se basa en una captura anterior de la TV. Analiza la TV y crea un borrador nuevo."
           }
         }
       }
     },
-    "Weather card": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tarjeta de clima"
+    "This launcher is older and ignores the city. Use Reinstall in the \"Clean Your TV as the Home screen\" card (not the Weather card's)." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este launcher es más viejo e ignora la ciudad. Usa Reinstalar en la tarjeta «Clean Your TV como pantalla de inicio» (no en la de la tarjeta de clima)."
           }
         }
       }
     },
-    "Adds a Weather card to the launcher's dock: the temperature now, the air quality and the next days for one city. You type the city once on the TV with the remote. It reads Open-Meteo (no account) while the page is open, and is the only part that uses the internet.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Agrega una tarjeta de clima al dock del launcher: la temperatura actual, la calidad del aire y los próximos días de una ciudad. Escribes la ciudad una vez en la TV con el control remoto. Consulta Open-Meteo (sin cuenta) mientras la página está abierta, y es la única parte que usa internet."
+    "This plan failed its integrity check. Create a new plan." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este plan no pasó la verificación de integridad. Crea un plan nuevo."
           }
         }
       }
     },
-    "Weather installed": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clima instalado"
+    "This plan is out of date. Replace it with the latest analysis." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este plan está desactualizado. Reemplázalo con el análisis más reciente."
           }
         }
       }
     },
-    "Install the Weather card": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instalar la tarjeta de clima"
+    "This profile has no installed packages available for a review plan." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este perfil no tiene paquetes instalados disponibles para un plan de revisión."
           }
         }
       }
     },
-    "Remove the Weather card": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quitar la tarjeta de clima"
+    "This saved plan is read-only because it does not match the latest TV scan. Analyze the TV and replace the plan to edit it." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este plan guardado es de solo lectura porque no coincide con el último análisis de la TV. Analiza la TV y reemplaza el plan para editarlo."
           }
         }
       }
     },
-    "Install the Weather card?": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Instalar la tarjeta de clima?"
+    "This TV does not support the shell protocol required by Clean Your TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta TV no admite el protocolo de shell que requiere Clean Your TV."
           }
         }
       }
     },
-    "Installs one small app (it asks for internet access only). After it, press Home on the TV and choose Show when the launcher asks. Remove it any time from this screen.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instala una app pequeña (solo pide acceso a internet). Después, presiona Home en la TV y elige Mostrar cuando el launcher pregunte. Puedes quitarla cuando quieras desde esta pantalla."
+    "This TV requires Android Wireless Debugging pairing, which is not supported yet." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta TV requiere la vinculación de Depuración inalámbrica de Android, que aún no es compatible."
           }
         }
       }
     },
-    "Remove the Weather card?": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Quitar la tarjeta de clima?"
+    "To stop featured videos from autoplaying, use the TV remote: Settings > Preferences > Featured Content, then turn off video and audio autoplay. Sponsored rows may still appear. These home-screen controls are not available from the iPhone app." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para detener la reproducción automática de los videos destacados, usa el control remoto de la TV: Ajustes > Preferencias > Contenido destacado y desactiva la reproducción automática de video y audio. Aún pueden aparecer filas patrocinadas. Estos controles de la pantalla de inicio no están disponibles desde la app del iPhone."
           }
         }
       }
     },
-    "Uninstalls the Weather app. Nothing else on the TV changes.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Desinstala la app de clima. Nada más cambia en la TV."
+    "Turn on network debugging on the TV, then choose it below." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activa la depuración de red en la TV y luego elígela abajo."
           }
         }
       }
     },
-    "No city found. Check the spelling or try the nearest big city.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se encontró la ciudad. Revisa cómo está escrita o prueba con la ciudad grande más cercana."
+    "TV identified. Review the safety report before applying package changes." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TV identificada. Revisa el informe de seguridad antes de aplicar cambios a los paquetes."
           }
         }
       }
     },
-    "Could not search the city. Check this iPhone's internet and try again.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo buscar la ciudad. Revisa el internet de este iPhone e inténtalo de nuevo."
+    "TV input services" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Servicios de entrada de la TV"
           }
         }
       }
     },
-    "Sending the city to the TV.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enviando la ciudad a la TV."
+    "TV IPv4 address" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dirección IPv4 de la TV"
           }
         }
       }
     },
-    "Done. The weather chip is off.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo. El chip del clima está apagado."
+    "Uninstalls the Weather app. Nothing else on the TV changes." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desinstala la app de clima. Nada más cambia en la TV."
           }
         }
       }
     },
-    "Done. The launcher restarted. The chip shows under the clock once the TV has the weather, and only with at most one row of apps under the dock (Spotlight and Glass cinema have none).": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo. El launcher se reinició. El chip aparece bajo el reloj cuando la TV obtiene el clima, y solo con una fila de apps o menos bajo el dock (Destacado y Cine de cristal no tienen ninguna)."
+    "View package names" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver nombres de paquetes"
           }
         }
       }
     },
-    "Weather on the launcher": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clima en el launcher"
+    "Wait for package restoration to finish." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espera a que termine la restauración de los paquetes."
           }
         }
       }
     },
-    "Shows the temperature, the conditions and today's high and low in a chip under the clock. The TV itself asks Open-Meteo (no account) when the home screen opens; only the city's coordinates are sent. It needs the updated launcher: use Reinstall in the Home screen card.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Muestra la temperatura, el estado del tiempo y la máxima y mínima de hoy en un chip bajo el reloj. La propia TV consulta Open-Meteo (sin cuenta) al abrir la pantalla de inicio; solo se envían las coordenadas de la ciudad. Necesita el launcher actualizado: usa Reinstalar en la tarjeta de pantalla de inicio."
+    "Wait for the current operation to finish." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espera a que termine la operación actual."
           }
         }
       }
     },
-    "A city is set": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hay una ciudad configurada"
+    "Weather card" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarjeta de clima"
           }
         }
       }
     },
-    "City": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ciudad"
+    "Weather installed" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clima instalado"
           }
         }
       }
     },
-    "Search the city": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscar la ciudad"
+    "Weather on the launcher" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clima en el launcher"
           }
         }
       }
     },
-    "Remove the weather chip": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quitar el chip del clima"
+    "When the TV asks whether to allow USB/network debugging, choose Allow. Compare this fingerprint with the one shown by the TV if available." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando la TV pregunte si permites la depuración USB/de red, elige Permitir. Compara esta huella con la que muestra la TV, si está disponible."
           }
         }
       }
+    },
+    "Wi-Fi" : {
+
     },
-    "Launcher version not read": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo leer la versión del launcher"
+    "Working on the TV." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trabajando en la TV."
           }
         }
       }
     },
-    "Launcher with the weather chip": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Launcher con el chip del clima"
+    "Your iPhone and TV need the same Wi-Fi." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu iPhone y tu TV deben estar en la misma red Wi-Fi."
           }
         }
       }
     },
-    "This launcher is older and ignores the city. Use Reinstall in the \"Clean Your TV as the Home screen\" card (not the Weather card's).": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Este launcher es más viejo e ignora la ciudad. Usa Reinstalar en la tarjeta «Clean Your TV como pantalla de inicio» (no en la de la tarjeta de clima)."
+    "Your iPhone and TV need to be on the same Wi-Fi." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu iPhone y tu TV deben estar en la misma red Wi-Fi."
           }
         }
       }
     },
-    "Room under the clock": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Espacio bajo el reloj"
+    "Your name on the launcher" : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu nombre en el launcher"
           }
         }
       }
     },
-    "The dock has %lld rows of apps under it, so the chip would cover them. Choose Spotlight or Glass cinema in Style and send it.": {
-      "localizations": {
-        "es-419": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El dock tiene %lld filas de apps debajo, así que el chip las taparía. Elige Destacado o Cine de cristal en Estilo y envíalo."
+    "Your TV's launcher stays an Android app. This iPhone app is its remote companion." : {
+      "localizations" : {
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El launcher de tu TV sigue siendo una app de Android. Esta app del iPhone es su compañera de control remoto."
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }
